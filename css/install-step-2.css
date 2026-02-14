@@ -1,0 +1,113 @@
+.screen[screen-id='install-step-2'] {
+
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: stretch;
+    justify-content: space-between;
+
+    user-select: none;
+    -webkit-user-select: none;
+}
+.screen[screen-id='install-step-2'] .top {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 20px;
+}
+.screen[screen-id='install-step-2'] .top .title {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 24px;
+    line-height: 22px;
+}
+.screen[screen-id='install-step-2'] .top .select-info {
+    background: rgb(28, 28, 30);
+    outline: none;
+    height: 50px;
+    color: white;
+    border: 0px;
+    border-radius: 300px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.screen[screen-id='install-step-2'] .top .select-info span {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+}
+.screen[screen-id='install-step-2'] .top .select-info:after {
+    content: "";
+    display: block;
+    width: 20px;
+    height: 20px;
+    background: url(./../imgs/chevron-bottom.png) no-repeat;
+    background-size: 100%;
+    opacity: 0.5;
+}
+
+.screen[screen-id='install-step-2'] .top .select-box {
+    display: none;
+}
+.screen[screen-id='install-step-2'] .top .select-box.opened {
+    display: block;
+    position: relative;
+    max-height: 150px;
+    overflow-y: auto;
+    background: rgb(28, 28, 30);
+    padding: 20px;
+    border-radius: 30px;
+}
+.screen[screen-id='install-step-2'] .top .select-box.opened .select-option {
+    height: 40px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    line-height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    font-size: 14px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 400;
+}
+.screen[screen-id='install-step-2'] .top .select-box.opened .select-option.selected:after {
+    content: "";
+    width: 20px;
+    height: 20px;
+    background: rgb(0, 122, 255);
+    mask-image: url(./../imgs/checkmark.png);
+    mask-repeat: no-repeat;
+    mask-size: 100%;
+
+}
+.screen[screen-id='install-step-2'] .top .select-box.opened .select-option.disabled {
+    color: rgba(255, 255, 255, 0.5);
+}
+.screen[screen-id='install-step-2'] .top .select-box.opened .select-option:last-child {
+    border-bottom: 0px;
+}
+.screen[screen-id='install-step-2'] .bottom .button {
+    background: rgb(0, 122, 255);
+    color: white;
+    height: 40px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+}
+.screen[screen-id='install-step-2'] .button img {
+    width: 20px;
+    height: 20px;
+}
