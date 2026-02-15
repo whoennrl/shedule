@@ -1,14 +1,16 @@
 //const ScheduleAPI = require("./lib")
 
-function showScreen (screenName) {
+function showScreen(screenName) {
     let bl = document.querySelectorAll(".screen[screen-id]");
-    bl.forEach(e=>{
+    bl.forEach(e => {
         if (!e.classList.contains('hidden')) {
             e.classList.toggle("hidden")
         }
     })
-    try {let b1 = document.querySelector(".screen[screen-id='" + screenName +"']")
-    b1.classList.toggle("hidden")} catch {
+    try {
+        let b1 = document.querySelector(".screen[screen-id='" + screenName + "']")
+        b1.classList.toggle("hidden")
+    } catch {
         console.log("Экран не найден")
     }
 }
@@ -33,7 +35,7 @@ window.addEventListener("DOMContentLoaded", async () => {
             document.querySelector(".screen[screen-id='install-step-1'] .bottom .box .userBox .userText .username").style.display = 'block'
         }
         let img = document.querySelector(".screen[screen-id='install-step-1'] .bottom .box .userBox .userPic");
-        img.style.background = 'url(' + window.Telegram.WebApp.initDataUnsafe.user.photo_url +')';
+        img.style.background = 'url(' + window.Telegram.WebApp.initDataUnsafe.user.photo_url + ')';
         img.style.backgroundSize = "cover";
 
         if (window.Telegram.WebApp.initDataUnsafe.user.is_premium) {
@@ -42,22 +44,51 @@ window.addEventListener("DOMContentLoaded", async () => {
             document.querySelector(".screen[screen-id='install-step-1'] .bottom .userBox .userText .premium").style.display = "none"
         }
 
+        document.querySelector("#faculty-install-step-2").addEventListener("selectChanged", async (e) => {
+
+            let groups = await window.ScheduleAPI.getGroups(e.target.value);
+            let html = "<option value='0' selected disabled>Выберите</option>"
+            groups.forEach(o=>{
+                html += "<option value='{value}'>{value}</option>".replaceAll("{value}", o.name)
+            })
+
+            document.querySelector("#group-install-step-2").innerHTML = html;
+
+        })
+
 
         // получение статуса установки
         let install_status = window.Telegram.Utils.sessionStorageGet("install-step");
 
         if (install_status == null || install_status == "step-1") {
             showScreen("install-step-2");
-            document.querySelector(".screen[screen-id='install-step-1'] .bottom .button").addEventListener("click", ()=>{
-                showScreen("install-step-2")
-                
-            })
 
-        } 
+            document.querySelector(".screen[screen-id='install-step-1'] .bottom .button").addEventListener("click", () => {
+                showScreen("install-step-2")
+
+            })
+        } else {
+            // ! РЕАЛИЗОВАТЬ ПОСЛЕ ЗАПУСКА ПРОВЕРКУ ДАННЫХ, А ПОТОМ СДЕЛАТЬ ОТОБРАЖЕНИЕ ЭКРАНА
+        }
+
+        document.querySelector(".screen[screen-id='install-step-2'] .bottom .button").addEventListener("click", async () => {
+            let mode = document.querySelector("#mode-install-step-2").value;
+            if (mode == "Студент") {
+                // ? студент
+                let faculty = document.querySelector("#faculty-install-step-2").value;
+                let group = document.querySelector("#group-install-step-2").value;
+
+                console.log(mode, faculty, group)
+
+            } else {
+                // ! преподаватель
+                // TODO: реализовать функционал 
+            }
+        })
 
     }
 
-    
-    
+
+
 
 })

@@ -1,3 +1,36 @@
+document.addEventListener('DOMContentLoaded', () => {
+    const selects = document.querySelectorAll('select');
+
+    selects.forEach(select => {
+        // Сохраняем оригинальный дескриптор свойства value
+        const originalDescriptor = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value');
+
+        // Переопределяем сеттер value
+        Object.defineProperty(select, 'value', {
+            get: function () {
+                return originalDescriptor.get.call(this);
+            },
+            set: function (newValue) {
+                // Вызываем оригинальный сеттер
+                originalDescriptor.set.call(this, newValue);
+
+                // Генерируем событие
+                const event = new CustomEvent('selectChanged', {
+                    detail: {
+                        select: this,
+                        value: newValue,
+                        timestamp: Date.now()
+                    },
+                    bubbles: true
+                });
+
+                this.dispatchEvent(event);
+            },
+            configurable: true
+        });
+    });
+});
+
 window.addEventListener("DOMContentLoaded", () => {
 
     let selects = document.querySelectorAll("select");
@@ -33,11 +66,11 @@ window.addEventListener("DOMContentLoaded", () => {
         let selectInfo = document.createElement("div");
         selectInfo.classList.add("select-info");
         selectInfo.setAttribute("select-id", select.id);
-        selectInfo.innerHTML = "<span>" + select.querySelector("option[value='" + select.value +"']").textContent + "</span>"
-        selectInfo.addEventListener("click", ()=>{
+        selectInfo.innerHTML = "<span>" + select.querySelector("option[value='" + select.value + "']").textContent + "</span>"
+        selectInfo.addEventListener("click", () => {
             selectBox.classList.add('opened');
         })
-        
+
 
         select.style.display = 'none'
 
@@ -57,6 +90,8 @@ function updateOptions(el) {
     //console.log(el.id)
     let options = el.querySelectorAll("option");
     let selectBox = document.querySelector(".select-box[select-id='" + el.id + "']");
+    let selectInfo = document.querySelector(".select-info[select-id='" + el.id + "']");
+    selectInfo.innerHTML = "<span>" + el.querySelector("option[value='" + el.value + "']").textContent + "</span>"
     selectBox.innerHTML = "";
     options.forEach(o => {
         let option = document.createElement("div");
@@ -83,7 +118,7 @@ function updateOptions(el) {
                 e.target.classList.add("selected")
 
                 let selectInfo = document.querySelector(".select-info[select-id='" + el.id + "']")
-                selectInfo.innerHTML = "<span>" + el.querySelector("option[value='" + el.value +"']").textContent + "</span>"
+                selectInfo.innerHTML = "<span>" + el.querySelector("option[value='" + el.value + "']").textContent + "</span>"
             }
         })
 
