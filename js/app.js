@@ -58,7 +58,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 
 
         // получение статуса установки
-        let install_status = window.Telegram.Utils.sessionStorageGet("install-step");
+        let install_status = localStorage.getItem("install-step");
 
         if (install_status == null || install_status == "step-1") {
             showScreen("install-step-2");
@@ -68,7 +68,16 @@ window.addEventListener("DOMContentLoaded", async () => {
 
             })
         } else {
-            // ! РЕАЛИЗОВАТЬ ПОСЛЕ ЗАПУСКА ПРОВЕРКУ ДАННЫХ, А ПОТОМ СДЕЛАТЬ ОТОБРАЖЕНИЕ ЭКРАНА
+            let mode = localStorage.getItem("mode");
+            if (mode == 'student') {
+
+                showScreen("homeboard")
+
+            } else if (mode == 'teacher') {
+                // ! РЕАЛИЗОВАТЬ РЕЖИМ ДЛЯ ПРЕПОДАВАТЕЛЯ
+            } else {
+                localStorage.setItem("install-step", 'step-1')
+            }
         }
 
         document.querySelector(".screen[screen-id='install-step-2'] .bottom .button").addEventListener("click", async () => {
@@ -79,6 +88,13 @@ window.addEventListener("DOMContentLoaded", async () => {
                 let group = document.querySelector("#group-install-step-2").value;
 
                 console.log(mode, faculty, group)
+
+                localStorage.setItem("install-step", 'installed');
+                localStorage.setItem("mode", 'student');
+                localStorage.setItem("faculty", faculty);
+                localStorage.setItem('group', group);
+
+                document.location.reload(); 
 
             } else {
                 // ! преподаватель
