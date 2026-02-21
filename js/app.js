@@ -29,7 +29,11 @@ window.addEventListener("DOMContentLoaded", async () => {
         }
     }
 
-    window.ScheduleAPI.init('https://vsu.whoennrl.ru/api2.php');
+    try {
+        window.ScheduleAPI.init('https://aurum.whoennrl.ru/api/shedule-v2/');
+    } catch {
+        console.log("NOT SUPPORTED!")
+    }
     let banned_status = await window.ScheduleAPI.getBanStatus(window.Telegram.WebApp.initDataUnsafe.user.id);
 
     if (banned_status.banned) {
@@ -119,6 +123,24 @@ window.addEventListener("DOMContentLoaded", async () => {
 
     }
 
+    let menu_home = document.querySelectorAll(".screen[screen-id='homeboard'] .bottom .bottomMenu .item");
+    menu_home.forEach(e => {
+        e.addEventListener("click", () => {
+            menu_home.forEach(o => {
+                o.classList.remove("selected")
+            })
+            e.classList.add('selected');
+            let parts = document.querySelectorAll(".screen[screen-id='homeboard'] .screen-part");
+            parts.forEach(o => {
+                if (!o.classList.contains('hidden')) {
+                    o.classList.add("hidden")
+                }
+            })
+            let part = document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='" + e.getAttribute('part') + "']")
+            part.classList.remove('hidden')
+        })
+    })
+
 
 
 
@@ -129,15 +151,79 @@ window.addEventListener("DOMContentLoaded", async () => {
 
 async function initHome() {
 
-    function generateBox(data) {
 
+
+    function parseDay(data) {
+        function generateBox(d) {
+            let html = "";
+            console.log(d);
+            let types = "";
+            let color = ""
+            if (d.subject.includes("(Лек)")) {
+                types = "Лекция";
+                color = "#007AFF"
+                d.subject = d.subject.replace("(Лек)", "")
+            }
+            if (d.subject.includes("(Лаб)")) {
+                types = "Лабораторная работа";
+                color = "#34C759"
+                d.subject = d.subject.replace("(Лаб)", "")
+            }
+            if (d.subject.includes("(ПЗ)")) {
+                types = "Практическое занятие";
+                color = "#FFCC00";
+                d.subject = d.subject.replace("(ПЗ)", "")
+            }
+            html += "<div class='shedule-box' id='shedule-[id]' hash='[hash]'>".replace("[hash]", d.hash).replace("[id]", d.id);
+            html += "<div class='line' style='background: [color];'></div>".replace("[color]", color)
+            html += "<div class='block'>"
+            html += "<div class='top' style='color: [color];'>[type]</div>".replace("[color]", color).replace("[type]", types)
+            html += "<div class='middle'>"
+            html += "<div class='lesson'>"
+            html += "<div class='name'>" + d.subject + "</div>"
+            html += "<div class='classroom'>" + d.classroom + "</div>"
+            html += "</div>"
+            html += "<div class='time'>"
+            html += "<div class='start'>" + d.time.replace("(", "").replace(")", "").split("-")[0] + "</div>"
+            html += "<div class='end'>" + d.time.replace("(", "").replace(")", "").split("-")[1] + "</div>"
+            html += "</div>"
+            html += "</div>"
+
+            html += "<div class='bottom-box'>"
+            html += "<div class='teacher-picture' style='width: 25px; height: 25px; background: [teacher-pick] no-repeat; background-size: cover; background-position: top; border-radius: 100%;'></div>"
+            html += "<div class='teacher'>" + d.teacher + "</div>"
+            html += "</div>"
+            if (d.teacher_photo == null) {
+                html = html.replace("[teacher-pick]", "url(./imgs/user.png)")
+            } else {
+                html = html.replace("[teacher-pick]", "url(" + d.teacher_photo + ")")
+            }
+
+            if (d.is_combined) {
+                html += "<div class='combined'>"
+                d.combined_main_groups.forEach(o => {
+                    html += "<div class='group'>" + o + "</div>"
+                })
+                html += "</div>"
+            }
+
+            html += "</div>"
+            html += "</div>"
+            return html;
+        }
+        let html = ""
+        data.forEach(e => {
+            html += generateBox(e)
+        })
+        return html;
     }
 
     async function checkNowLesson() {
+        let now = (await window.ScheduleAPI.getCurrentLesson(localStorage.getItem("faculty"), localStorage.getItem('group')));
 
-
-        setTimeout(checkNowLesson, 1000);
+        setTimeout(checkNowLesson, 10000);
     }
+
 
     async function getWeek() {
         let shedule = (await window.ScheduleAPI.getWeek(localStorage.getItem("faculty"), localStorage.getItem('group')));
@@ -150,13 +236,15 @@ async function initHome() {
         last += lastD.getDate() + " ";
         last += month[lastD.getMonth()] + " ";
         last += lastD.getFullYear() + " г."
+        let dnum = 0
         shedule.schedule.forEach(e => {
             days[days1.indexOf(e.day)].push(e);
             if (e.date == last) {
                 today.push(e);
+                dnum = days1.indexOf(e.day)
             }
         })
-        return [shedule, today];
+        return [days, dnum];
     }
 
     let is_admin = (await window.ScheduleAPI.checkAdmin()).is_admin;
@@ -165,11 +253,14 @@ async function initHome() {
 
     await checkNowLesson();
 
-    if (shedule[1] == []) {
-        // ! сегодня ничего нет
-    } else {
-        // ? показать расписание на сегодня
-    }
+    console.log(shedule);
+    let dnum = shedule[1]
+    let today = shedule[0][dnum];
+
+    console.log(shedule[0][0])
+    let html = parseDay(today);
+
+    document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").innerHTML = html;
 
 
 }

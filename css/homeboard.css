@@ -31,6 +31,17 @@
     border-radius: 1000px;
     height: 60px;
 }
+.screen[screen-id='homeboard'] .screen-part {
+    display: block;
+    max-height: calc(100vh - var(--padding-top) - var(--padding-bottom) - 50px);
+    overflow: auto;
+}
+.screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
 .screen[screen-id='homeboard'] .bottom .bottomMenu .item {
     width: 90px;
     height: 50px;
@@ -44,7 +55,8 @@
     font-size: 10px;
     font-weight: 500;
     --color: rgb(255, 255, 255);
-    color: var(--color)
+    color: var(--color);
+    transition: 0.2s;
 }
 .screen[screen-id='homeboard'] .bottom .bottomMenu .item * {
     padding: 0;
@@ -58,6 +70,7 @@
     width: 30px;
     height: 30px;
     background: var(--color);
+    transition: 0.2s;
 }
 .screen[screen-id='homeboard'] .bottom .bottomMenu .item[part='menu'] .icon {
     mask-image: url(./../imgs/menu.png);
@@ -66,8 +79,10 @@
     width: 30px;
     height: 30px;
     background: var(--color);
+    transition: 0.2s;
 }
 .screen[screen-id='homeboard'] .bottom .bottomMenu .item.selected {
     --color: rgb(0, 122, 255);
     background: rgba(255, 255, 255, .1);
+    transition: 0.2s;
 }
