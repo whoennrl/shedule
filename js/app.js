@@ -308,14 +308,14 @@ async function initHome() {
             pointerStart = e.x;
         }
         if (['mouseup', 'touchend'].includes(e.type)) {
-            if (pointerStart + 150 < e.x) {
+            if (pointerStart + 150 < e.pageX) {
                 console.log('prev');
                 dnum -= 1;
                 if (dnum < 0) {
                     dnum = 5;
                 }
             }
-            if (pointerStart - 150 > e.x) {
+            if (pointerStart - 150 > e.pageX) {
                 console.log('next');
                 dnum += 1;
                 if (dnum > 5) {
