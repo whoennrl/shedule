@@ -1,0 +1,36 @@
+/*
+ * VSU Shedule App | Version 2.0
+ * Build: [build_info]
+ * Developer: @whoennrl
+ * 
+ * Site: https://whoennrl.ru
+ */
+
+.screen[screen-id='unsupported'] {
+
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+    user-select: none;
+    -webkit-user-select: none;
+}
+.screen[screen-id='unsupported'] img {
+    width: 50px;
+    height: 50px;
+}
+.screen[screen-id='unsupported'] .title {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+}
+.screen[screen-id='unsupported'] .message {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+}

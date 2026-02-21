@@ -34,6 +34,7 @@ window.addEventListener("DOMContentLoaded", async () => {
         banned_status = await window.ScheduleAPI.getBanStatus(window.Telegram.WebApp.initDataUnsafe.user.id);
     } catch {
         console.log("NOT SUPPORTED!")
+        showScreen("unsupported");
         return 
     }
     
