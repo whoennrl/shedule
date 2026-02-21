@@ -23,11 +23,12 @@ function showScreen(screenName) {
 
 window.addEventListener("DOMContentLoaded", async () => {
 
-    if (window.Telegram.WebApp.platform == 'tdesktop') {
-        if (window.Telegram.WebApp.isFullscreen) {
-            window.Telegram.WebApp.exitFullscreen()
-        }
+    if (['ios', 'android'].includes(window.Telegram.WebApp.platform)) {
+        window.Telegram.WebApp.requestFullscreen()
     }
+
+    window.Telegram.WebApp.disableVerticalSwipes()
+
     window.ScheduleAPI.init('https://aurum.whoennrl.ru/api/shedule-v2/');
     let banned_status;
     try {
