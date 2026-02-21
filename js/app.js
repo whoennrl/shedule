@@ -28,13 +28,15 @@ window.addEventListener("DOMContentLoaded", async () => {
             window.Telegram.WebApp.exitFullscreen()
         }
     }
-
+    window.ScheduleAPI.init('https://aurum.whoennrl.ru/api/shedule-v2/');
+    let banned_status;
     try {
-        window.ScheduleAPI.init('https://aurum.whoennrl.ru/api/shedule-v2/');
+        banned_status = await window.ScheduleAPI.getBanStatus(window.Telegram.WebApp.initDataUnsafe.user.id);
     } catch {
         console.log("NOT SUPPORTED!")
+        return 
     }
-    let banned_status = await window.ScheduleAPI.getBanStatus(window.Telegram.WebApp.initDataUnsafe.user.id);
+    
 
     if (banned_status.banned) {
         console.log("Аккаунт заблокирован");
