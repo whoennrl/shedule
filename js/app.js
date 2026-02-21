@@ -305,7 +305,7 @@ async function initHome() {
     function handlerClick(e) {
         console.log(e)
         if (['mousedown', 'touchstart'].includes(e.type)) {
-            pointerStart = e.x;
+            pointerStart = e.pageX;
         }
         if (['mouseup', 'touchend'].includes(e.type)) {
             if (pointerStart + 150 < e.pageX) {
