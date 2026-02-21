@@ -1,0 +1,56 @@
+.screen[screen-id='homeboard'] {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-between;
+    flex: 1;
+    user-select: none;
+    -webkit-user-select: none;
+}
+.screen[screen-id='homeboard'] .bottom {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.screen[screen-id='homeboard'] .bottom .bottomMenu {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    padding: 5px;
+    background: rgba(255, 255, 255, .1);
+    border-radius: 1000px;
+    height: 60px;
+}
+.screen[screen-id='homeboard'] .bottom .bottomMenu .item {
+    width: 90px;
+    height: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0);
+    border-radius: 1000px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    --color: rgb(255, 255, 255);
+    color: var(--color)
+}
+.screen[screen-id='homeboard'] .bottom .bottomMenu .item * {
+    padding: 0;
+    margin: 0;
+}
+.screen[screen-id='homeboard'] .bottom .bottomMenu .item .icon {
+    mask-image: url(./../imgs/account-blocked.png);
+    mask-size: 100%;
+    mask-position: center;
+    width: 30px;
+    height: 30px;
+    background: var(--color);
+}
+.screen[screen-id='homeboard'] .bottom .bottomMenu .item.selected {
+    --color: rgb(0, 122, 255);
+    background: rgba(255, 255, 255, .1);
+}

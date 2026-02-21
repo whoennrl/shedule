@@ -17,6 +17,12 @@ function showScreen(screenName) {
 
 window.addEventListener("DOMContentLoaded", async () => {
 
+    if (window.Telegram.WebApp.platform == 'tdesktop') {
+        if (window.Telegram.WebApp.isFullscreen) {
+            window.Telegram.WebApp.exitFullscreen()
+        }
+    }
+
     window.ScheduleAPI.init('https://vsu.whoennrl.ru/api2.php');
     let banned_status = await window.ScheduleAPI.getBanStatus(window.Telegram.WebApp.initDataUnsafe.user.id);
 
@@ -61,7 +67,7 @@ window.addEventListener("DOMContentLoaded", async () => {
         let install_status = localStorage.getItem("install-step");
 
         if (install_status == null || install_status == "step-1") {
-            showScreen("install-step-2");
+            showScreen("install-step-1");
 
             document.querySelector(".screen[screen-id='install-step-1'] .bottom .button").addEventListener("click", () => {
                 showScreen("install-step-2")
@@ -71,12 +77,15 @@ window.addEventListener("DOMContentLoaded", async () => {
             let mode = localStorage.getItem("mode");
             if (mode == 'student') {
 
-                showScreen("homeboard")
+                showScreen("homeboard");
+
+                await initHome();
 
             } else if (mode == 'teacher') {
                 // ! РЕАЛИЗОВАТЬ РЕЖИМ ДЛЯ ПРЕПОДАВАТЕЛЯ
             } else {
                 localStorage.setItem("install-step", 'step-1')
+                document.location.reload();
             }
         }
 
@@ -108,3 +117,45 @@ window.addEventListener("DOMContentLoaded", async () => {
 
 
 })
+
+
+
+
+async function initHome () {
+
+    function generateBox(data) {
+
+    }
+
+    async function checkNowLesson () {
+
+
+        setTimeout(checkNowLesson, 1000);
+    }
+
+    async function getWeek() {
+        let shedule = (await window.ScheduleAPI.getWeek(localStorage.getItem("faculty"), localStorage.getItem('group')));
+        let days = {
+            'Понедельник':[],
+            'Вторник':[],
+            'Среда':[],
+            'Четверг':[],
+            'Пятница':[],
+            'Суббота':[]
+        }
+        shedule.schedule.forEach(e=>{
+            days[e.day].push(e);
+        })
+        return days;
+    }
+
+    let is_admin = (await window.ScheduleAPI.checkAdmin()).is_admin;
+    
+    let shedule = await getWeek();
+
+    await checkNowLesson();
+
+    console.log(shedule);
+
+
+}

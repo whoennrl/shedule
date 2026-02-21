@@ -1,0 +1,79 @@
+name: Build and Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # Или master
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Replace [build_info] with Commit Message
+        env:
+          # Передаем сообщение коммита в переменную окружения
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+        run: |
+          python3 << 'EOF'
+          import os
+          import sys
+
+          # Получаем текст из переменной окружения
+          replace_text = os.environ.get('COMMIT_MESSAGE', 'No commit message')
+          target = '[build_info]'
+
+          # Расширения файлов, в которых будем делать замену
+          # Добавьте сюда другие, если нужно (например, .xml, .svg)
+          allowed_extensions = ('.html', '.css', '.js', '.txt', '.md', '.json', '.xml')
+
+          for root, dirs, files in os.walk('.'):
+              # Пропускаем служебные папки
+              if '.git' in root or 'node_modules' in root:
+                  continue
+              
+              for file in files:
+                  if file.endswith(allowed_extensions):
+                      path = os.path.join(root, file)
+                      try:
+                          with open(path, 'r', encoding='utf-8') as f:
+                              content = f.read()
+                          
+                          if target in content:
+                              content = content.replace(target, replace_text)
+                              with open(path, 'w', encoding='utf-8') as f:
+                                  f.write(content)
+                              print(f"Updated: {path}")
+                      except Exception as e:
+                          print(f"Error processing {path}: {e}")
+          EOF
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
