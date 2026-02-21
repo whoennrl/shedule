@@ -93,7 +93,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 
                 showScreen("homeboard");
 
-                await initHome();
+                try { await initHome() } catch {localStorage.clear(); document.location.reload();}
 
             } else if (mode == 'teacher') {
                 // ! РЕАЛИЗОВАТЬ РЕЖИМ ДЛЯ ПРЕПОДАВАТЕЛЯ
