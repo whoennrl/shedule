@@ -35,9 +35,9 @@ window.addEventListener("DOMContentLoaded", async () => {
     } catch {
         console.log("NOT SUPPORTED!")
         showScreen("unsupported");
-        return 
+        return
     }
-    
+
 
     if (banned_status.banned) {
         console.log("Аккаунт заблокирован");
@@ -144,6 +144,11 @@ window.addEventListener("DOMContentLoaded", async () => {
         })
     })
 
+    document.querySelector("*[action='clear-data']").addEventListener("click", ()=>{
+        localStorage.clear();
+        document.location.reload();
+    })
+
 
 
 
@@ -162,53 +167,59 @@ async function initHome() {
             console.log(d);
             let types = "";
             let color = ""
+            let subject = d.subject;
             if (d.subject.includes("(Лек)")) {
-                types = "Лекция";
+                types = "лекция";
                 color = "#007AFF"
-                d.subject = d.subject.replace("(Лек)", "")
-            }
-            if (d.subject.includes("(Лаб)")) {
-                types = "Лабораторная работа";
+                subject = d.subject.replace("(Лек)", "")
+            } else if (d.subject.includes("(Лаб)")) {
+                types = "лабораторная работа";
                 color = "#34C759"
-                d.subject = d.subject.replace("(Лаб)", "")
-            }
-            if (d.subject.includes("(ПЗ)")) {
-                types = "Практическое занятие";
+                subject = d.subject.replace("(Лаб)", "")
+            } else if (d.subject.includes("(ПЗ)")) {
+                types = "практическое занятие";
                 color = "#FFCC00";
-                d.subject = d.subject.replace("(ПЗ)", "")
+                subject = d.subject.replace("(ПЗ)", "")
+            } else {
+                subject = d.subject;
+                color = "#f0f0f0";
             }
             html += "<div class='shedule-box' id='shedule-[id]' hash='[hash]'>".replace("[hash]", d.hash).replace("[id]", d.id);
             html += "<div class='line' style='background: [color];'></div>".replace("[color]", color)
             html += "<div class='block'>"
-            html += "<div class='top' style='color: [color];'>[type]</div>".replace("[color]", color).replace("[type]", types)
+            if (types != "") { html += "<div class='top' style='color: [color];'>[type]</div>".replace("[color]", color).replace("[type]", types) }
             html += "<div class='middle'>"
             html += "<div class='lesson'>"
-            html += "<div class='name'>" + d.subject + "</div>"
+            html += "<div class='name'>" + subject + "</div>"
             html += "<div class='classroom'>" + d.classroom + "</div>"
+            if (d.is_combined) {
+                html += "<div class='combined'>"
+                html += "<div class='group'>Совместно:</div>"
+                d.combined_main_groups.forEach(o => {
+                    html += "<div class='group'>" + o + "</div>"
+                })
+                html += "</div>"
+            }
             html += "</div>"
             html += "<div class='time'>"
             html += "<div class='start'>" + d.time.replace("(", "").replace(")", "").split("-")[0] + "</div>"
             html += "<div class='end'>" + d.time.replace("(", "").replace(")", "").split("-")[1] + "</div>"
             html += "</div>"
             html += "</div>"
+            if (d.teacher != "") {
+                html += "<div class='bottom-box'>"
+                html += "<div class='teacher-picture' style='width: 25px; height: 25px; background: [teacher-pick] no-repeat; background-size: cover; background-position: top; border-radius: 100%;'></div>"
+                html += "<div class='teacher'>" + d.teacher + "</div>"
+                html += "</div>"
+            }
 
-            html += "<div class='bottom-box'>"
-            html += "<div class='teacher-picture' style='width: 25px; height: 25px; background: [teacher-pick] no-repeat; background-size: cover; background-position: top; border-radius: 100%;'></div>"
-            html += "<div class='teacher'>" + d.teacher + "</div>"
-            html += "</div>"
             if (d.teacher_photo == null) {
                 html = html.replace("[teacher-pick]", "url(./imgs/user.png)")
             } else {
                 html = html.replace("[teacher-pick]", "url(" + d.teacher_photo + ")")
             }
 
-            if (d.is_combined) {
-                html += "<div class='combined'>"
-                d.combined_main_groups.forEach(o => {
-                    html += "<div class='group'>" + o + "</div>"
-                })
-                html += "</div>"
-            }
+
 
             html += "</div>"
             html += "</div>"
@@ -265,5 +276,70 @@ async function initHome() {
 
     document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").innerHTML = html;
 
+    document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date;
 
+    let selectors = document.querySelectorAll(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .daySelector .item");
+    selectors.forEach(e => {
+        e.addEventListener("click", () => {
+
+            selectors.forEach(o => {
+                if (o.classList.contains('selected')) { o.classList.remove("selected") }
+            })
+            e.classList.add("selected");
+            dnum = Number(e.getAttribute('dnum'))
+            let html = parseDay(shedule[0][dnum]);
+            document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").innerHTML = html;
+            try {
+                document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date;
+            } catch {
+                document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = "...";
+            }
+        })
+    })
+
+    // делаем перелистывание 
+    let home = document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home']");
+
+    let pointerStart = 0;
+
+    function handlerClick(e) {
+        console.log(e)
+        if (['mousedown', 'touchstart'].includes(e.type)) {
+            pointerStart = e.x;
+        }
+        if (['mouseup', 'touchend'].includes(e.type)) {
+            if (pointerStart + 150 < e.x) {
+                console.log('prev');
+                dnum -= 1;
+                if (dnum < 0) {
+                    dnum = 5;
+                }
+            }
+            if (pointerStart - 150 > e.x) {
+                console.log('next');
+                dnum += 1;
+                if (dnum > 5) {
+                    dnum = 0
+                }
+            }
+
+            selectors.forEach(o => {
+                if (o.classList.contains('selected')) { o.classList.remove("selected") }
+            })
+            console.log(dnum)
+            document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .daySelector .item[dnum='" + dnum + "']").classList.add("selected");
+            let html = parseDay(shedule[0][dnum]);
+            document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").innerHTML = html;
+            try {
+                document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date;
+            } catch {
+                document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = "...";
+            }
+        }
+    }
+
+    home.addEventListener("touchstart", handlerClick)
+    home.addEventListener("mousedown", handlerClick)
+    home.addEventListener("touchend", handlerClick)
+    home.addEventListener("mouseup", handlerClick)
 }

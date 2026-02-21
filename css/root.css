@@ -39,6 +39,27 @@
 
     display: flex;
 }
+
+@media screen and (min-width: 600px) {
+    .root {
+        width: 600px;
+        left: calc(50% - 300px);
+        border-left: 1px solid rgba(255, 255, 255, 0.15);
+        border-right: 1px solid rgba(255, 255, 255, 0.15);
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    .root .screen[screen-id='homeboard'] .bottom {
+        width: 598px;
+        left: calc(50% - 299px);
+    }
+
+    body {
+        background: var(--color-background);
+
+    }
+}
+
 .hidden {
     display: none !important;
 }
