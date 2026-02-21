@@ -1,3 +1,11 @@
+/*
+ * VSU Shedule App | Version 2.0
+ * Build: [build_info]
+ * Developer: @whoennrl
+ * 
+ * Site: https://whoennrl.ru
+ */
+
 :root {
     --padding-top: calc(var(--tg-safe-area-inset-top) + var(--tg-content-safe-area-inset-top) + 20px);
     --padding-bottom: calc(var(--tg-safe-area-inset-bottom) + var(--tg-content-safe-area-inset-bottom) + 20px);

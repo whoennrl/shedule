@@ -1,20 +1,28 @@
+/*
+ * VSU Shedule App | Version 2.0
+ * Build: [build_info]
+ * Developer: @whoennrl
+ * 
+ * Site: https://whoennrl.ru
+ */
+
 document.addEventListener('DOMContentLoaded', () => {
     const selects = document.querySelectorAll('select');
 
     selects.forEach(select => {
-        // Сохраняем оригинальный дескриптор свойства value
+        
         const originalDescriptor = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value');
 
-        // Переопределяем сеттер value
+        
         Object.defineProperty(select, 'value', {
             get: function () {
                 return originalDescriptor.get.call(this);
             },
             set: function (newValue) {
-                // Вызываем оригинальный сеттер
+                
                 originalDescriptor.set.call(this, newValue);
 
-                // Генерируем событие
+                
                 const event = new CustomEvent('selectChanged', {
                     detail: {
                         select: this,
@@ -87,7 +95,7 @@ window.addEventListener("DOMContentLoaded", () => {
 })
 
 function updateOptions(el) {
-    //console.log(el.id)
+    
     let options = el.querySelectorAll("option");
     let selectBox = document.querySelector(".select-box[select-id='" + el.id + "']");
     let selectInfo = document.querySelector(".select-info[select-id='" + el.id + "']");
@@ -109,7 +117,7 @@ function updateOptions(el) {
         option.addEventListener("click", (e) => {
             selectBox.classList.remove("opened")
             if (!e.target.classList.contains('disabled')) {
-                //console.log(e);
+                
                 el.value = e.target.getAttribute("value");
                 let alls = e.target.parentElement.querySelectorAll(".select-option");
                 alls.forEach(i => {

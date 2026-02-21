@@ -1,4 +1,10 @@
-//const ScheduleAPI = require("./lib")
+/*
+ * VSU Shedule App | Version 2.0
+ * Build: [build_info]
+ * Developer: @whoennrl
+ * 
+ * Site: https://whoennrl.ru
+ */
 
 function showScreen(screenName) {
     let bl = document.querySelectorAll(".screen[screen-id]");
@@ -54,7 +60,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 
             let groups = await window.ScheduleAPI.getGroups(e.target.value);
             let html = "<option value='0' selected disabled>Выберите</option>"
-            groups.forEach(o=>{
+            groups.forEach(o => {
                 html += "<option value='{value}'>{value}</option>".replaceAll("{value}", o.name)
             })
 
@@ -103,7 +109,7 @@ window.addEventListener("DOMContentLoaded", async () => {
                 localStorage.setItem("faculty", faculty);
                 localStorage.setItem('group', group);
 
-                document.location.reload(); 
+                document.location.reload();
 
             } else {
                 // ! преподаватель
@@ -121,13 +127,13 @@ window.addEventListener("DOMContentLoaded", async () => {
 
 
 
-async function initHome () {
+async function initHome() {
 
     function generateBox(data) {
 
     }
 
-    async function checkNowLesson () {
+    async function checkNowLesson() {
 
 
         setTimeout(checkNowLesson, 1000);
@@ -135,27 +141,35 @@ async function initHome () {
 
     async function getWeek() {
         let shedule = (await window.ScheduleAPI.getWeek(localStorage.getItem("faculty"), localStorage.getItem('group')));
-        let days = {
-            'Понедельник':[],
-            'Вторник':[],
-            'Среда':[],
-            'Четверг':[],
-            'Пятница':[],
-            'Суббота':[]
-        }
-        shedule.schedule.forEach(e=>{
-            days[e.day].push(e);
+        let days1 = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота']
+        let days = [[], [], [], [], [], []];
+        let today = [];
+        let lastD = new Date();
+        let last = "";
+        let month = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"]
+        last += lastD.getDate() + " ";
+        last += month[lastD.getMonth()] + " ";
+        last += lastD.getFullYear() + " г."
+        shedule.schedule.forEach(e => {
+            days[days1.indexOf(e.day)].push(e);
+            if (e.date == last) {
+                today.push(e);
+            }
         })
-        return days;
+        return [shedule, today];
     }
 
     let is_admin = (await window.ScheduleAPI.checkAdmin()).is_admin;
-    
+
     let shedule = await getWeek();
 
     await checkNowLesson();
 
-    console.log(shedule);
+    if (shedule[1] == []) {
+        // ! сегодня ничего нет
+    } else {
+        // ? показать расписание на сегодня
+    }
 
 
 }

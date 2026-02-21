@@ -1,3 +1,11 @@
+/*
+ * VSU Shedule App | Version 2.0
+ * Build: [build_info]
+ * Developer: @whoennrl
+ * 
+ * Site: https://whoennrl.ru
+ */
+
 .screen[screen-id='homeboard'] {
     display: flex;
     flex-direction: column;
@@ -42,8 +50,17 @@
     padding: 0;
     margin: 0;
 }
-.screen[screen-id='homeboard'] .bottom .bottomMenu .item .icon {
-    mask-image: url(./../imgs/account-blocked.png);
+
+.screen[screen-id='homeboard'] .bottom .bottomMenu .item[part='home'] .icon {
+    mask-image: url(./../imgs/home.png);
+    mask-size: 100%;
+    mask-position: center;
+    width: 30px;
+    height: 30px;
+    background: var(--color);
+}
+.screen[screen-id='homeboard'] .bottom .bottomMenu .item[part='menu'] .icon {
+    mask-image: url(./../imgs/menu.png);
     mask-size: 100%;
     mask-position: center;
     width: 30px;
