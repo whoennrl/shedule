@@ -320,6 +320,7 @@ async function initHome() {
                 if (dnum < 0) {
                     dnum = 5;
                 }
+                document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").scrollTo(0, 0)
             }
             if (pointerStart - 150 > e.pageX) {
                 console.log('next');
@@ -327,6 +328,7 @@ async function initHome() {
                 if (dnum > 5) {
                     dnum = 0
                 }
+                document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").scrollTo(0, 0)
             }
 
             selectors.forEach(o => {
@@ -336,7 +338,7 @@ async function initHome() {
             document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .daySelector .item[dnum='" + dnum + "']").classList.add("selected");
             let html = parseDay(shedule[0][dnum]);
             document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").innerHTML = html;
-            document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").scrollTo(0, 0)
+            
             try {
                 document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date;
             } catch {
