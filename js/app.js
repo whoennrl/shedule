@@ -6,6 +6,8 @@
  * Site: https://whoennrl.ru
  */
 
+window.mode = 'local' // ! "production" or "local"
+
 function showScreen(screenName) {
     let bl = document.querySelectorAll(".screen[screen-id]");
     bl.forEach(e => {
@@ -29,8 +31,14 @@ window.addEventListener("DOMContentLoaded", async () => {
 
     window.Telegram.WebApp.disableVerticalSwipes()
 
-    //window.ScheduleAPI.init('https://aurum.whoennrl.ru/api/shedule-v2/local.php');
-    window.ScheduleAPI.init('https://aurum.whoennrl.ru/api/shedule-v2/');
+    if (window.mode == "production") {
+        window.ScheduleAPI.init('https://aurum.whoennrl.ru/api/shedule-v2/');
+    } else if (window.mode == "local") {
+        window.ScheduleAPI.init('https://aurum.whoennrl.ru/api/shedule-v2/local.php');
+    } else {
+        alert("Режим работы не определен, запуск приостановлен")
+        return
+    }
     let banned_status;
     try {
         banned_status = await window.ScheduleAPI.getBanStatus(window.Telegram.WebApp.initDataUnsafe.user.id);
@@ -94,7 +102,6 @@ window.addEventListener("DOMContentLoaded", async () => {
             if (mode == 'student') {
 
                 showScreen("homeboard");
-
                 initHome();
 
             } else if (mode == 'teacher') {

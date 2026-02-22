@@ -296,3 +296,6 @@
     width: 30px;
     height: 30px;
 }
+.screen[screen-id='homeboard'] .screen-part[part-id='menu'] .button .name {
+    flex: 1;
+}

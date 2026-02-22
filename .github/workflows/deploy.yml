@@ -55,6 +55,7 @@ jobs:
                           
                           content = content.replace(target, replace_text)
                           content = content.replace(target2, replace_text2)
+                          content = content.replace("window.mode = 'local'", "window.mode = 'production'")
                           with open(path, 'w', encoding='utf-8') as f:
                               f.write(content)
                           print(f"Updated: {path}")
