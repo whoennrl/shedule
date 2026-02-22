@@ -372,6 +372,9 @@ async function initHome() {
     document.querySelector("*[action='goto-help']").addEventListener("click", ()=>{
         window.Telegram.WebApp.openTelegramLink("https://t.me/m/QDBiIh9BYWFi");
     })
+    document.querySelector("*[action='changelog']").addEventListener("click", ()=>{
+        window.Telegram.WebApp.openLink("https://whoennrl.ru/vsu-shedule-changelog/");
+    })
 
     window.is_admin = is_admin;
 
