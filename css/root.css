@@ -7,10 +7,10 @@
  */
 
 :root {
-    --padding-top: calc(var(--tg-safe-area-inset-top) + var(--tg-content-safe-area-inset-top) + 20px);
-    --padding-bottom: calc(var(--tg-safe-area-inset-bottom) + var(--tg-content-safe-area-inset-bottom) + 20px);
-    --padding-left: calc(var(--tg-safe-area-inset-left) + var(--tg-content-safe-area-inset-left) + 20px);
-    --padding-right: calc(var(--tg-safe-area-inset-right) + var(--tg-content-safe-area-inset-right) + 20px);
+    --padding-top: calc(var(--tg-safe-area-inset-top, 0px) + var(--tg-content-safe-area-inset-top, 0px) + 20px);
+    --padding-bottom: calc(var(--tg-safe-area-inset-bottom, 0px) + var(--tg-content-safe-area-inset-bottom, 0px) + 20px);
+    --padding-left: calc(var(--tg-safe-area-inset-left, 0px) + var(--tg-content-safe-area-inset-left, 0px) + 20px);
+    --padding-right: calc(var(--tg-safe-area-inset-right, 0px) + var(--tg-content-safe-area-inset-right, 0px) + 20px);
 
 
     /* Colors */
