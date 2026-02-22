@@ -1,5 +1,5 @@
 <!-- 
-    VSU Shedule App | Version 2.0
+    VSU Shedule App | Version [build_version]
     Build: [build_info]
     Developer: @whoennrl
 
@@ -11,7 +11,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>VSU Shedule</title>
     <script src="./js/lib.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,6 +24,8 @@
     <link rel="stylesheet" href="./css/install-step-1.css?[build_info]">
     <link rel="stylesheet" href="./css/install-step-2.css?[build_info]">
     <link rel="stylesheet" href="./css/homeboard.css?[build_info]">
+    <link rel="stylesheet" href="./css/customScreen.css?[build_info]">
+    <link rel="stylesheet" href="./css/toggle.css?[build_info]">
 
     <meta http-equiv="cache-control" content="max-age=0" />
     <meta http-equiv="cache-control" content="no-cache" />
@@ -53,7 +55,8 @@
 
             <div class="title">Устройство не поддерживается</div>
 
-            <div class="message">Для запуска приложения VSU Shedule требуется актуальная версия Telegram. Запуск вне Telegram не возможен.</div>
+            <div class="message">Для запуска приложения VSU Shedule требуется актуальная версия Telegram. Запуск вне
+                Telegram не возможен.</div>
 
         </div>
 
@@ -138,6 +141,66 @@
 
         </div>
 
+        <div class="screen hidden" screen-id="settings">
+
+            <div class="header">
+                <div class="backButton">
+                    <div class="icon"></div>
+                    <div class="text">Назад</div>
+                </div>
+                <div class="title">Настройки</div>
+            </div>
+
+            <div class="content">
+
+                <div class="box">
+                    <div class="left">Свайпы</div>
+                    <div class="right">
+                        <label class="toggle-ios set_swipes">
+                            <input type="checkbox" set="set_swipes" value="off">
+                            <span class="toggle-ios-slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="title">Изменить данные при регистрации</div>
+
+                <select id="settings_faculty">
+                    <option value="Математики и информационных технологий">ФМиИТ</option>
+                    <option value="Педагогический">ПФ</option>
+                    <option value="Юридический">ЮФ</option>
+                    <option value="Гуманитарного знания и коммуникаций">ФГЗиК</option>
+                    <option value="Социальной педагогики и психологии">ФСПиП</option>
+                    <option value="Физической культуры и спорта">ФФКиС</option>
+                    <option value="Химико-биологических и географических наук">ФХБиГН</option>
+                    <option value="Художественно-графический">ХГФ</option>
+                </select>
+                <select id="settings_group">
+                    <option value="0" selected disabled>Выберите</option>
+                </select>
+
+                <div class="text">Для изменение режима на "Преподаватель" требуется сбросить данные приложения!</div>
+                <div class="button" action="clear-data">
+                    <img src="./imgs/app-not-supported.png" alt="">
+                    <div class="name">Сбросить данные</div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="screen hidden" screen-id="admin">
+
+            <div class="header">
+                <div class="backButton">
+                    <div class="icon"></div>
+                    <div class="text">Назад</div>
+                </div>
+                <div class="title">Администрирование</div>
+            </div>
+
+        </div>
+
         <div class="screen hidden" screen-id="homeboard">
 
             <div class="screen-part" part-id="home">
@@ -155,7 +218,7 @@
                 <div class="subtitle">1 января 1990 года.</div>
 
                 <div class="sheduleBlock">
-                    
+
                 </div>
 
             </div>
@@ -163,14 +226,24 @@
 
                 <div class="appinfo">
                     <div class="icon"></div>
-                    <div class="name">VSU Shedule</div>
-                    <div class="version">Version: 2.0</div>
-                    <div class="build">[build_info]</div>
+                    <div class="block">
+                        <div class="name">VSU Shedule</div>
+                        <div class="version">Version: [build_version]</div>
+                        <div class="build">[build_info]</div>
+                    </div>
                 </div>
 
-                <div class="button" action="clear-data">
-                    <img src="./imgs/app-not-supported.png" alt="">
-                    <div class="name">Сбросить данные</div>
+                <div class="button" action="goto-settings">
+                    <img src="./imgs/gear.png" alt="gear">
+                    <div class="name">Настройки</div>
+                </div>
+                <div class="button hidden" action="goto-admin">
+                    <img src="./imgs/admin.png" alt="admin">
+                    <div class="name">Администрирование</div>
+                </div>
+                <div class="button" action="goto-help">
+                    <img src="./imgs/help.png" alt="help">
+                    <div class="name">Написать разработчику</div>
                 </div>
 
             </div>
@@ -192,9 +265,11 @@
 
     </div>
 
+    <script src="./js/init2_1.js?[build_info]"></script>
     <script src="https://telegram.org/js/telegram-web-app.js?59"></script>
     <script src="./js/app.js?[build_info]"></script>
     <script src="./js/selectBox.js?[build_info]"></script>
+
 
 </body>
 

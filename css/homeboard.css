@@ -1,5 +1,5 @@
 /*
- * VSU Shedule App | Version 2.0
+ * VSU Shedule App | Version [build_version]
  * Build: [build_info]
  * Developer: @whoennrl
  * 
@@ -109,14 +109,14 @@
     background: #1C1C1E;
     color: white;
     font-family: 'Nunito', sans-serif;
-    font-size: 12px;
+    font-size: 14px;
     align-items: center;
     justify-content: center;
     font-weight: 900;
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     text-align: center;
-    line-height: 30px;
+    line-height: 42px;
     border-radius: 1000px;
 }
 .screen[screen-id='homeboard'] .screen-part[part-id='home'] .daySelector .item:hover {
@@ -241,25 +241,26 @@
 }
 .screen[screen-id='homeboard'] .screen-part[part-id='menu'] .appinfo {
     display: flex;
-    flex-direction: column;
-    gap: 0px;
+    flex-direction: row;
+    gap:20px;
     padding: 20px;
     border-radius: 30px;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     background: #1C1C1E;
     font-family: 'Nunito', sans-serif;
     font-size: 16px;
 }
+.screen-part[part-id='menu'] .appinfo .block {
+    flex: 1;
+}
 .screen[screen-id='homeboard'] .screen-part[part-id='menu'] .appinfo .name {
     font-size: 24px;
     font-weight: 800;
-    margin-top: 10px;
-    margin-bottom: 10px;
 }
 .screen[screen-id='homeboard'] .screen-part[part-id='menu'] .appinfo .icon {
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
     border-radius: 15px;
     outline: 1px solid rgba(255, 255, 255, 0.15);
     background: url(./../imgs/icon.png) no-repeat;
@@ -280,6 +281,11 @@
     padding-left: 10px;
     padding-right: 10px;
     font-family: 'Nunito', sans-serif; 
+    transition: 0.2s;
+}
+.screen[screen-id='homeboard'] .screen-part[part-id='menu'] .button:hover {
+    background: rgba(255, 255, 255, .2);
+    cursor: pointer;
 }
 .screen[screen-id='homeboard'] .screen-part[part-id='menu'] {
     display: flex;

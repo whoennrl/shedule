@@ -25,6 +25,7 @@ jobs:
         env:
           # Передаем сообщение коммита в переменную окружения
           COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+          VERSION: '2.1'
         run: |
           python3 << 'EOF'
           import os
@@ -32,7 +33,9 @@ jobs:
 
           # Получаем текст из переменной окружения
           replace_text = os.environ.get('COMMIT_MESSAGE', 'No commit message')
+          replace_text2 = os.environ.get('VERSION', 'No Version found')
           target = '[build_info]'
+          target2 = '[build_version]'
 
           # Расширения файлов, в которых будем делать замену
           # Добавьте сюда другие, если нужно (например, .xml, .svg)
@@ -50,8 +53,9 @@ jobs:
                           with open(path, 'r', encoding='utf-8') as f:
                               content = f.read()
                           
-                          if target in content:
+                          if (target in content) or (target2 in content):
                               content = content.replace(target, replace_text)
+                              contetn = content.replace(target2, replace_text2)
                               with open(path, 'w', encoding='utf-8') as f:
                                   f.write(content)
                               print(f"Updated: {path}")

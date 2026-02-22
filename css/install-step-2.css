@@ -1,5 +1,5 @@
 /*
- * VSU Shedule App | Version 2.0
+ * VSU Shedule App | Version [build_version]
  * Build: [build_info]
  * Developer: @whoennrl
  * 

@@ -1,0 +1,192 @@
+/*
+ * VSU Shedule App | Version [build_version]
+ * Build: [build_info]
+ * Developer: @whoennrl
+ * 
+ * Site: https://whoennrl.ru
+ */
+
+.screen[screen-id='settings'], .screen[screen-id='admin'] {
+    display: block;
+    width: 100%;
+    height: 100%;
+    flex: 1;
+    user-select: none;
+    -webkit-user-select: none;
+}
+.screen[screen-id='settings'] .header, .screen[screen-id='admin'] .header {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    padding-top: var(--padding-top);
+    height: calc(50px + var(--padding-top));
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: var(--padding-left);
+    padding-right: var(--padding-right);
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, .15);
+    z-index: 9999;
+}
+.screen[screen-id='settings'] .header .backButton, .screen[screen-id='admin'] .header .backButton {
+    display: flex;
+    flex-direction: row;
+    font-family: 'Nunito';
+    font-weight: 600;
+    font-size: 16px;
+    color: rgb(0, 122, 255);
+    align-items: center;
+}
+.screen[screen-id='settings'] .header .backButton .icon, .screen[screen-id='admin'] .header .backButton .icon {
+    width: 25px;
+    height: 25px;
+    background: rgb(0, 122, 255);
+    mask-image: url(./../imgs/chevron-left.png);
+    mask-repeat: no-repeat;
+    mask-size: 100%;
+    mask-position: center;
+}
+.screen[screen-id='settings'] .header .title, .screen[screen-id='admin'] .header .title {
+    font-size: 16px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+}
+.screen[screen-id='settings'] .content {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    padding-top: calc(var(--padding-top) + 50px + 20px);
+    padding-left: var(--padding-left);
+    padding-right: var(--padding-right);
+    padding-bottom: var(--padding-bottom);
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+}
+.screen[screen-id='settings'] .content .title {
+    font-size: 18px;
+    font-family: 600;
+    font-family: 'Nunito', sans-serif;
+}
+.screen[screen-id='settings'] .content .text {
+    font-size: 16px;
+    font-family: 400;
+    font-family: 'Nunito', sans-serif;
+}
+.screen[screen-id='settings'] .content .box {
+    background: rgb(28, 28, 30);
+    color: white;
+    font-family: 'Nunito', sans-serif;
+    padding: 20px;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.screen[screen-id='settings'] .content .button {
+    display: flex;
+    height: 40px;
+    border-radius: 40px;
+    padding-left: 10px;
+    padding-right: 10px;
+    align-items: center;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    flex-direction: row;
+    gap: 10px;
+    background: rgb(28, 28, 30);
+    transition: 0.2s;
+}
+.screen[screen-id='settings'] .content .button:hover {
+    background: rgba(255, 255, 255, 0.15);
+    cursor: pointer;
+}
+.screen[screen-id='settings'] .content .button img {
+    height: 30px;
+    width: 30px;
+}
+
+
+
+
+
+
+.screen[screen-id='settings'] .content .select-info {
+    background: rgb(28, 28, 30);
+    outline: none;
+    height: 50px;
+    color: white;
+    border: 0px;
+    border-radius: 300px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.screen[screen-id='settings'] .content .select-info span {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+}
+.screen[screen-id='settings'] .content .select-info:after {
+    content: "";
+    display: block;
+    width: 20px;
+    height: 20px;
+    background: url(./../imgs/chevron-bottom.png) no-repeat;
+    background-size: 100%;
+    opacity: 0.5;
+}
+
+.screen[screen-id='settings'] .content .select-box {
+    display: none;
+}
+.screen[screen-id='settings'] .content .select-box.opened {
+    display: block;
+    position: relative;
+    max-height: 150px;
+    overflow-y: auto;
+    background: rgb(28, 28, 30);
+    padding: 20px;
+    border-radius: 30px;
+}
+.screen[screen-id='settings'] .content .select-box.opened .select-option {
+    height: 40px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    line-height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    font-size: 14px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 400;
+}
+.screen[screen-id='settings'] .content .select-box.opened .select-option.selected:after {
+    content: "";
+    width: 20px;
+    height: 20px;
+    background: rgb(0, 122, 255);
+    mask-image: url(./../imgs/checkmark.png);
+    mask-repeat: no-repeat;
+    mask-size: 100%;
+
+}
+.screen[screen-id='settings'] .content .select-box.opened .select-option.disabled {
+    color: rgba(255, 255, 255, 0.5);
+}
+.screen[screen-id='settings'] .content .select-box.opened .select-option:last-child {
+    border-bottom: 0px;
+}

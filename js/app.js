@@ -1,5 +1,5 @@
 /*
- * VSU Shedule App | Version 2.0
+ * VSU Shedule App | Version [build_version]
  * Build: [build_info]
  * Developer: @whoennrl
  * 
@@ -29,6 +29,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 
     window.Telegram.WebApp.disableVerticalSwipes()
 
+    //window.ScheduleAPI.init('https://aurum.whoennrl.ru/api/shedule-v2/local.php');
     window.ScheduleAPI.init('https://aurum.whoennrl.ru/api/shedule-v2/');
     let banned_status;
     try {
@@ -94,7 +95,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 
                 showScreen("homeboard");
 
-                try { await initHome() } catch {localStorage.clear(); document.location.reload();}
+                initHome();
 
             } else if (mode == 'teacher') {
                 // ! РЕАЛИЗОВАТЬ РЕЖИМ ДЛЯ ПРЕПОДАВАТЕЛЯ
@@ -146,10 +147,6 @@ window.addEventListener("DOMContentLoaded", async () => {
         })
     })
 
-    document.querySelector("*[action='clear-data']").addEventListener("click", ()=>{
-        localStorage.clear();
-        document.location.reload();
-    })
 
 
 
@@ -279,6 +276,7 @@ async function initHome() {
     document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").innerHTML = html;
 
     document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date;
+    document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").scrollTo(0, 0)
 
     let selectors = document.querySelectorAll(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .daySelector .item");
     selectors.forEach(e => {
@@ -291,6 +289,7 @@ async function initHome() {
             dnum = Number(e.getAttribute('dnum'))
             let html = parseDay(shedule[0][dnum]);
             document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").innerHTML = html;
+            document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").scrollTo(0, 0)
             try {
                 document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date;
             } catch {
@@ -305,6 +304,11 @@ async function initHome() {
     let pointerStart = 0;
 
     function handlerClick(e) {
+
+        let swipes_set = localStorage.getItem("set_swipes");
+        if (swipes_set == null) return;
+        if (swipes_set == "false") return;
+
         console.log(e)
         if (['mousedown', 'touchstart'].includes(e.type)) {
             pointerStart = e.pageX;
@@ -332,6 +336,7 @@ async function initHome() {
             document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .daySelector .item[dnum='" + dnum + "']").classList.add("selected");
             let html = parseDay(shedule[0][dnum]);
             document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").innerHTML = html;
+            document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").scrollTo(0, 0)
             try {
                 document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date;
             } catch {
@@ -344,4 +349,29 @@ async function initHome() {
     home.addEventListener("mousedown", handlerClick)
     home.addEventListener("touchend", handlerClick)
     home.addEventListener("mouseup", handlerClick)
+
+
+
+    // * инициализация новых фишек 2.1
+
+    document.querySelector("*[action='goto-settings']").addEventListener("click", ()=>{
+        showScreen("settings")
+    })
+    
+    if (is_admin) {
+        document.querySelector("*[action='goto-admin']").addEventListener("click", ()=>{
+            showScreen("admin")
+        })
+        document.querySelector("*[action='goto-admin']").classList.remove("hidden")
+        document.querySelector(".screen[screen-id='admin'] .header .backButton").addEventListener("click", ()=>{
+            showScreen("homeboard")
+        })
+    }
+    document.querySelector("*[action='goto-help']").addEventListener("click", ()=>{
+        window.Telegram.WebApp.openTelegramLink("https://t.me/m/QDBiIh9BYWFi");
+    })
+
+    window.is_admin = is_admin;
+
+    await init2_1();
 }

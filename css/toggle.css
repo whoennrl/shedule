@@ -1,0 +1,45 @@
+.toggle-ios {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 30px;
+}
+
+.toggle-ios input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-ios-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #e9e9ea;
+    transition: .4s;
+    border-radius: 30px;
+}
+
+.toggle-ios-slider:before {
+    position: absolute;
+    content: "";
+    height: 28px;
+    width: 28px;
+    left: 1px;
+    bottom: 1px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+input:checked+.toggle-ios-slider {
+    background-color: #4cd964;
+}
+
+input:checked+.toggle-ios-slider:before {
+    transform: translateX(20px);
+}
