@@ -316,7 +316,7 @@ async function initHome() {
     let pointerStart = 0;
 
     function handlerClick(e) {
-
+        console.log(e)
         let swipes_set = localStorage.getItem("set_swipes");
         if (swipes_set == null) return;
         if (swipes_set == "false") return;
