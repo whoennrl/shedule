@@ -318,6 +318,7 @@ async function initHome() {
     let anPoinSt = 0;
 
     function handleAn(e) {
+        console.log(e);
     
         let swipes_set = localStorage.getItem("set_swipes");
         if (swipes_set == null) return;
