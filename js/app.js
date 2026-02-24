@@ -289,7 +289,7 @@ async function initHome() {
     document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] *[dnum='{dnum}']".replace("{dnum}", dnum)).classList.add("selected");
     document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").scrollTo(0, 0)
 
-    
+
 
     selectors.forEach(e => {
         e.addEventListener("click", () => {
@@ -318,7 +318,7 @@ async function initHome() {
     let anPoinLs = 0;
     let anPoinSt = 0;
 
-    function handleAn (e) {
+    function handleAn(e) {
         let swipes_set = localStorage.getItem("set_swipes");
         if (swipes_set == null) return;
         if (swipes_set == "false") return;
@@ -332,7 +332,7 @@ async function initHome() {
         }
         if (e.type == "touchend") {
             anPoinMv = false;
-            
+
             if (anPoinSt + 150 < anPoinLs) {
                 console.log('prev');
                 dnum -= 1;
@@ -357,7 +357,7 @@ async function initHome() {
             document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .daySelector .item[dnum='" + dnum + "']").classList.add("selected");
             let html = parseDay(shedule[0][dnum]);
             document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").innerHTML = html;
-            
+
             try {
                 document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date;
             } catch {
@@ -365,6 +365,8 @@ async function initHome() {
             }
 
         }
+
+        console.log(anPoinLs, anPoinSt)
 
     }
 
@@ -377,7 +379,7 @@ async function initHome() {
         console.log(e)
         if (['mousedown'].includes(e.type)) {
             pointerStart = e.pageX;
-            
+
         }
         if (['mouseup'].includes(e.type)) {
             if (pointerStart + 150 < e.pageX) {
@@ -404,7 +406,7 @@ async function initHome() {
             document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .daySelector .item[dnum='" + dnum + "']").classList.add("selected");
             let html = parseDay(shedule[0][dnum]);
             document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").innerHTML = html;
-            
+
             try {
                 document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date;
             } catch {
@@ -423,23 +425,23 @@ async function initHome() {
 
     // * инициализация новых фишек 2.1
 
-    document.querySelector("*[action='goto-settings']").addEventListener("click", ()=>{
+    document.querySelector("*[action='goto-settings']").addEventListener("click", () => {
         showScreen("settings")
     })
-    
+
     if (is_admin) {
-        document.querySelector("*[action='goto-admin']").addEventListener("click", ()=>{
+        document.querySelector("*[action='goto-admin']").addEventListener("click", () => {
             showScreen("admin")
         })
         document.querySelector("*[action='goto-admin']").classList.remove("hidden")
-        document.querySelector(".screen[screen-id='admin'] .header .backButton").addEventListener("click", ()=>{
+        document.querySelector(".screen[screen-id='admin'] .header .backButton").addEventListener("click", () => {
             showScreen("homeboard")
         })
     }
-    document.querySelector("*[action='goto-help']").addEventListener("click", ()=>{
+    document.querySelector("*[action='goto-help']").addEventListener("click", () => {
         window.Telegram.WebApp.openTelegramLink("https://t.me/m/QDBiIh9BYWFi");
     })
-    document.querySelector("*[action='changelog']").addEventListener("click", ()=>{
+    document.querySelector("*[action='changelog']").addEventListener("click", () => {
         window.Telegram.WebApp.openLink("https://whoennrl.ru/vsu-shedule-changelog/");
     })
 
