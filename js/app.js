@@ -378,11 +378,11 @@ async function initHome() {
         if (swipes_set == "false") return;
 
         console.log(e)
-        if (['mousedown'].includes(e.type)) {
+        if (['mousedown', 'touchstart'].includes(e.type)) {
             pointerStart = e.pageX;
 
         }
-        if (['mouseup'].includes(e.type)) {
+        if (['mouseup', 'touchend'].includes(e.type)) {
             if (pointerStart + 150 < e.pageX) {
                 console.log('prev');
                 dnum -= 1;
@@ -426,7 +426,6 @@ async function initHome() {
         home.addEventListener("touchstart", handlerClick)
         home.addEventListener("mousedown", handlerClick)
         home.addEventListener("touchend", handlerClick)
-        home.addEventListener("touchmove", handlerClick)
         home.addEventListener("mouseup", handlerClick)
     }
 
