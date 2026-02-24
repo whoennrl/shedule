@@ -314,6 +314,12 @@ async function initHome() {
     let home = document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home']");
 
     let pointerStart = 0;
+    let anPoinSt = false;
+    let anPoinLs = 0;
+
+    function handleAn (e) {
+        console.log(e)
+    }
 
     function handlerClick(e) {
         console.log(e)
@@ -322,10 +328,11 @@ async function initHome() {
         if (swipes_set == "false") return;
 
         console.log(e)
-        if (['mousedown', 'touchstart'].includes(e.type)) {
+        if (['mousedown'].includes(e.type)) {
             pointerStart = e.pageX;
+            
         }
-        if (['mouseup', 'touchend'].includes(e.type)) {
+        if (['mouseup'].includes(e.type)) {
             if (pointerStart + 150 < e.pageX) {
                 console.log('prev');
                 dnum -= 1;
@@ -361,8 +368,9 @@ async function initHome() {
 
     home.addEventListener("touchstart", handlerClick)
     home.addEventListener("mousedown", handlerClick)
-    home.addEventListener("touchend", handlerClick)
-    home.addEventListener("mouseup", handlerClick)
+    home.addEventListener("touchend", handleAn)
+    home.addEventListener("touchmove", handleAn)
+    home.addEventListener("mouseup", handleAn)
 
 
 
