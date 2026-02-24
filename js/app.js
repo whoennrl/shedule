@@ -314,11 +314,58 @@ async function initHome() {
     let home = document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home']");
 
     let pointerStart = 0;
-    let anPoinSt = false;
+    let anPoinMv = false;
     let anPoinLs = 0;
+    let anPoinSt = 0;
 
     function handleAn (e) {
-        console.log(e)
+        let swipes_set = localStorage.getItem("set_swipes");
+        if (swipes_set == null) return;
+        if (swipes_set == "false") return;
+
+        if (e.type == "touchstart") {
+            anPoinMv = true;
+            anPoinSt = e.touches[0].screenX;
+        }
+        if (e.type == "touchmove") {
+            anPoinLs = e.touches[0].screenX;
+        }
+        if (e.type == "touchend") {
+            anPoinMv = false;
+            
+            if (anPoinSt + 150 < anPoinLs) {
+                console.log('prev');
+                dnum -= 1;
+                if (dnum < 0) {
+                    dnum = 5;
+                }
+                document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").scrollTo(0, 0)
+            }
+            if (anPoinSt - 150 > anPoinLs) {
+                console.log('next');
+                dnum += 1;
+                if (dnum > 5) {
+                    dnum = 0
+                }
+                document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").scrollTo(0, 0)
+            }
+
+            selectors.forEach(o => {
+                if (o.classList.contains('selected')) { o.classList.remove("selected") }
+            })
+            console.log(dnum)
+            document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .daySelector .item[dnum='" + dnum + "']").classList.add("selected");
+            let html = parseDay(shedule[0][dnum]);
+            document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").innerHTML = html;
+            
+            try {
+                document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date;
+            } catch {
+                document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = "...";
+            }
+
+        }
+
     }
 
     function handlerClick(e) {
