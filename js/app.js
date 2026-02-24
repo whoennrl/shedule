@@ -427,7 +427,7 @@ async function initHome() {
         home.addEventListener("mousedown", handlerClick)
         home.addEventListener("touchend", handlerClick)
         home.addEventListener("touchmove", handlerClick)
-        home.addEventListener("mouseup", handleAn)
+        home.addEventListener("mouseup", handlerClick)
     }
 
 
