@@ -33,6 +33,7 @@ async function init_settings() {
     }
 
     document.querySelector(".screen[screen-id='settings'] #settings_faculty").value = localStorage.getItem("faculty");
+    updateOptions(document.querySelector(".screen[screen-id='settings'] #settings_faculty"))
 
     let groups = await window.ScheduleAPI.getGroups(localStorage.getItem("faculty"));
     let html = "<option value='0' selected disabled>Выберите</option>"
