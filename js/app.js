@@ -319,7 +319,7 @@ async function initHome() {
 
     function handleAn(e) {
         console.log(e);
-    
+
         let swipes_set = localStorage.getItem("set_swipes");
         if (swipes_set == null) return;
         if (swipes_set == "false") return;
@@ -416,11 +416,19 @@ async function initHome() {
         }
     }
 
-    home.addEventListener("touchstart", handleAn)
-    home.addEventListener("mousedown", handlerClick)
-    home.addEventListener("touchend", handleAn)
-    home.addEventListener("touchmove", handleAn)
-    home.addEventListener("mouseup", handleAn)
+    if (['android'].includes(window.Telegram.WebApp.platform)) {
+        home.addEventListener("touchstart", handleAn)
+        home.addEventListener("mousedown", handlerClick)
+        home.addEventListener("touchend", handleAn)
+        home.addEventListener("touchmove", handleAn)
+        home.addEventListener("mouseup", handleAn)
+    } else {
+        home.addEventListener("touchstart", handlerClick)
+        home.addEventListener("mousedown", handlerClick)
+        home.addEventListener("touchend", handlerClick)
+        home.addEventListener("touchmove", handlerClick)
+        home.addEventListener("mouseup", handleAn)
+    }
 
 
 
