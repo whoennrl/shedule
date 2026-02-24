@@ -314,18 +314,18 @@ async function initHome() {
     let home = document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home']");
 
     let pointerStart = 0;
-    let anPoinMv = false;
     let anPoinLs = 0;
     let anPoinSt = 0;
 
     function handleAn(e) {
+    
         let swipes_set = localStorage.getItem("set_swipes");
         if (swipes_set == null) return;
         if (swipes_set == "false") return;
 
         if (e.type == "touchstart") {
-            anPoinMv = true;
             anPoinSt = e.touches[0].screenX;
+            console.log(e.touches[0])
         }
         if (e.type == "touchmove") {
             anPoinLs = e.touches[0].screenX;
@@ -353,7 +353,7 @@ async function initHome() {
             selectors.forEach(o => {
                 if (o.classList.contains('selected')) { o.classList.remove("selected") }
             })
-            console.log(dnum)
+            //console.log(dnum)
             document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .daySelector .item[dnum='" + dnum + "']").classList.add("selected");
             let html = parseDay(shedule[0][dnum]);
             document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").innerHTML = html;
@@ -366,7 +366,7 @@ async function initHome() {
 
         }
 
-        console.log(anPoinLs, anPoinSt)
+        //console.log(anPoinLs, anPoinSt)
 
     }
 
@@ -415,7 +415,7 @@ async function initHome() {
         }
     }
 
-    home.addEventListener("touchstart", handlerClick)
+    home.addEventListener("touchstart", handleAn)
     home.addEventListener("mousedown", handlerClick)
     home.addEventListener("touchend", handleAn)
     home.addEventListener("touchmove", handleAn)
