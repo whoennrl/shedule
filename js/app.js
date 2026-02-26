@@ -10,14 +10,13 @@ window.mode = 'local' // ! "production" or "local"
 
 function showScreen(screenName) {
 
-    if (screenName == "homeboard") {
-        window.Telegram.WebApp.BackButton.hide();
-    }
     if (["settings", "admin", 'premium'].includes(screenName)) {
         window.Telegram.WebApp.BackButton.show()
         window.Telegram.WebApp.BackButton.onClick(() => {
             showScreen("homeboard")
         })
+    } else {
+        window.Telegram.WebApp.BackButton.hide();
     }
 
     let bl = document.querySelectorAll(".screen[screen-id]");
