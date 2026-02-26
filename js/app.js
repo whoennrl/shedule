@@ -104,8 +104,6 @@ window.addEventListener("DOMContentLoaded", async () => {
                 showScreen("homeboard");
                 initHome();
 
-            } else if (mode == 'teacher') {
-                // ! РЕАЛИЗОВАТЬ РЕЖИМ ДЛЯ ПРЕПОДАВАТЕЛЯ
             } else {
                 localStorage.setItem("install-step", 'step-1')
                 document.location.reload();
@@ -113,25 +111,17 @@ window.addEventListener("DOMContentLoaded", async () => {
         }
 
         document.querySelector(".screen[screen-id='install-step-2'] .bottom .button").addEventListener("click", async () => {
-            let mode = document.querySelector("#mode-install-step-2").value;
-            if (mode == "Студент") {
-                // ? студент
-                let faculty = document.querySelector("#faculty-install-step-2").value;
-                let group = document.querySelector("#group-install-step-2").value;
 
-                console.log(mode, faculty, group)
+            let faculty = document.querySelector("#faculty-install-step-2").value;
+            let group = document.querySelector("#group-install-step-2").value;
 
-                localStorage.setItem("install-step", 'installed');
-                localStorage.setItem("mode", 'student');
-                localStorage.setItem("faculty", faculty);
-                localStorage.setItem('group', group);
+            localStorage.setItem("install-step", 'installed');
+            localStorage.setItem("mode", 'student');
+            localStorage.setItem("faculty", faculty);
+            localStorage.setItem('group', group);
 
-                document.location.reload();
+            document.location.reload();
 
-            } else {
-                // ! преподаватель
-                // TODO: реализовать функционал 
-            }
         })
 
     }
@@ -170,7 +160,6 @@ async function initHome() {
     function parseDay(data) {
         function generateBox(d) {
             let html = "";
-            console.log(d);
             let types = "";
             let color = ""
             let subject = d.subject;
@@ -273,11 +262,9 @@ async function initHome() {
 
     await checkNowLesson();
 
-    console.log(shedule);
     let dnum = shedule[1]
     let today = shedule[0][dnum];
 
-    console.log(shedule[0][0])
     let html = parseDay(today);
 
     let selectors = document.querySelectorAll(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .daySelector .item");
@@ -318,7 +305,7 @@ async function initHome() {
     let anPoinSt = 0;
 
     function handleAn(e) {
-        console.log(e);
+
 
         let swipes_set = localStorage.getItem("set_swipes");
         if (swipes_set == null) return;
@@ -326,7 +313,7 @@ async function initHome() {
 
         if (e.type == "touchstart") {
             anPoinSt = e.touches[0].screenX;
-            console.log(e.touches[0])
+
         }
         if (e.type == "touchmove") {
             anPoinLs = e.touches[0].screenX;
@@ -335,7 +322,6 @@ async function initHome() {
             anPoinMv = false;
 
             if (anPoinSt + 150 < anPoinLs) {
-                console.log('prev');
                 dnum -= 1;
                 if (dnum < 0) {
                     dnum = 5;
@@ -343,7 +329,6 @@ async function initHome() {
                 document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").scrollTo(0, 0)
             }
             if (anPoinSt - 150 > anPoinLs) {
-                console.log('next');
                 dnum += 1;
                 if (dnum > 5) {
                     dnum = 0
@@ -354,7 +339,6 @@ async function initHome() {
             selectors.forEach(o => {
                 if (o.classList.contains('selected')) { o.classList.remove("selected") }
             })
-            //console.log(dnum)
             document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .daySelector .item[dnum='" + dnum + "']").classList.add("selected");
             let html = parseDay(shedule[0][dnum]);
             document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").innerHTML = html;
@@ -367,24 +351,20 @@ async function initHome() {
 
         }
 
-        //console.log(anPoinLs, anPoinSt)
 
     }
 
     function handlerClick(e) {
-        console.log(e)
         let swipes_set = localStorage.getItem("set_swipes");
         if (swipes_set == null) return;
         if (swipes_set == "false") return;
 
-        console.log(e)
         if (['mousedown', 'touchstart'].includes(e.type)) {
             pointerStart = e.pageX;
 
         }
         if (['mouseup', 'touchend'].includes(e.type)) {
             if (pointerStart + 150 < e.pageX) {
-                console.log('prev');
                 dnum -= 1;
                 if (dnum < 0) {
                     dnum = 5;
@@ -392,7 +372,6 @@ async function initHome() {
                 document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").scrollTo(0, 0)
             }
             if (pointerStart - 150 > e.pageX) {
-                console.log('next');
                 dnum += 1;
                 if (dnum > 5) {
                     dnum = 0
@@ -403,7 +382,6 @@ async function initHome() {
             selectors.forEach(o => {
                 if (o.classList.contains('selected')) { o.classList.remove("selected") }
             })
-            console.log(dnum)
             document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .daySelector .item[dnum='" + dnum + "']").classList.add("selected");
             let html = parseDay(shedule[0][dnum]);
             document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").innerHTML = html;

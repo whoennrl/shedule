@@ -27,6 +27,8 @@
     <link rel="stylesheet" href="./css/customScreen.css?[build_info]">
     <link rel="stylesheet" href="./css/toggle.css?[build_info]">
 
+    <link rel="stylesheet" href="./css/promobox.css?[build_info]">
+
     <meta http-equiv="cache-control" content="max-age=0" />
     <meta http-equiv="cache-control" content="no-cache" />
     <meta http-equiv="expires" content="0" />
@@ -105,15 +107,9 @@
         </div>
 
 
-
         <div class="screen hidden" screen-id="install-step-2">
 
             <div class="top">
-                <div class="title">Выберите режим</div>
-                <select id="mode-install-step-2">
-                    <option value="Студент" selected>Студент</option>
-                    <option value="Преподаватель" disabled>Преподаватель (в разработке)</option>
-                </select>
                 <div class="title">Выберите факультет</div>
                 <select id="faculty-install-step-2">
                     <option value="0" disabled selected>Выберите</option>
@@ -210,9 +206,83 @@
                 <div class="usersBox">
                     <input type="text" placeholder="Поиск" id="users_search">
                     <div class="allUsers">
-                        
+
                     </div>
                 </div>
+            </div>
+
+        </div>
+
+        <div class="screen hidden screen-with-header" screen-id="premium">
+
+            <div class="header">
+                <div class="backButton">
+                    <div class="icon"></div>
+                    <div class="text">Назад</div>
+                </div>
+                <div class="title">Premium</div>
+            </div>
+
+            <div class="content">
+
+                <div class="centerBox">
+                    <div class="premium-logo"></div>
+                    <div class="title">Premium?!</div>
+                    <div class="pretitle">Здесь его пока нет... Но скоро будет</div>
+                    <div class="pretitle">Пока вы можете ознакомится с фишками:</div>
+                </div>
+
+                <div class="premiumItems">
+                    <div class="item">
+                        <div class="box">
+                            <div class="name">Автоматическое напоминание о парах</div>
+                            <div class="description">Надоело заходить постоянно в приложение? А что если о парах вы
+                                будете
+                                узнавать заранее?</div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="box">
+                            <div class="name">Просмотр занятости аудиторий</div>
+                            <div class="description">Просматривайте свободность аудиторий в режиме реального времени.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="box">
+                            <div class="name">Просмотр расписания преподавателя</div>
+                            <div class="description">Удобный доступ к расписанию преподавателя.</div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="box">
+                            <div class="name">Мой Журнал</div>
+                            <div class="description">Создание собственного журнала оценок а также домашнего задания к
+                                парам.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="box">
+                            <div class="name">Предварительное расписание</div>
+                            <div class="description">Доступ к предварительному расписанию на последующие доступные
+                                недели.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="box">
+                            <div class="name">Кастомизация</div>
+                            <div class="description">Меняйте, создавайте темы. Получите доступ к настраиванию функций!</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="centerBox">
+                    <div class="pretitle">Маленький секрет: в течении двух месяцев запуститься бесплатный бета тест.
+                    </div>
+                </div>
+
             </div>
 
         </div>
@@ -253,6 +323,10 @@
                     <img src="./imgs/gear.png" alt="gear">
                     <div class="name">Настройки</div>
                 </div>
+                <div class="button" action="goto-premium">
+                    <img src="./imgs/premium-user.png" alt="premium">
+                    <div class="name">Premium</div>
+                </div>
                 <div class="button hidden" action="goto-admin">
                     <img src="./imgs/admin.png" alt="admin">
                     <div class="name">Администрирование</div>
@@ -262,11 +336,11 @@
                     <div class="name">Написать разработчику</div>
                     <img src="./imgs/ex-link.png" alt="">
                 </div>
-                <div class="button" action="changelog">
+                <!--<div class="button" action="changelog">
                     <img src="./imgs/changelog.png" alt="">
                     <div class="name">Список изменений</div>
                     <img src="./imgs/ex-link.png" alt="">
-                </div>
+                </div>-->
 
             </div>
 
@@ -287,11 +361,30 @@
 
     </div>
 
+
+    <div class="promobox hidden" promoid="p_0001" >
+
+        <img src="./imgs/premium-user.png" alt="premium" class="logo">
+
+        <div class="title">Premium?!</div>
+        <div class="text">Узнайте о фишках премиума первым!</div>
+        <div class="text">Вы можете открыть меню и почитать о фишках Premium, которые в скором времени будут добавлены в приложение.</div>
+        <div class="text">А если вы не нашли интересный функционал из этих фишек, вы можете предложить их с помощью кнопки "Написать разработчику"</div>
+
+        <div class="button">
+            <div class="name">Закрыть</div>
+        </div>
+
+    </div>
+
+
     <script src="./js/init2_1.js?[build_info]"></script>
     <script src="https://telegram.org/js/telegram-web-app.js?59"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
     <script src="./js/app.js?[build_info]"></script>
     <script src="./js/selectBox.js?[build_info]"></script>
+    <script src="./js/premium.js?[build_info]"></script>
+    <script src="./js/promo.js?[build_info]"></script>
 
 
 </body>

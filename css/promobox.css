@@ -1,0 +1,45 @@
+.promobox {
+    display: flex;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+    z-index: 99999999999;
+    position: fixed;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(28, 28, 30, 0.5);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    color: white;
+    font-weight: 500;
+    font-family: 'Nunito', sans-serif;
+    text-align: center;
+}
+.promobox .title {
+    font-size: 20px;
+    font-weight: 700;
+}
+.promobox .logo {
+    width: 60px;
+    height: 60px;
+}
+.promobox .button {
+    background: rgb(0, 122, 255);
+    height: 40px;
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    outline: 1px solid rgba(255, 255, 255, 0.25);
+    outline-offset: -1px;
+    margin-top: 15px;
+    cursor: pointer;
+}
