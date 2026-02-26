@@ -20,16 +20,16 @@
     top: 0px;
     left: 0px;
     right: 0px;
-    padding-top: calc(var(--padding-top) - 20px);
-    height: calc(50px + var(--padding-top) - 20px);
+    padding-top: calc(var(--tg-safe-area-inset-top));
+    height: calc(var(--padding-top) - 20px);
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
     padding-left: var(--padding-left);
     padding-right: var(--padding-right);
     align-items: center;
     border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-    background: rgba(255, 255, 255, .15);
+    background: rgba(28, 28, 30, .5);
     z-index: 9999;
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
@@ -43,6 +43,7 @@
     font-size: 16px;
     color: rgb(0, 122, 255);
     align-items: center;
+    display: none;
     cursor: pointer;
 }
 
@@ -68,7 +69,7 @@
     left: 0px;
     right: 0px;
     bottom: 0px;
-    padding-top: calc(var(--padding-top) + 50px);
+    padding-top: calc(var(--padding-top));
     padding-left: var(--padding-left);
     padding-right: var(--padding-right);
     padding-bottom: var(--padding-bottom);

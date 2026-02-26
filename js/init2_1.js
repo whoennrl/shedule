@@ -6,6 +6,12 @@ async function init2_1() {
         await init_admin();
     }
 
+
+    window.Telegram.WebApp.SettingsButton.show()
+    window.Telegram.WebApp.SettingsButton.onClick(()=>{
+        showScreen("settings")
+    })
+
 }
 
 

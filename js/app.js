@@ -9,6 +9,17 @@
 window.mode = 'local' // ! "production" or "local"
 
 function showScreen(screenName) {
+
+    if (screenName == "homeboard") {
+        window.Telegram.WebApp.BackButton.hide();
+    }
+    if (["settings", "admin", 'premium'].includes(screenName)) {
+        window.Telegram.WebApp.BackButton.show()
+        window.Telegram.WebApp.BackButton.onClick(() => {
+            showScreen("homeboard")
+        })
+    }
+
     let bl = document.querySelectorAll(".screen[screen-id]");
     bl.forEach(e => {
         if (!e.classList.contains('hidden')) {
@@ -101,7 +112,7 @@ window.addEventListener("DOMContentLoaded", async () => {
             let mode = localStorage.getItem("mode");
             if (mode == 'student') {
 
-                showScreen("homeboard");
+                showScreen("settings");
                 initHome();
 
             } else {
@@ -427,7 +438,7 @@ async function initHome() {
     document.querySelector("*[action='goto-help']").addEventListener("click", () => {
         window.Telegram.WebApp.openTelegramLink("https://t.me/m/QDBiIh9BYWFi");
     })
-    
+
     window.is_admin = is_admin;
 
     await init2_1();
