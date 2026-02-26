@@ -112,7 +112,7 @@ window.addEventListener("DOMContentLoaded", async () => {
             let mode = localStorage.getItem("mode");
             if (mode == 'student') {
 
-                showScreen("settings");
+                showScreen("homeboard");
                 initHome();
 
             } else {
