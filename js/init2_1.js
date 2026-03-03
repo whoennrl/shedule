@@ -201,3 +201,20 @@ async function init_admin() {
 
 
 }
+
+
+
+
+
+async function getAllTeacherNotPhoto() {
+
+    let teacher = await window.ScheduleAPI.getAllTeachers();
+    let not_photo = [];
+    teacher.forEach(e=>{
+        if (e.photo_url == null) {
+            not_photo.push(e)
+        }
+    })
+    return not_photo
+
+}
