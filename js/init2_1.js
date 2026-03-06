@@ -8,7 +8,7 @@ async function init2_1() {
 
 
     window.Telegram.WebApp.SettingsButton.show()
-    window.Telegram.WebApp.SettingsButton.onClick(()=>{
+    window.Telegram.WebApp.SettingsButton.onClick(() => {
         showScreen("settings")
     })
 
@@ -38,42 +38,53 @@ async function init_settings() {
         document.querySelector(".screen[screen-id='settings'] .set_swipes input").checked = true
     }
 
-    document.querySelector(".screen[screen-id='settings'] #settings_faculty").value = localStorage.getItem("faculty");
-    updateOptions(document.querySelector(".screen[screen-id='settings'] #settings_faculty"))
+    let mode = localStorage.getItem("mode");
 
-    let groups = await window.ScheduleAPI.getGroups(localStorage.getItem("faculty"));
-    let html = "<option value='0' selected disabled>Выберите</option>"
-    groups.forEach(o => {
-        html += "<option value='{value}'>{value}</option>".replaceAll("{value}", o.name)
+    let dmode = document.querySelectorAll(".screen[screen-id='settings'] *[dmode]");
+    dmode.forEach(e=>{
+        if (e.getAttribute("dmode") != mode) {
+            e.classList.add("hidden")
+        }
     })
 
-    document.querySelector("#settings_group").innerHTML = html;
+    if (mode == "student") {
+        document.querySelector(".screen[screen-id='settings'] #settings_faculty").value = localStorage.getItem("faculty");
+        updateOptions(document.querySelector(".screen[screen-id='settings'] #settings_faculty"))
 
-    document.querySelector("#settings_group").value = localStorage.getItem("group")
-
-    document.querySelector("#settings_faculty").addEventListener("selectChanged", async (e) => {
-        let groups = await window.ScheduleAPI.getGroups(e.target.value);
+        let groups = await window.ScheduleAPI.getGroups(localStorage.getItem("faculty"));
         let html = "<option value='0' selected disabled>Выберите</option>"
         groups.forEach(o => {
             html += "<option value='{value}'>{value}</option>".replaceAll("{value}", o.name)
         })
 
         document.querySelector("#settings_group").innerHTML = html;
-    })
 
-    document.querySelector(".screen[screen-id='settings'] .header .backButton").addEventListener("click", () => {
-        if (document.querySelector(".screen[screen-id='settings'] #settings_faculty").value != localStorage.getItem("faculty") || document.querySelector(".screen[screen-id='settings'] #settings_group").value != localStorage.getItem("group")) {
-            if (document.querySelector("#settings_group").value == '0') {
-                alert("Надо выбрать группу!")
+        document.querySelector("#settings_group").value = localStorage.getItem("group")
+
+        document.querySelector("#settings_faculty").addEventListener("selectChanged", async (e) => {
+            let groups = await window.ScheduleAPI.getGroups(e.target.value);
+            let html = "<option value='0' selected disabled>Выберите</option>"
+            groups.forEach(o => {
+                html += "<option value='{value}'>{value}</option>".replaceAll("{value}", o.name)
+            })
+
+            document.querySelector("#settings_group").innerHTML = html;
+        })
+
+        document.querySelector(".screen[screen-id='settings'] .header .backButton").addEventListener("click", () => {
+            if (document.querySelector(".screen[screen-id='settings'] #settings_faculty").value != localStorage.getItem("faculty") || document.querySelector(".screen[screen-id='settings'] #settings_group").value != localStorage.getItem("group")) {
+                if (document.querySelector("#settings_group").value == '0') {
+                    alert("Надо выбрать группу!")
+                } else {
+                    localStorage.setItem("faculty", document.querySelector(".screen[screen-id='settings'] #settings_faculty").value);
+                    localStorage.setItem("group", document.querySelector(".screen[screen-id='settings'] #settings_group").value);
+                    document.location.reload();
+                }
             } else {
-                localStorage.setItem("faculty", document.querySelector(".screen[screen-id='settings'] #settings_faculty").value);
-                localStorage.setItem("group", document.querySelector(".screen[screen-id='settings'] #settings_group").value);
-                document.location.reload();
+                showScreen("homeboard")
             }
-        } else {
-            showScreen("homeboard")
-        }
-    })
+        })
+    }
 
     document.querySelector("*[action='clear-data']").addEventListener("click", () => {
         localStorage.clear();
@@ -175,13 +186,13 @@ async function init_admin() {
         }
     }, 100)
 
-    
+
 
     document.querySelector(".screen[screen-id='admin'] .content .allUsers").innerHTML = html;
 
     let bl = document.querySelectorAll(".screen[screen-id='admin'] .allUsers .user .button-mini");
     bl.forEach(e => {
-        e.addEventListener("click", async ()=>{
+        e.addEventListener("click", async () => {
             let id = e.getAttribute("uid");
             let banned = await window.ScheduleAPI.getBanStatus(id);
             if (banned.banned) {
@@ -210,7 +221,7 @@ async function getAllTeacherNotPhoto() {
 
     let teacher = await window.ScheduleAPI.getTeachers();
     let not_photo = [];
-    teacher.forEach(e=>{
+    teacher.forEach(e => {
         if (e.photo_url == null) {
             not_photo.push(e)
         }

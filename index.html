@@ -110,8 +110,13 @@
         <div class="screen hidden" screen-id="install-step-2">
 
             <div class="top">
-                <div class="title">Выберите факультет</div>
-                <select id="faculty-install-step-2">
+                <div class="title">Выберите режим</div>
+                <select id="mode-install-step-2">
+                    <option value="student">Студент</option>
+                    <option value="teacher">Преподаватель</option>
+                </select>
+                <div class="title" dmode="student">Выберите факультет</div>
+                <select id="faculty-install-step-2" dmode="student">
                     <option value="0" disabled selected>Выберите</option>
                     <option value="Математики и информационных технологий">ФМиИТ</option>
                     <option value="Педагогический">ПФ</option>
@@ -122,8 +127,12 @@
                     <option value="Химико-биологических и географических наук">ФХБиГН</option>
                     <option value="Художественно-графический">ХГФ</option>
                 </select>
-                <div class="title">Выберите группу</div>
-                <select id="group-install-step-2">
+                <div class="title" dmode="student">Выберите группу</div>
+                <select id="group-install-step-2" dmode="student">
+                    <option value="0" disabled selected>Выберите</option>
+                </select>
+                <div class="title hidden" dmode="teacher">Выберите преподавателя</div>
+                <select class="hidden" id="teacher-install-step-2" dmode="teacher">
                     <option value="0" disabled selected>Выберите</option>
                 </select>
             </div>
@@ -159,9 +168,9 @@
                     </div>
                 </div>
 
-                <div class="title">Изменить данные при регистрации</div>
+                <div class="title" dmode="student">Изменить данные при регистрации</div>
 
-                <select id="settings_faculty">
+                <select id="settings_faculty" dmode="student">
                     <option value="Математики и информационных технологий">ФМиИТ</option>
                     <option value="Педагогический">ПФ</option>
                     <option value="Юридический">ЮФ</option>
@@ -171,9 +180,10 @@
                     <option value="Химико-биологических и географических наук">ФХБиГН</option>
                     <option value="Художественно-графический">ХГФ</option>
                 </select>
-                <select id="settings_group">
+                <select id="settings_group" dmode="student">
                     <option value="0" selected disabled>Выберите</option>
                 </select>
+                <div class="text" dmode="teacher">Выбран режим преподавателя. Что бы изменить данные требуется сбросить настройки приложения.</div>
 
                 <div class="text">Возникли проблемы?</div>
                 <div class="button" action="clear-data">

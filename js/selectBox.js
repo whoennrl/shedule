@@ -86,6 +86,23 @@ window.addEventListener("DOMContentLoaded", () => {
             updateOptions(e.target)
         })
 
+        let attr = e.getAttributeNames();
+        attr.forEach(o=>{
+            if (!["id", "name", "style", "class"].includes(o)) {
+                selectBox.setAttribute(o, select.getAttribute(o));
+                selectInfo.setAttribute(o, select.getAttribute(o))
+            }
+            if (o == "class") {
+                let clasList = select.getAttribute("class").split(" ");
+                clasList.forEach(z=>{
+                    if (z == "hidden") {
+                        selectBox.classList.add("hidden");
+                        selectInfo.classList.add("hidden");
+                    }
+                })
+            }
+        })
+
         select.insertAdjacentElement('afterend', selectBox)
         select.insertAdjacentElement("afterend", selectInfo)
         updateOptions(select)

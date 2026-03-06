@@ -96,12 +96,51 @@ window.addEventListener("DOMContentLoaded", async () => {
 
         })
 
+        let allTeachers = await window.ScheduleAPI.getTeachers();
+        console.log(allTeachers)
+        let allTCHtml = "<option value='0' selected disabled>Выберите</option>"
+        allTeachers.forEach(e => {
+            allTCHtml += "<option value='{value}'>{value}</option>".replaceAll("{value}", e.teacher)
+        })
+        document.querySelector("#teacher-install-step-2").innerHTML = allTCHtml
+
+        document.querySelector("#mode-install-step-2").addEventListener("selectChanged", async (e) => {
+
+            // проверяем режим
+            let mode = e.target.value;
+
+            console.log(mode);
+
+            let allDmod = document.querySelectorAll(".screen[screen-id='install-step-2'] *[dmode]");
+
+            if (mode == "student") {
+                allDmod.forEach(e => {
+                    if (e.getAttribute("dmode") != "student") {
+                        e.classList.add("hidden")
+                    } else {
+                        e.classList.remove("hidden")
+                    }
+                })
+            } else {
+                allDmod.forEach(e => {
+                    if (e.getAttribute("dmode") != "teacher") {
+                        e.classList.add("hidden")
+                    } else {
+                        e.classList.remove("hidden")
+                    }
+                })
+            }
+
+        })
+
 
         // получение статуса установки
         let install_status = localStorage.getItem("install-step");
 
         if (install_status == null || install_status == "step-1") {
-            showScreen("install-step-1");
+            //showScreen("install-step-1");
+            showScreen("install-step-2")
+
 
             document.querySelector(".screen[screen-id='install-step-1'] .bottom .button").addEventListener("click", () => {
                 showScreen("install-step-2")
@@ -110,6 +149,11 @@ window.addEventListener("DOMContentLoaded", async () => {
         } else {
             let mode = localStorage.getItem("mode");
             if (mode == 'student') {
+
+                showScreen("homeboard");
+                initHome();
+
+            } else if (mode == "teacher") {
 
                 showScreen("homeboard");
                 initHome();
@@ -124,13 +168,28 @@ window.addEventListener("DOMContentLoaded", async () => {
 
             let faculty = document.querySelector("#faculty-install-step-2").value;
             let group = document.querySelector("#group-install-step-2").value;
+            let mode = document.querySelector("#mode-install-step-2").value;
+            let teacher = document.querySelector("#teacher-install-step-2").value;
 
-            localStorage.setItem("install-step", 'installed');
-            localStorage.setItem("mode", 'student');
-            localStorage.setItem("faculty", faculty);
-            localStorage.setItem('group', group);
+            
 
-            document.location.reload();
+            if (mode == "student") {
+                if (faculty == "0") return;
+                if (group == "0") return;
+                localStorage.setItem("install-step", 'installed');
+                localStorage.setItem("mode", 'student');
+                localStorage.setItem("faculty", faculty);
+                localStorage.setItem('group', group);
+
+                document.location.reload();
+            } else {
+                if (teacher == "0") return;
+                localStorage.setItem("mode", 'teacher');
+                localStorage.setItem("teacher", teacher);
+                localStorage.setItem("install-step", 'installed');
+
+                document.location.reload();
+            }
 
         })
 
@@ -238,14 +297,21 @@ async function initHome() {
     }
 
     async function checkNowLesson() {
-        let now = (await window.ScheduleAPI.getCurrentLesson(localStorage.getItem("faculty"), localStorage.getItem('group')));
+        //let now = (await window.ScheduleAPI.getCurrentLesson(localStorage.getItem("faculty"), localStorage.getItem('group')));
 
         setTimeout(checkNowLesson, 10000);
     }
 
 
     async function getWeek() {
-        let shedule = (await window.ScheduleAPI.getWeek(localStorage.getItem("faculty"), localStorage.getItem('group')));
+        let shedule
+        if (localStorage.getItem("mode") == "student") {
+            shedule = (await window.ScheduleAPI.getWeek(localStorage.getItem("faculty"), localStorage.getItem('group')));
+        } else {
+            shedule = {};
+            shedule.schedule = (await window.ScheduleAPI.getTeacherSchedule(localStorage.getItem("teacher")))
+            console.log(shedule)
+        }
         let days1 = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота']
         let days = [[], [], [], [], [], []];
         let today = [];
@@ -255,7 +321,7 @@ async function initHome() {
         last += lastD.getDate() + " ";
         last += month[lastD.getMonth()] + " ";
         last += lastD.getFullYear() + " г."
-        let dnum = 0
+        let dnum = -1
         shedule.schedule.forEach(e => {
             days[days1.indexOf(e.day)].push(e);
             if (e.date == last) {
@@ -263,6 +329,17 @@ async function initHome() {
                 dnum = days1.indexOf(e.day)
             }
         })
+
+        if (dnum == -1) {
+            let cou = -1;
+            days.forEach(e=>{
+                cou += 1;
+                if (e.length != 0 && dnum == -1) {
+                    dnum = cou;
+                }
+            })
+        }
+
         return [days, dnum];
     }
 
@@ -280,6 +357,8 @@ async function initHome() {
     let selectors = document.querySelectorAll(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .daySelector .item");
 
     document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").innerHTML = html;
+
+    console.log(shedule)
 
     document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date;
 
