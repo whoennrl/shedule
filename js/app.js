@@ -138,9 +138,7 @@ window.addEventListener("DOMContentLoaded", async () => {
         let install_status = localStorage.getItem("install-step");
 
         if (install_status == null || install_status == "step-1") {
-            //showScreen("install-step-1");
-            showScreen("install-step-2")
-
+            showScreen("install-step-1");
 
             document.querySelector(".screen[screen-id='install-step-1'] .bottom .button").addEventListener("click", () => {
                 showScreen("install-step-2")
