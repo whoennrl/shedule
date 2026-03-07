@@ -10,19 +10,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const selects = document.querySelectorAll('select');
 
     selects.forEach(select => {
-        
+
         const originalDescriptor = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value');
 
-        
+
         Object.defineProperty(select, 'value', {
             get: function () {
                 return originalDescriptor.get.call(this);
             },
             set: function (newValue) {
-                
+
                 originalDescriptor.set.call(this, newValue);
 
-                
+
                 const event = new CustomEvent('selectChanged', {
                     detail: {
                         select: this,
@@ -87,14 +87,14 @@ window.addEventListener("DOMContentLoaded", () => {
         })
 
         let attr = e.getAttributeNames();
-        attr.forEach(o=>{
+        attr.forEach(o => {
             if (!["id", "name", "style", "class"].includes(o)) {
                 selectBox.setAttribute(o, select.getAttribute(o));
                 selectInfo.setAttribute(o, select.getAttribute(o))
             }
             if (o == "class") {
                 let clasList = select.getAttribute("class").split(" ");
-                clasList.forEach(z=>{
+                clasList.forEach(z => {
                     if (z == "hidden") {
                         selectBox.classList.add("hidden");
                         selectInfo.classList.add("hidden");
@@ -112,12 +112,26 @@ window.addEventListener("DOMContentLoaded", () => {
 })
 
 function updateOptions(el) {
-    
+
     let options = el.querySelectorAll("option");
     let selectBox = document.querySelector(".select-box[select-id='" + el.id + "']");
     let selectInfo = document.querySelector(".select-info[select-id='" + el.id + "']");
     selectInfo.innerHTML = "<span>" + el.querySelector("option[value='" + el.value + "']").textContent + "</span>"
     selectBox.innerHTML = "";
+    if (selectBox.getAttribute("search")) {
+        selectBox.innerHTML += "<input name='search' placeholder='Поиск' type='text'> "
+        selectBox.querySelector("input").addEventListener("change", (e) => {
+            let bls = selectBox.querySelectorAll(".select-option");
+            bls.forEach(o=>{
+                if (!o.innerHTML.toLowerCase().includes(e.target.value.toLowerCase() )) {
+                    o.classList.add("hidden")
+                } else {
+                    o.classList.remove("hidden")
+                }
+            })
+        })
+    }
+
     options.forEach(o => {
         let option = document.createElement("div");
         option.classList.add("select-option");
@@ -134,7 +148,7 @@ function updateOptions(el) {
         option.addEventListener("click", (e) => {
             selectBox.classList.remove("opened")
             if (!e.target.classList.contains('disabled')) {
-                
+
                 el.value = e.target.getAttribute("value");
                 let alls = e.target.parentElement.querySelectorAll(".select-option");
                 alls.forEach(i => {
