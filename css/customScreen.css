@@ -117,7 +117,8 @@ body[platform='desktop'] .screen-with-header .content {
     background: rgb(28, 28, 30);
     color: white;
     font-family: 'Nunito', sans-serif;
-    padding: 20px;
+    padding: 10px;
+    padding-left: 20px;
     border-radius: 30px;
     display: flex;
     flex-direction: row;

@@ -31,11 +31,17 @@ async function init_settings() {
         if (localStorage.getItem("set_swipes") == null) {
             localStorage.setItem("set_swipes", true);
         }
+        if (localStorage.getItem("set_current_lesson") == null) {
+            localStorage.setItem("set_current_lesson", true);
+        }
 
     }
 
     if (localStorage.getItem("set_swipes") == "true") {
         document.querySelector(".screen[screen-id='settings'] .set_swipes input").checked = true
+    }
+    if (localStorage.getItem("set_current_lesson") == "true") {
+        document.querySelector(".screen[screen-id='settings'] .set_current_lesson input").checked = true
     }
 
     let mode = localStorage.getItem("mode");
@@ -93,6 +99,9 @@ async function init_settings() {
 
 
     document.querySelector(".screen[screen-id='settings'] .set_swipes input").addEventListener("change", changeSwitch)
+    document.querySelector(".screen[screen-id='settings'] .set_current_lesson input").addEventListener("change", changeSwitch)
+
+    
 
 }
 

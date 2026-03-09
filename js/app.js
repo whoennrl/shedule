@@ -260,7 +260,7 @@ async function initHome() {
             html += "<div class='middle'>"
             html += "<div class='lesson'>"
             html += "<div class='name'>" + subject + "</div>"
-            
+
             html += "<div class='classroom'>" + d.classroom + "</div>"
             if (d.is_combined && localStorage.getItem("mode") == "student") {
                 html += "<div class='combined'>"
@@ -320,11 +320,39 @@ async function initHome() {
         setTimeout(checkNowLesson, 10000);
     }
 
-    function updateLesson () {
+    function updateLesson() {
+
+        let current_lesson_set = localStorage.getItem("set_current_lesson");
+
+        function format_time(time) {
+            let hours = Math.floor(time / 60 / 60)
+            let minutes = Math.floor((time - hours * 60 * 60) / 60)
+            let seconds = Math.floor(time - (minutes * 60) - (hours * 60 * 60))
+            let st = ""
+            if (hours > 0) {
+                if (hours.toString().length == 1) {
+                    st += "0"
+                }
+                st += hours + ":"
+            }
+            if (minutes.toString().length == 1) {
+                st += "0"
+            }
+            st += minutes + ":"
+            if (seconds.toString().length == 1) {
+                st += "0"
+            }
+            st += seconds
+
+
+
+            return st;
+        }
+
 
         if (window.now_lesson && window.now_lesson.has_current_lesson) {
             let bls = document.querySelectorAll(".shedule-box");
-            bls.forEach(e=>{
+            bls.forEach(e => {
                 e.classList.remove("current")
             })
             try {
@@ -332,13 +360,18 @@ async function initHome() {
                 let d = new Date;
                 let current_timestamp = Math.floor(d.getTime() / 1000)
 
-                document.querySelector(".shedule-box[hash='" + window.now_lesson.current_lesson.hash +"']").classList.add("current")
-                document.querySelector(".shedule-box[hash='" + window.now_lesson.current_lesson.hash +"'] .end_row").innerHTML = "Закончится через " + ((u)=>{if (u.toString().length == 1) {return "0" + u} else {return u} })(Math.floor((window.now_lesson.current_lesson_end_timestamp - current_timestamp) / 60)) + ":" + ((u)=>{if (u.toString().length == 1) {return "0" + u} else {return u} })(Math.floor((window.now_lesson.current_lesson_end_timestamp - current_timestamp - Math.floor((window.now_lesson.current_lesson_end_timestamp - current_timestamp) / 60) * 60)))
+                if (current_lesson_set == null || current_lesson_set == "false") {
 
-            } catch {}
+                } else {
+                    document.querySelector(".shedule-box[hash='" + window.now_lesson.current_lesson.hash + "']").classList.add("current")
+                    document.querySelector(".shedule-box[hash='" + window.now_lesson.current_lesson.hash + "'] .end_row").innerHTML = "Закончится через " + format_time(window.now_lesson.current_lesson_end_timestamp - current_timestamp)
+                }
+
+
+            } catch { }
         } else {
             let bls = document.querySelectorAll(".shedule-box");
-            bls.forEach(e=>{
+            bls.forEach(e => {
                 e.classList.remove("current")
             })
         }
@@ -347,23 +380,27 @@ async function initHome() {
         if (window.now_lesson && window.now_lesson.next_lesson) {
             console.log(now_lesson.next_lesson)
             let bls = document.querySelectorAll(".shedule-box");
-            bls.forEach(e=>{
+            bls.forEach(e => {
                 e.classList.remove("next")
             })
 
             try {
 
-                document.querySelector(".shedule-box[hash='" + window.now_lesson.next_lesson.hash +"']").classList.add("next")
-                
-            } catch {}
+                if (current_lesson_set == null || current_lesson_set == "false") {
+
+                } else {
+                    document.querySelector(".shedule-box[hash='" + window.now_lesson.next_lesson.hash + "']").classList.add("next")
+                }
+
+
+
+            } catch { }
         } else {
             let bls = document.querySelectorAll(".shedule-box");
-            bls.forEach(e=>{
+            bls.forEach(e => {
                 e.classList.remove("next")
             })
         }
-
-        setTimeout(updateLesson, 500)
 
     }
 
@@ -410,6 +447,9 @@ async function initHome() {
 
     let is_admin = (await window.ScheduleAPI.checkAdmin()).is_admin;
 
+    await checkNowLesson();
+    setInterval(updateLesson, 100)
+
     let shedule = await getWeek();
 
     let dnum = shedule[1]
@@ -420,6 +460,7 @@ async function initHome() {
     let selectors = document.querySelectorAll(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .daySelector .item");
 
     document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").innerHTML = html;
+    updateLesson()
 
     console.log(shedule)
 
@@ -444,6 +485,7 @@ async function initHome() {
             dnum = Number(e.getAttribute('dnum'))
             let html = parseDay(shedule[0][dnum]);
             document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").innerHTML = html;
+            updateLesson()
             document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").scrollTo(0, 0)
             try {
                 if (localStorage.getItem("mode") == "student") {
@@ -502,6 +544,7 @@ async function initHome() {
             document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .daySelector .item[dnum='" + dnum + "']").classList.add("selected");
             let html = parseDay(shedule[0][dnum]);
             document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").innerHTML = html;
+            updateLesson();
 
             try {
                 if (localStorage.getItem("mode") == "student") {
@@ -549,7 +592,7 @@ async function initHome() {
             document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .daySelector .item[dnum='" + dnum + "']").classList.add("selected");
             let html = parseDay(shedule[0][dnum]);
             document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").innerHTML = html;
-
+            updateLesson()
             try {
                 if (localStorage.getItem("mode") == "student") {
                     document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date;
@@ -582,6 +625,9 @@ async function initHome() {
     document.querySelector("*[action='goto-settings']").addEventListener("click", () => {
         showScreen("settings")
     })
+    document.querySelector("*[action='goto-tg']").addEventListener("click", () => {
+        window.Telegram.WebApp.openTelegramLink("https://t.me/vsu_shedule");
+    })
 
     if (is_admin) {
         document.querySelector("*[action='goto-admin']").addEventListener("click", () => {
@@ -600,6 +646,6 @@ async function initHome() {
 
     await init2_1();
 
-    await checkNowLesson();
-    updateLesson();
+
+
 }
