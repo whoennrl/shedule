@@ -333,7 +333,7 @@ async function initHome() {
                 let current_timestamp = Math.floor(d.getTime() / 1000)
 
                 document.querySelector(".shedule-box[hash='" + window.now_lesson.current_lesson.hash +"']").classList.add("current")
-                document.querySelector(".shedule-box[hash='" + window.now_lesson.current_lesson.hash +"'] .end_row").innerHTML = "Закончится через " + (()=>{let b =  Math.floor((window.now_lesson.current_lesson_end_timestamp - current_timestamp) / 60); if (b.toString().length == 1) {return "0" + b} else {return}})() + ":" + ((u)=>{if (u.toString().length == 1) {return "0" + u} else {return u} })(Math.floor((window.now_lesson.current_lesson_end_timestamp - current_timestamp - Math.floor((window.now_lesson.current_lesson_end_timestamp - current_timestamp) / 60) * 60)))
+                document.querySelector(".shedule-box[hash='" + window.now_lesson.current_lesson.hash +"'] .end_row").innerHTML = "Закончится через " + ((u)=>{if (u.toString().length == 1) {return "0" + u} else {return u} })(Math.floor((window.now_lesson.current_lesson_end_timestamp - current_timestamp) / 60)) + ":" + ((u)=>{if (u.toString().length == 1) {return "0" + u} else {return u} })(Math.floor((window.now_lesson.current_lesson_end_timestamp - current_timestamp - Math.floor((window.now_lesson.current_lesson_end_timestamp - current_timestamp) / 60) * 60)))
 
             } catch {}
         } else {
