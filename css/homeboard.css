@@ -158,6 +158,28 @@
     justify-content: stretch;
     padding: 20px;
 }
+
+.screen[screen-id='homeboard'] .screen-part[part-id='home'] .shedule-box .end_row {
+    display: none;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+}
+.screen[screen-id='homeboard'] .screen-part[part-id='home'] .shedule-box.current .end_row {
+    display: block;
+}
+.screen[screen-id='homeboard'] .screen-part[part-id='home'] .shedule-box.current {
+    outline: 2px solid rgba(0, 122, 255, .25);
+    background: rgba(0, 122, 255, .25);
+    outline-offset: -2px;
+}
+
+.screen[screen-id='homeboard'] .screen-part[part-id='home'] .shedule-box.next {
+    outline: 2px solid rgba(255, 255, 255, .25);
+    background: rgba(255, 255, 255, .25);
+    outline-offset: -2px;
+}
+
 .screen[screen-id='homeboard'] .screen-part[part-id='home'] .shedule-box .line {
     height: 100%;
     width: 5px;

@@ -37,9 +37,14 @@ window.addEventListener("DOMContentLoaded", async () => {
 
     if (['ios', 'android'].includes(window.Telegram.WebApp.platform)) {
         window.Telegram.WebApp.requestFullscreen()
+        document.body.setAttribute("platform", "mobile")
+    } else {
+        document.body.setAttribute("platform", "desktop")
     }
 
-    window.Telegram.WebApp.disableVerticalSwipes()
+    window.Telegram.WebApp.disableVerticalSwipes();
+
+
 
     if (window.mode == "production") {
         window.ScheduleAPI.init('https://aurum.whoennrl.ru/api/shedule-v2/');
@@ -49,10 +54,12 @@ window.addEventListener("DOMContentLoaded", async () => {
         alert("Режим работы не определен, запуск приостановлен")
         return
     }
+
+    await window.ScheduleAPI.analytics(window.Telegram.WebApp.platform, window.Telegram.WebApp.version)
+
     let banned_status;
     try {
         banned_status = await window.ScheduleAPI.getBanStatus(window.Telegram.WebApp.initDataUnsafe.user.id);
-        await window.ScheduleAPI.analytics(window.Telegram.WebApp.platform, window.Telegram.WebApp.version)
     } catch {
         console.log("NOT SUPPORTED!")
         showScreen("unsupported");
@@ -253,6 +260,7 @@ async function initHome() {
             html += "<div class='middle'>"
             html += "<div class='lesson'>"
             html += "<div class='name'>" + subject + "</div>"
+            
             html += "<div class='classroom'>" + d.classroom + "</div>"
             if (d.is_combined && localStorage.getItem("mode") == "student") {
                 html += "<div class='combined'>"
@@ -282,6 +290,7 @@ async function initHome() {
                 html += "<div class='teacher'>" + d.teacher + "</div>"
                 html += "</div>"
             }
+            html += "<div class='end_row'></div>"
 
             if (d.teacher_photo == null) {
                 html = html.replace("[teacher-pick]", "url(./imgs/user.png)")
@@ -303,9 +312,59 @@ async function initHome() {
     }
 
     async function checkNowLesson() {
-        //let now = (await window.ScheduleAPI.getCurrentLesson(localStorage.getItem("faculty"), localStorage.getItem('group')));
+        if (localStorage.getItem("mode") == "student") {
+            let now = (await window.ScheduleAPI.getCurrentLesson(localStorage.getItem("faculty"), localStorage.getItem('group')));
+            window.now_lesson = now;
+        }
 
         setTimeout(checkNowLesson, 10000);
+    }
+
+    function updateLesson () {
+
+        if (window.now_lesson && window.now_lesson.has_current_lesson) {
+            let bls = document.querySelectorAll(".shedule-box");
+            bls.forEach(e=>{
+                e.classList.remove("current")
+            })
+            try {
+
+                let d = new Date;
+                let current_timestamp = Math.floor(d.getTime() / 1000)
+
+                document.querySelector(".shedule-box[hash='" + window.now_lesson.current_lesson.hash +"']").classList.add("current")
+                document.querySelector(".shedule-box[hash='" + window.now_lesson.current_lesson.hash +"'] .end_row").innerHTML = "Закончится через " + (()=>{let b =  Math.floor((window.now_lesson.current_lesson_end_timestamp - current_timestamp) / 60); if (b.toString().length == 1) {return "0" + b} else {return}})() + ":" + ((u)=>{if (u.toString().length == 1) {return "0" + u} else {return u} })(Math.floor((window.now_lesson.current_lesson_end_timestamp - current_timestamp - Math.floor((window.now_lesson.current_lesson_end_timestamp - current_timestamp) / 60) * 60)))
+
+            } catch {}
+        } else {
+            let bls = document.querySelectorAll(".shedule-box");
+            bls.forEach(e=>{
+                e.classList.remove("current")
+            })
+        }
+
+
+        if (window.now_lesson && window.now_lesson.next_lesson) {
+            console.log(now_lesson.next_lesson)
+            let bls = document.querySelectorAll(".shedule-box");
+            bls.forEach(e=>{
+                e.classList.remove("next")
+            })
+
+            try {
+
+                document.querySelector(".shedule-box[hash='" + window.now_lesson.next_lesson.hash +"']").classList.add("next")
+                
+            } catch {}
+        } else {
+            let bls = document.querySelectorAll(".shedule-box");
+            bls.forEach(e=>{
+                e.classList.remove("next")
+            })
+        }
+
+        setTimeout(updateLesson, 500)
+
     }
 
 
@@ -352,8 +411,6 @@ async function initHome() {
     let is_admin = (await window.ScheduleAPI.checkAdmin()).is_admin;
 
     let shedule = await getWeek();
-
-    await checkNowLesson();
 
     let dnum = shedule[1]
     let today = shedule[0][dnum];
@@ -542,4 +599,7 @@ async function initHome() {
     window.is_admin = is_admin;
 
     await init2_1();
+
+    await checkNowLesson();
+    updateLesson();
 }
