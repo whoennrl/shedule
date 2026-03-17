@@ -269,6 +269,117 @@ async function conLoaded() {
 
 async function initHome() {
 
+    let home = document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home']");
+
+    let pointerStart = 0;
+    let anPoinLs = 0;
+    let anPoinSt = 0;
+
+    function handleAn(e) {
+
+
+        let swipes_set = localStorage.getItem("set_swipes");
+        if (swipes_set == null) return;
+        if (swipes_set == "false") return;
+
+        if (e.type == "touchstart") {
+            anPoinSt = e.touches[0].screenX;
+
+        }
+        if (e.type == "touchmove") {
+            anPoinLs = e.touches[0].screenX;
+        }
+        if (e.type == "touchend") {
+            anPoinMv = false;
+
+            if (anPoinSt + 150 < anPoinLs) {
+                dnum -= 1;
+                if (dnum < 0) {
+                    dnum = 5;
+                }
+                document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").scrollTo(0, 0)
+            }
+            if (anPoinSt - 150 > anPoinLs) {
+                dnum += 1;
+                if (dnum > 5) {
+                    dnum = 0
+                }
+                document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").scrollTo(0, 0)
+            }
+
+            selectors.forEach(o => {
+                if (o.classList.contains('selected')) { o.classList.remove("selected") }
+            })
+            document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .daySelector .item[dnum='" + dnum + "']").classList.add("selected");
+            let html = parseDay(shedule[0][dnum]);
+            document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").innerHTML = html;
+            updateLesson();
+
+            try {
+                if (localStorage.getItem("mode") == "student") {
+                    document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date;
+                } else {
+                    document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date + " | " + localStorage.getItem("teacher");
+                }
+            } catch {
+                document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = "...";
+            }
+
+        }
+
+
+    }
+
+
+
+
+
+
+
+    function handlerClick(e) {
+        let swipes_set = localStorage.getItem("set_swipes");
+        if (swipes_set == null) return;
+        if (swipes_set == "false") return;
+
+        if (['mousedown', 'touchstart'].includes(e.type)) {
+            pointerStart = e.pageX;
+
+        }
+        if (['mouseup', 'touchend'].includes(e.type)) {
+            if (pointerStart + 150 < e.pageX) {
+                dnum -= 1;
+                if (dnum < 0) {
+                    dnum = 5;
+                }
+                document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").scrollTo(0, 0)
+            }
+            if (pointerStart - 150 > e.pageX) {
+                dnum += 1;
+                if (dnum > 5) {
+                    dnum = 0
+                }
+                document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").scrollTo(0, 0)
+            }
+
+            selectors.forEach(o => {
+                if (o.classList.contains('selected')) { o.classList.remove("selected") }
+            })
+            document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .daySelector .item[dnum='" + dnum + "']").classList.add("selected");
+            let html = parseDay(shedule[0][dnum]);
+            document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").innerHTML = html;
+            updateLesson()
+            try {
+                if (localStorage.getItem("mode") == "student") {
+                    document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date;
+                } else {
+                    document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date + " | " + localStorage.getItem("teacher");
+                }
+            } catch {
+                document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = "...";
+            }
+        }
+    }
+
 
 
     function parseDay(data) {
@@ -296,7 +407,7 @@ async function initHome() {
             html += "<div class='shedule-box' id='shedule-[id]' hash='[hash]'>".replace("[hash]", d.hash).replace("[id]", d.id);
             html += "<div class='line' style='background: [color];'></div>".replace("[color]", color)
             html += "<div class='block'>"
-            if (types != "") { html += "<div class='top' style='color: [color];'>[type]</div>".replace("[color]", color).replace("[type]", types) }
+            if (types != "") { }
             html += "<div class='middle'>"
             html += "<div class='lesson'>"
             html += "<div class='name'>" + subject + "</div>"
@@ -454,6 +565,7 @@ async function initHome() {
             shedule.schedule = (await window.ScheduleAPI.getTeacherSchedule(localStorage.getItem("teacher")))
             console.log(shedule)
         }
+        console.log(shedule)
         let days1 = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота']
         let days = [[], [], [], [], [], []];
         let today = [];
@@ -495,173 +607,6 @@ async function initHome() {
     let dnum = shedule[1]
     let today = shedule[0][dnum];
 
-    let html = parseDay(today);
-
-    let selectors = document.querySelectorAll(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .daySelector .item");
-
-    document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").innerHTML = html;
-    updateLesson()
-
-    console.log(shedule)
-
-    if (localStorage.getItem("mode") == "student") {
-        document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date;
-    } else {
-        document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date + " | " + localStorage.getItem("teacher");
-    }
-
-    document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] *[dnum='{dnum}']".replace("{dnum}", dnum)).classList.add("selected");
-    document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").scrollTo(0, 0)
-
-
-
-    selectors.forEach(e => {
-        e.addEventListener("click", () => {
-
-            selectors.forEach(o => {
-                if (o.classList.contains('selected')) { o.classList.remove("selected") }
-            })
-            e.classList.add("selected");
-            dnum = Number(e.getAttribute('dnum'))
-            let html = parseDay(shedule[0][dnum]);
-            document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").innerHTML = html;
-            updateLesson()
-            document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").scrollTo(0, 0)
-            try {
-                if (localStorage.getItem("mode") == "student") {
-                    document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date;
-                } else {
-                    document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date + " | " + localStorage.getItem("teacher");
-                }
-            } catch {
-                document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = "...";
-            }
-        })
-    })
-
-    // делаем перелистывание 
-    let home = document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home']");
-
-    let pointerStart = 0;
-    let anPoinLs = 0;
-    let anPoinSt = 0;
-
-    function handleAn(e) {
-
-
-        let swipes_set = localStorage.getItem("set_swipes");
-        if (swipes_set == null) return;
-        if (swipes_set == "false") return;
-
-        if (e.type == "touchstart") {
-            anPoinSt = e.touches[0].screenX;
-
-        }
-        if (e.type == "touchmove") {
-            anPoinLs = e.touches[0].screenX;
-        }
-        if (e.type == "touchend") {
-            anPoinMv = false;
-
-            if (anPoinSt + 150 < anPoinLs) {
-                dnum -= 1;
-                if (dnum < 0) {
-                    dnum = 5;
-                }
-                document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").scrollTo(0, 0)
-            }
-            if (anPoinSt - 150 > anPoinLs) {
-                dnum += 1;
-                if (dnum > 5) {
-                    dnum = 0
-                }
-                document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").scrollTo(0, 0)
-            }
-
-            selectors.forEach(o => {
-                if (o.classList.contains('selected')) { o.classList.remove("selected") }
-            })
-            document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .daySelector .item[dnum='" + dnum + "']").classList.add("selected");
-            let html = parseDay(shedule[0][dnum]);
-            document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").innerHTML = html;
-            updateLesson();
-
-            try {
-                if (localStorage.getItem("mode") == "student") {
-                    document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date;
-                } else {
-                    document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date + " | " + localStorage.getItem("teacher");
-                }
-            } catch {
-                document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = "...";
-            }
-
-        }
-
-
-    }
-
-    function handlerClick(e) {
-        let swipes_set = localStorage.getItem("set_swipes");
-        if (swipes_set == null) return;
-        if (swipes_set == "false") return;
-
-        if (['mousedown', 'touchstart'].includes(e.type)) {
-            pointerStart = e.pageX;
-
-        }
-        if (['mouseup', 'touchend'].includes(e.type)) {
-            if (pointerStart + 150 < e.pageX) {
-                dnum -= 1;
-                if (dnum < 0) {
-                    dnum = 5;
-                }
-                document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").scrollTo(0, 0)
-            }
-            if (pointerStart - 150 > e.pageX) {
-                dnum += 1;
-                if (dnum > 5) {
-                    dnum = 0
-                }
-                document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").scrollTo(0, 0)
-            }
-
-            selectors.forEach(o => {
-                if (o.classList.contains('selected')) { o.classList.remove("selected") }
-            })
-            document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .daySelector .item[dnum='" + dnum + "']").classList.add("selected");
-            let html = parseDay(shedule[0][dnum]);
-            document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").innerHTML = html;
-            updateLesson()
-            try {
-                if (localStorage.getItem("mode") == "student") {
-                    document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date;
-                } else {
-                    document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date + " | " + localStorage.getItem("teacher");
-                }
-            } catch {
-                document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = "...";
-            }
-        }
-    }
-
-    if (['android'].includes(window.Telegram.WebApp.platform)) {
-        home.addEventListener("touchstart", handleAn)
-        home.addEventListener("mousedown", handlerClick)
-        home.addEventListener("touchend", handleAn)
-        home.addEventListener("touchmove", handleAn)
-        home.addEventListener("mouseup", handleAn)
-    } else {
-        home.addEventListener("touchstart", handlerClick)
-        home.addEventListener("mousedown", handlerClick)
-        home.addEventListener("touchend", handlerClick)
-        home.addEventListener("mouseup", handlerClick)
-    }
-
-
-
-    // * инициализация новых фишек 2.1
-
     document.querySelector("*[action='goto-settings']").addEventListener("click", () => {
         showScreen("settings")
     })
@@ -685,6 +630,119 @@ async function initHome() {
     window.is_admin = is_admin;
 
     await init2_1();
+
+    if (dnum != -1) {
+        let html = parseDay(today);
+
+        let selectors = document.querySelectorAll(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .daySelector .item");
+
+        document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").innerHTML = html;
+        updateLesson()
+
+        console.log(shedule)
+
+        if (localStorage.getItem("mode") == "student") {
+            document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date;
+        } else {
+            document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date + " | " + localStorage.getItem("teacher");
+        }
+
+        document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] *[dnum='{dnum}']".replace("{dnum}", dnum)).classList.add("selected");
+        document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").scrollTo(0, 0)
+
+        selectors.forEach(e => {
+            e.addEventListener("click", () => {
+
+                selectors.forEach(o => {
+                    if (o.classList.contains('selected')) { o.classList.remove("selected") }
+                })
+                e.classList.add("selected");
+                dnum = Number(e.getAttribute('dnum'))
+                let html = parseDay(shedule[0][dnum]);
+                document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").innerHTML = html;
+                updateLesson()
+                document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").scrollTo(0, 0)
+                try {
+                    if (localStorage.getItem("mode") == "student") {
+                        document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date;
+                    } else {
+                        document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date + " | " + localStorage.getItem("teacher");
+                    }
+                } catch {
+                    document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = "...";
+                }
+            })
+        })
+
+        // делаем перелистывание 
+
+
+        if (['android'].includes(window.Telegram.WebApp.platform)) {
+            home.addEventListener("touchstart", handleAn)
+            home.addEventListener("mousedown", handlerClick)
+            home.addEventListener("touchend", handleAn)
+            home.addEventListener("touchmove", handleAn)
+            home.addEventListener("mouseup", handleAn)
+        } else {
+            home.addEventListener("touchstart", handlerClick)
+            home.addEventListener("mousedown", handlerClick)
+            home.addEventListener("touchend", handlerClick)
+            home.addEventListener("mouseup", handlerClick)
+        }
+
+
+    } else {
+        // нет расписания
+
+        document.querySelector(".screen[screen-id='homeboard'] .daySelector").style.display = 'none'
+        let lastD = new Date();
+        let last = "";
+        let month = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"]
+        last += lastD.getDate() + " ";
+        last += month[lastD.getMonth()] + " ";
+        last += lastD.getFullYear() + " г."
+
+        document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = last
+
+        let html = "<div class='shedule-box'>";
+        html += "<div class='line' style='background: [color];'></div>".replace("[color]", "rgba(255, 56, 60, 1)")
+
+
+        html += "<div class='block'>"
+
+        let types = ""
+        let fac = {
+            "Математики и информационных технологий": "ФМиИТ",
+            "Педагогический": "ПФ",
+            "Юридический": "ЮФ",
+            "Гуманитарного знания и коммуникаций": "ФГЗиК",
+            "Социальной педагогики и психологии": "ФСПиП",
+            "Физической культуры и спорта": "ФФКиС",
+            "Химико-биологических и географических наук": "ФХБиГН",
+            "Художественно-графический": "ХГФ"
+        }
+        if (localStorage.getItem("mode") == "student") {
+            types = fac[localStorage.getItem("faculty")] + " | " + localStorage.getItem("group")
+        } else {
+            types = localStorage.getItem("teacher")
+        }
+
+        html += "<div class='middle'>"
+        html += "<div class='lesson'>"
+        html += "<div class='top' style='color: [color];'>[type]</div>".replace("[color]", "rgba(255, 56, 60, 1)").replace("[type]", types)
+        html += "<div class='name'>В базе данных нет пар!</div>"
+
+        html += "<div class='classroom'>Попробуйте зайти в расписание позже</div>"
+        html += "</div>"
+        html += "</div>"
+
+
+
+
+        html += "</div>"
+
+        document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").innerHTML = html;
+    }
 
 
 

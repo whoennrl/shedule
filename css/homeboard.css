@@ -127,7 +127,7 @@
     background: var(--theme-select-color);
 }
 .screen[screen-id='homeboard'] .screen-part[part-id='home'] .title {
-    font-size: 36px;
+    font-size: 30px;
     font-weight: 800;
     line-height: 50px;
     font-family: 'Nunito', sans-serif;
