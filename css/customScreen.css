@@ -28,8 +28,8 @@
     padding-left: var(--padding-left);
     padding-right: var(--padding-right);
     align-items: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-    background: rgba(28, 28, 30, .5);
+    border-bottom: 1px solid var(--theme-box-border);
+    background: var(--theme-box);
     z-index: 9999;
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
@@ -46,7 +46,7 @@ body[platform='desktop'] .screen-with-header .header {
     font-family: 'Nunito';
     font-weight: 600;
     font-size: 16px;
-    color: rgb(0, 122, 255);
+    color: var(--theme-select-color);
     align-items: center;
     display: none;
     cursor: pointer;
@@ -55,7 +55,7 @@ body[platform='desktop'] .screen-with-header .header {
 .screen-with-header .header .backButton .icon {
     width: 25px;
     height: 25px;
-    background: rgb(0, 122, 255);
+    background: var(--theme-select-color);
     mask-image: url(./../imgs/chevron-left.png);
     mask-repeat: no-repeat;
     mask-size: 100%;
@@ -79,11 +79,14 @@ body[platform='desktop'] .screen-with-header .header {
     padding-right: var(--padding-right);
     padding-bottom: var(--padding-bottom);
     z-index: 1;
+    overflow-y: scroll;
+}
+.screen-with-header .content .flexBox {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    overflow-y: auto;
 }
+
 body[platform='desktop'] .screen-with-header .content {
     padding-top: 70px;
 }
@@ -114,8 +117,8 @@ body[platform='desktop'] .screen-with-header .content {
 }
 
 .screen-with-header .content .box {
-    background: rgb(28, 28, 30);
-    color: white;
+    background: var(--theme-box);
+    color: var(--theme-color);
     font-family: 'Nunito', sans-serif;
     padding: 10px;
     padding-left: 20px;
@@ -138,18 +141,19 @@ body[platform='desktop'] .screen-with-header .content {
     font-size: 16px;
     flex-direction: row;
     gap: 10px;
-    background: rgb(28, 28, 30);
+    background: var(--theme-box);
     transition: 0.2s;
 }
 
 .screen-with-header .content .button:hover {
-    background: rgba(255, 255, 255, 0.15);
+    background: var(--theme-box-border);
     cursor: pointer;
 }
 
-.screen-with-header .content .button img {
+.screen-with-header .content .button .iconN {
     height: 30px;
     width: 30px;
+    background: var(--theme-color)
 }
 
 
@@ -158,10 +162,10 @@ body[platform='desktop'] .screen-with-header .content {
 
 
 .screen-with-header .content .select-info {
-    background: rgb(28, 28, 30);
+    background: var(--theme-box);
     outline: none;
     height: 50px;
-    color: white;
+    color: var(--theme-color);
     border: 0px;
     border-radius: 300px;
     display: flex;
@@ -183,8 +187,10 @@ body[platform='desktop'] .screen-with-header .content {
     display: block;
     width: 20px;
     height: 20px;
-    background: url(./../imgs/chevron-bottom.png) no-repeat;
-    background-size: 100%;
+    mask-image: url(./../imgs/chevron-bottom.png);
+    mask-repeat: no-repeat;
+    mask-size: 100%;
+    background: var(--theme-color);
     opacity: 0.5;
 }
 
@@ -195,16 +201,17 @@ body[platform='desktop'] .screen-with-header .content {
 .screen-with-header .content .select-box.opened {
     display: block;
     position: relative;
+    min-height: 50px;
     max-height: 150px;
     overflow-y: auto;
-    background: rgb(28, 28, 30);
+    background: var(--theme-box);
     padding: 20px;
     border-radius: 30px;
 }
 
 .screen-with-header .content .select-box.opened .select-option {
     height: 40px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    border-bottom: 1px solid var(--theme-box-border);
     line-height: 40px;
     display: flex;
     justify-content: space-between;
@@ -219,7 +226,7 @@ body[platform='desktop'] .screen-with-header .content {
     content: "";
     width: 20px;
     height: 20px;
-    background: rgb(0, 122, 255);
+    background: var(--theme-select-color);
     mask-image: url(./../imgs/checkmark.png);
     mask-repeat: no-repeat;
     mask-size: 100%;
@@ -227,7 +234,8 @@ body[platform='desktop'] .screen-with-header .content {
 }
 
 .screen-with-header .content .select-box.opened .select-option.disabled {
-    color: rgba(255, 255, 255, 0.5);
+    color: var(--theme-color);
+    opacity: 0.5;
 }
 
 .screen-with-header .content .select-box.opened .select-option:last-child {
@@ -247,18 +255,19 @@ body[platform='desktop'] .screen-with-header .content {
     flex-direction: row;
     padding: 20px;
     border-radius: 30px;
-    background: rgb(28, 28, 30);
+    background: var(--theme-box);
     justify-content: space-between;
     align-items: center;
     font-family: 'Nunito', sans-serif;
     font-size: 12px;
-    color: rgba(255, 255, 255, .5)
+    color: var(--theme-color)
 }
-
-.screen[screen-id='admin'] .allUsers .name {
+.screen[screen-id='admin'] .allUsers .user .left *:not(.name) {
+    opacity: 0.5;
+}
+.screen[screen-id='admin'] .allUsers .user .left .name {
     font-size: 18px;
     font-weight: 600;
-    color: rgb(255, 255, 255);
 }
 
 .screen[screen-id='admin'] .allUsers .button-mini {
@@ -268,11 +277,11 @@ body[platform='desktop'] .screen-with-header .content {
     line-height: 20px;
     height: 20px;
     border-radius: 100px;
-    color: white;
+    color: var(--theme-red-color);
 }
 
 .screen[screen-id='admin'] .allUsers .button-mini.ban {
-    background: rgb(255, 56, 60);
+    background: var(--theme-red-background)
 }
 
 .screen[screen-id='admin'] .allUsers .button-mini.unban {
@@ -286,10 +295,10 @@ body[platform='desktop'] .screen-with-header .content {
 }
 
 .screen[screen-id='admin'] .usersBox input {
-    background: rgb(28, 28, 30);
+    background: var(--theme-box);
     font-family: 'Nunito', sans-serif;
     font-size: 16px;
-    color: white;
+    color: var(--theme-color);
     outline: none;
     border: 0;
     height: 40px;
@@ -350,7 +359,7 @@ body[platform='desktop'] .screen-with-header .content {
     gap: 10px;
 }
 .screen[screen-id='premium'] .content .premiumItems .item {
-    background: rgb(28, 28, 30);
+    background: var(--theme-box);
     border-radius: 30px;
     padding: 20px;
     display: flex;

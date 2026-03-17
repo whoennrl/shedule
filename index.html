@@ -11,7 +11,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <title>ВГУ Расписание</title>
     <script src="./js/lib.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,6 +29,9 @@
 
     <link rel="stylesheet" href="./css/promobox.css?[build_info]">
 
+    <link rel="stylesheet" href="./css/themes.css?[build_info]">
+    <link rel="stylesheet" href="./css/critical.css?[build_info]">
+
     <meta http-equiv="cache-control" content="max-age=0" />
     <meta http-equiv="cache-control" content="no-cache" />
     <meta http-equiv="expires" content="0" />
@@ -37,12 +40,12 @@
 
 </head>
 
-<body>
+<body theme="dark">
 
     <div class="root">
         <div class="screen hidden" screen-id="account-banned">
 
-            <img src="./imgs/account-blocked.png" alt="account-blocked">
+            <div class="iconN" ic="account-blocked"></div>
 
             <div class="title">Аккаунт заблокирован</div>
 
@@ -53,12 +56,32 @@
 
         <div class="screen hidden" screen-id="unsupported">
 
-            <img src="./imgs/app-not-supported.png" alt="account-blocked">
+            <div class="iconN" ic="app-not-supported"></div>
 
             <div class="title">Устройство не поддерживается</div>
 
             <div class="message">Для запуска приложения ВГУ Расписание требуется актуальная версия Telegram. Запуск вне
                 Telegram не возможен.</div>
+
+        </div>
+
+        <div class="screen hidden" screen-id="critical-error">
+
+            <div class="flexBox">
+                <div class="iconN" ic="app-error"></div>
+
+                <div class="title">Ошибка</div>
+
+                <div class="message">В приложении возникла критическая ошибка. Продолжение работы невозможно. Попробуйте
+                    перезагрузить приложение или очистить данные.</div>
+
+            </div>
+
+            <div class="buttonsBox">
+                <div class="button normal" action="reload">Перезагрузить</div>
+                <div class="button red" action="clear-data">Очистить данные</div>
+            </div>
+
 
         </div>
 
@@ -92,7 +115,7 @@
 
                     <div class="button">
                         <span>Начать использование</span>
-                        <img src="./imgs/chevron-right.png" alt="chevron-right">
+                        <div class="iconN" ic="chevron-right"></div>
                     </div>
 
                 </div>
@@ -158,50 +181,74 @@
 
             <div class="content">
 
-                <div class="box">
-                    <div class="left">Свайпы</div>
-                    <div class="right">
-                        <label class="toggle-ios set_swipes">
-                            <input type="checkbox" set="set_swipes" value="off">
-                            <span class="toggle-ios-slider"></span>
-                        </label>
+                <div class="flexBox">
+                    <div class="title">Оформление</div>
+                    <select id="settings_theme">
+                        <option value="system" selected>Тема: Системная</option>
+                        <option value="light">Тема: Светлая</option>
+                        <option value="dark">Тема: Темная</option>
+                    </select>
+                    <div class="box" dmode="student">
+                        <div class="left">Текущая пара</div>
+                        <div class="right">
+                            <label class="toggle-ios set_current_lesson">
+                                <input type="checkbox" set="set_current_lesson" value="off">
+                                <span class="toggle-ios-slider"></span>
+                            </label>
+                        </div>
                     </div>
-                </div>
 
-                <div class="box">
-                    <div class="left">Текущая пара</div>
-                    <div class="right">
-                        <label class="toggle-ios set_current_lesson">
-                            <input type="checkbox" set="set_current_lesson" value="off">
-                            <span class="toggle-ios-slider"></span>
-                        </label>
+                    <div class="title">Фишки</div>
+
+                    <div class="box">
+                        <div class="left">Свайпы</div>
+                        <div class="right">
+                            <label class="toggle-ios set_swipes">
+                                <input type="checkbox" set="set_swipes" value="off">
+                                <span class="toggle-ios-slider"></span>
+                            </label>
+                        </div>
                     </div>
-                </div>
 
-                <div class="title" dmode="student">Изменить данные при регистрации</div>
 
-                <select id="settings_faculty" dmode="student">
-                    <option value="Математики и информационных технологий">ФМиИТ</option>
-                    <option value="Педагогический">ПФ</option>
-                    <option value="Юридический">ЮФ</option>
-                    <option value="Гуманитарного знания и коммуникаций">ФГЗиК</option>
-                    <option value="Социальной педагогики и психологии">ФСПиП</option>
-                    <option value="Физической культуры и спорта">ФФКиС</option>
-                    <option value="Химико-биологических и географических наук">ФХБиГН</option>
-                    <option value="Художественно-графический">ХГФ</option>
-                </select>
-                <select id="settings_group" dmode="student">
-                    <option value="0" selected disabled>Выберите</option>
-                </select>
-                <div class="text" dmode="teacher">Выбран режим преподавателя. Что бы изменить режим требуется сбросить
-                    данные приложения.</div>
-                <div class="text" dmode="student">Для выбора режима "Преподаватель" требуется сбросить данные приложения
-                </div>
 
-                <div class="text">Возникли проблемы?</div>
-                <div class="button" action="clear-data">
-                    <img src="./imgs/app-not-supported.png" alt="">
-                    <div class="name">Сбросить данные</div>
+                    <div class="box hidden">
+                        <div class="left">Переход к след. неделе</div>
+                        <div class="right">
+                            <label class="toggle-ios set_sled_ned">
+                                <input type="checkbox" set="set_sled_ned" value="off">
+                                <span class="toggle-ios-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="title" dmode="student">Изменить данные при регистрации</div>
+
+                    <select id="settings_faculty" dmode="student">
+                        <option value="Математики и информационных технологий">ФМиИТ</option>
+                        <option value="Педагогический">ПФ</option>
+                        <option value="Юридический">ЮФ</option>
+                        <option value="Гуманитарного знания и коммуникаций">ФГЗиК</option>
+                        <option value="Социальной педагогики и психологии">ФСПиП</option>
+                        <option value="Физической культуры и спорта">ФФКиС</option>
+                        <option value="Химико-биологических и географических наук">ФХБиГН</option>
+                        <option value="Художественно-графический">ХГФ</option>
+                    </select>
+                    <select id="settings_group" dmode="student">
+                        <option value="0" selected disabled>Выберите</option>
+                    </select>
+                    <div class="text" dmode="teacher">Выбран режим преподавателя. Что бы изменить режим требуется
+                        сбросить
+                        данные приложения.</div>
+                    <div class="text" dmode="student">Для выбора режима "Преподаватель" требуется сбросить данные
+                        приложения
+                    </div>
+
+                    <div class="text">Возникли проблемы?</div>
+                    <div class="button" action="clear-data">
+                        <div class="iconN" ic="app-not-supported"></div>
+                        <div class="name">Сбросить данные</div>
+                    </div>
                 </div>
 
             </div>
@@ -344,32 +391,36 @@
                 </div>
 
                 <div class="button" action="goto-settings">
-                    <img src="./imgs/gear.png" alt="gear">
+                    <div class="iconN" ic="gear"></div>
                     <div class="name">Настройки</div>
                 </div>
                 <div class="button hidden" action="goto-premium">
-                    <img src="./imgs/premium-user.png" alt="premium">
+                    <div class="iconN" ic="premium-user"></div>
                     <div class="name">Premium</div>
                 </div>
+                <div class="button hidden" action="goto-classrooms">
+                    <div class="iconN" ic="classrooms"></div>
+                    <div class="name">Занятость аудиторий</div>
+                </div>
                 <div class="button hidden" action="goto-admin">
-                    <img src="./imgs/admin.png" alt="admin">
+                    <div class="iconN" ic="admin"></div>
                     <div class="name">Администрирование</div>
                 </div>
                 <div class="button" action="goto-help">
-                    <img src="./imgs/help.png" alt="help">
+                    <div class="iconN" ic="help"></div>
                     <div class="name">Написать разработчику</div>
-                    <img src="./imgs/ex-link.png" alt="">
+                    <div class="iconN" ic="ex-link"></div>
                 </div>
                 <div class="button" action="goto-tg">
-                    <img src="./imgs/telegram-chanell.png" alt="">
+                    <div class="iconN" ic="telegram-chanell"></div>
                     <div class="name">Telegram канал</div>
-                    <img src="./imgs/ex-link.png" alt="">
+                    <div class="iconN" ic="ex-link"></div>
                 </div>
-                <!--<div class="button" action="changelog">
+                <div class="button hidden" action="changelog">
                     <img src="./imgs/changelog.png" alt="">
                     <div class="name">Список изменений</div>
                     <img src="./imgs/ex-link.png" alt="">
-                </div>-->
+                </div>
 
             </div>
 
@@ -406,7 +457,7 @@
 
     </div>-->
 
-    <div class="promobox hidden" promoid="p_0002">
+    <!--<div class="promobox hidden" promoid="p_0002">
         <div class="title">Режим «Преподаватель»</div>
         <div class="text">В приложение был добавлен режим преподавателя.</div>
         <div class="text">Чтобы просматривать расписание преподавателя, необходимо сбросить данные приложения в
@@ -416,7 +467,7 @@
         <div class="button">
             <div class="name">Закрыть</div>
         </div>
-    </div>
+    </div>-->
 
 
     <script src="./js/init2_1.js?[build_info]"></script>

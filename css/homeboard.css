@@ -22,7 +22,7 @@
     align-items: center;
     justify-content: center;
     position: fixed;
-    background: linear-gradient(0deg, #000, rgba(0, 0, 0, 0));
+    background: linear-gradient(0deg, var(--theme-background), rgba(0, 0, 0, 0));
     bottom: calc(var(--padding-bottom));
     left: 0px;
 }
@@ -31,7 +31,7 @@
     flex-direction: row;
     gap: 5px;
     padding: 5px;
-    background: rgba(255, 255, 255, .1);
+    background: var(--theme-box);
     border-radius: 1000px;
     height: 60px;
     backdrop-filter: blur(20px);
@@ -56,17 +56,17 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0);
+    background: rgba(0, 0, 0, 0);
     border-radius: 1000px;
     font-family: 'Nunito', sans-serif;
     font-size: 10px;
     font-weight: 500;
-    --color: rgb(255, 255, 255);
+    --color: var(--theme-color);
     color: var(--color);
     transition: 0.2s;
 }
 .screen[screen-id='homeboard'] .bottom .bottomMenu .item:hover {
-    background: rgba(255, 255, 255, .05);
+    background: var(--theme-background);
     cursor: pointer;
 }
 .screen[screen-id='homeboard'] .bottom .bottomMenu .item * {
@@ -93,8 +93,8 @@
     transition: 0.2s;
 }
 .screen[screen-id='homeboard'] .bottom .bottomMenu .item.selected {
-    --color: rgb(0, 122, 255);
-    background: rgba(255, 255, 255, .1);
+    --color: var(--theme-select-color);
+    background: var(--theme-background);
     transition: 0.2s;
 }
 .screen[screen-id='homeboard'] .screen-part[part-id='home'] .daySelector {
@@ -106,8 +106,8 @@
     height: 40px;
 }
 .screen[screen-id='homeboard'] .screen-part[part-id='home'] .daySelector .item {
-    background: #1C1C1E;
-    color: white;
+    background: var(--theme-box);
+    color: var(--theme-color);
     font-family: 'Nunito', sans-serif;
     font-size: 14px;
     align-items: center;
@@ -120,11 +120,11 @@
     border-radius: 1000px;
 }
 .screen[screen-id='homeboard'] .screen-part[part-id='home'] .daySelector .item:hover {
-    background: rgba(255, 255, 255, .2);
+    background: var(--theme-box-border);
     cursor: pointer;
 }
 .screen[screen-id='homeboard'] .screen-part[part-id='home'] .daySelector .item.selected {
-    background: rgb(0, 122, 255);
+    background: var(--theme-select-color);
 }
 .screen[screen-id='homeboard'] .screen-part[part-id='home'] .title {
     font-size: 36px;
@@ -152,7 +152,7 @@
     display: flex;
     flex-direction: row;
     gap: 10px;
-    background: #1C1C1E;
+    background: var(--theme-box);
     border-radius: 30px;
     align-items: stretch;
     justify-content: stretch;
@@ -169,14 +169,14 @@
     display: block;
 }
 .screen[screen-id='homeboard'] .screen-part[part-id='home'] .shedule-box.current {
-    outline: 2px solid rgba(0, 122, 255, .25);
-    background: rgba(0, 122, 255, .25);
+    outline: 2px solid var(--theme-current-lesson);
+    background: var(--theme-current-lesson);
     outline-offset: -2px;
 }
 
 .screen[screen-id='homeboard'] .screen-part[part-id='home'] .shedule-box.next {
-    outline: 2px solid rgba(255, 255, 255, .25);
-    background: rgba(255, 255, 255, .25);
+    outline: 2px solid var(--theme-next-lesson);
+    background: var(--theme-next-lesson);
     outline-offset: -2px;
 }
 
@@ -261,6 +261,14 @@
     flex-wrap: wrap;
     margin-top: 5px;
 }
+.screen[screen-id='homeboard'] .screen-part[part-id='home'] .shedule-box .block .combined .group {
+    padding-left: 10px;
+    padding-right: 10px;
+    height: 18px;
+    line-height: 18px;
+    border-radius: 100px;
+    background: var(--theme-background);
+}
 .screen[screen-id='homeboard'] .screen-part[part-id='menu'] .appinfo {
     display: flex;
     flex-direction: row;
@@ -269,7 +277,7 @@
     border-radius: 30px;
     align-items: center;
     justify-content: space-between;
-    background: #1C1C1E;
+    background: var(--theme-box);
     font-family: 'Nunito', sans-serif;
     font-size: 16px;
 }
@@ -284,7 +292,7 @@
     width: 80px;
     height: 80px;
     border-radius: 15px;
-    outline: 1px solid rgba(255, 255, 255, 0.15);
+    outline: 1px solid var(--theme-box-border);
     background: url(./../imgs/icon.png) no-repeat;
     background-size: cover;
 }
@@ -298,7 +306,7 @@
     flex-direction: row;
     gap: 10px; 
     border-radius: 100px;
-    background: #1C1C1E;
+    background: var(--theme-box);
     align-items: center ;
     padding-left: 10px;
     padding-right: 10px;
@@ -306,7 +314,7 @@
     transition: 0.2s;
 }
 .screen[screen-id='homeboard'] .screen-part[part-id='menu'] .button:hover {
-    background: rgba(255, 255, 255, .2);
+    background: var(--theme-box-border);
     cursor: pointer;
 }
 .screen[screen-id='homeboard'] .screen-part[part-id='menu'] {
@@ -314,9 +322,10 @@
     flex-direction: column;
     gap: 10px;
 }
-.screen[screen-id='homeboard'] .screen-part[part-id='menu'] .button img {
+.screen[screen-id='homeboard'] .screen-part[part-id='menu'] .button .iconN {
     width: 30px;
     height: 30px;
+    background: var(--theme-color)
 }
 .screen[screen-id='homeboard'] .screen-part[part-id='menu'] .button .name {
     flex: 1;

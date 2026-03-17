@@ -14,8 +14,42 @@ async function init2_1() {
 
 }
 
+async function checkTheme() {
+    let current_theme = document.body.getAttribute("theme");
+    if (current_theme == null) {
+        if (localStorage.getItem("set_theme") == "system") {
+            document.body.setAttribute("theme", window.Telegram.WebApp.colorScheme)
+        } else {
+            document.body.setAttribute("theme", localStorage.getItem("set_theme"))
+        }
+    }
+
+    if (localStorage.getItem("set_theme") == "system") {
+        if (document.body.getAttribute("theme") != window.Telegram.WebApp.colorScheme) {
+            document.body.setAttribute("theme", window.Telegram.WebApp.colorScheme)
+        }
+    } else {
+        if (document.body.getAttribute("theme") != localStorage.getItem("set_theme")) {
+            document.body.setAttribute("theme", localStorage.getItem("set_theme"))
+        }
+    }
 
 
+    setTimeout(checkTheme, 100)
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+    if (localStorage.getItem("set_theme") == null) {
+        localStorage.setItem("set_theme", "system")
+    }
+
+    document.querySelector(".screen[screen-id='settings'] #settings_theme").value = localStorage.getItem("set_theme");
+    document.querySelector(".screen[screen-id='settings'] #settings_theme").addEventListener("selectChanged", async (e) => {
+        localStorage.setItem("set_theme", e.target.value);
+    })
+
+    checkTheme();
+})
 
 async function init_settings() {
 
@@ -34,6 +68,9 @@ async function init_settings() {
         if (localStorage.getItem("set_current_lesson") == null) {
             localStorage.setItem("set_current_lesson", true);
         }
+        if (localStorage.getItem("set_sled_new") == null) {
+            localStorage.setItem("set_sled_ned", true)
+        }
 
     }
 
@@ -43,15 +80,18 @@ async function init_settings() {
     if (localStorage.getItem("set_current_lesson") == "true") {
         document.querySelector(".screen[screen-id='settings'] .set_current_lesson input").checked = true
     }
+    if (localStorage.getItem("set_sled_ned") == "true") {
+        document.querySelector(".screen[screen-id='settings'] .set_sled_ned input").checked = true
+    }
 
     let mode = localStorage.getItem("mode");
 
     let dmode = document.querySelectorAll(".screen[screen-id='settings'] *[dmode]");
-    dmode.forEach(e=>{
+    dmode.forEach(e => {
         if (e.getAttribute("dmode") != mode) {
             e.classList.add("hidden")
         }
-    })
+    })    
 
     if (mode == "student") {
         document.querySelector(".screen[screen-id='settings'] #settings_faculty").value = localStorage.getItem("faculty");
@@ -77,19 +117,6 @@ async function init_settings() {
             document.querySelector("#settings_group").innerHTML = html;
         })
 
-        document.querySelector(".screen[screen-id='settings'] .header .backButton").addEventListener("click", () => {
-            if (document.querySelector(".screen[screen-id='settings'] #settings_faculty").value != localStorage.getItem("faculty") || document.querySelector(".screen[screen-id='settings'] #settings_group").value != localStorage.getItem("group")) {
-                if (document.querySelector("#settings_group").value == '0') {
-                    alert("Надо выбрать группу!")
-                } else {
-                    localStorage.setItem("faculty", document.querySelector(".screen[screen-id='settings'] #settings_faculty").value);
-                    localStorage.setItem("group", document.querySelector(".screen[screen-id='settings'] #settings_group").value);
-                    document.location.reload();
-                }
-            } else {
-                showScreen("homeboard")
-            }
-        })
     }
 
     document.querySelector("*[action='clear-data']").addEventListener("click", () => {
@@ -101,7 +128,7 @@ async function init_settings() {
     document.querySelector(".screen[screen-id='settings'] .set_swipes input").addEventListener("change", changeSwitch)
     document.querySelector(".screen[screen-id='settings'] .set_current_lesson input").addEventListener("change", changeSwitch)
 
-    
+
 
 }
 

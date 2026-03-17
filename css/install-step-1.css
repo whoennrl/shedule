@@ -29,7 +29,7 @@
     width: 64px;
     height: 64px;
     border-radius: 15px;
-    outline: 1px solid rgba(255, 255, 255, 0.15);
+    outline: 1px solid var(--theme-box-border);
 }
 .screen[screen-id='install-step-1'] .center .title {
     font-size: 32px;
@@ -47,7 +47,7 @@
     gap: 20px;
 }
 .screen[screen-id='install-step-1'] .bottom .box {
-    background: rgb(28, 28, 30);
+    background: var(--theme-box);
     padding: 20px;
     border-radius: 30px;
     display: flex;
@@ -68,7 +68,7 @@
     min-height: 60px;
     max-height: 60px;
     max-width: 60px;
-    background: red;
+    background: var(--theme-box);
 }
 .screen[screen-id='install-step-1'] .bottom .box .userBox .userText {
     display: flex;
@@ -83,14 +83,14 @@
 .screen[screen-id='install-step-1'] .bottom .box .userBox .userText .name .premium {
     width: 30px;
     height: 30px;
-    background: rgb(0, 122, 255);
+    background: var(--theme-select-color);
     mask-image: url(./../imgs/premium.png);
     mask-position: center;
     mask-size: 100%;
 }
 .screen[screen-id='install-step-1'] .bottom .box .button {
-    background: rgb(0, 122, 255);
-    color: white;
+    background: var(--theme-select-color);
+    color: var(--theme-color);
     height: 40px;
     width: 100%;
     display: flex;
@@ -103,9 +103,10 @@
     font-weight: 600;
     font-size: 16px;
 }
-.screen[screen-id='install-step-1'] .bottom .box .button img {
+.screen[screen-id='install-step-1'] .bottom .box .button .iconN {
     width: 20px;
     height: 20px;
+    background: var(--theme-color)
 }
 .screen[screen-id='install-step-1'] .bottom .pretext {
     font-family: 'Nunito', sans-serif;
@@ -123,5 +124,6 @@
     font-family: 'Nunito', sans-serif;
     font-weight: 500;
     font-size: 16px;
-    color: rgba(255, 255, 255, 0.5)
+    color: var(--theme-color);
+    opacity: 0.5;
 }

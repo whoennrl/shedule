@@ -13,11 +13,30 @@ function showScreen(screenName) {
     if (["settings", "admin", 'premium'].includes(screenName)) {
         window.Telegram.WebApp.BackButton.show()
         window.Telegram.WebApp.BackButton.onClick(() => {
-            showScreen("homeboard")
+
+            if (["settings"].includes(screenName)) {
+                if (document.querySelector(".screen[screen-id='settings'] #settings_faculty").value != localStorage.getItem("faculty") || document.querySelector(".screen[screen-id='settings'] #settings_group").value != localStorage.getItem("group")) {
+                    if (document.querySelector("#settings_group").value == '0') {
+                        alert("Надо выбрать группу!")
+                    } else {
+                        localStorage.setItem("faculty", document.querySelector(".screen[screen-id='settings'] #settings_faculty").value);
+                        localStorage.setItem("group", document.querySelector(".screen[screen-id='settings'] #settings_group").value);
+                        document.location.reload();
+                    }
+                } else {
+                    showScreen("homeboard")
+                }
+            } else {
+                showScreen("homeboard")
+            }
+
+
         })
     } else {
         window.Telegram.WebApp.BackButton.hide();
     }
+
+
 
     let bl = document.querySelectorAll(".screen[screen-id]");
     bl.forEach(e => {
@@ -33,7 +52,30 @@ function showScreen(screenName) {
     }
 }
 
-window.addEventListener("DOMContentLoaded", async () => {
+window.addEventListener("DOMContentLoaded", () => {
+    document.querySelector(".screen[screen-id='critical-error'] *[action='reload']").addEventListener("click", () => {
+        document.location.reload()
+    })
+    document.querySelector(".screen[screen-id='critical-error'] *[action='clear-data']").addEventListener("click", () => {
+        localStorage.clear();
+        document.location.reload()
+    })
+    try {
+        conLoaded()
+    } catch {
+        showScreen('critical-error')
+        window.Telegram.WebApp.SettingsButton.hide()
+        window.Telegram.WebApp.BackButton.hide()
+
+    }
+})
+
+
+
+
+
+
+async function conLoaded() {
 
     if (['ios', 'android'].includes(window.Telegram.WebApp.platform)) {
         window.Telegram.WebApp.requestFullscreen()
@@ -222,9 +264,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 
 
 
-})
-
-
+}
 
 
 async function initHome() {
@@ -264,14 +304,14 @@ async function initHome() {
             html += "<div class='classroom'>" + d.classroom + "</div>"
             if (d.is_combined && localStorage.getItem("mode") == "student") {
                 html += "<div class='combined'>"
-                html += "<div class='group'>Совместно:</div>"
+                //html += "<span>Совместно:</span>"
                 d.combined_main_groups.forEach(o => {
                     html += "<div class='group'>" + o + "</div>"
                 })
                 html += "</div>"
             } else if (localStorage.getItem("mode") == "teacher") {
                 html += "<div class='combined'>"
-                html += "<div class='group'>Группы:</div>"
+                //html += "<span>Группы:</span>"
                 d.combined_with.forEach(o => {
                     html += "<div class='group'>" + o + "</div>"
                 })

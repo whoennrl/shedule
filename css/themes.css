@@ -1,0 +1,83 @@
+body[theme='dark'] {
+    --theme-background: rgba(0, 0, 0, 1);
+    --theme-box: rgba(28, 28, 30, 1);
+    --theme-color: rgba(255, 255, 255, 1);
+    --theme-select-color: rgb(0, 122, 255);
+    --theme-box-border: rgba(255, 255, 255, 0.15);
+
+    --theme-current-lesson: rgba(0, 122, 255, .25);
+    --theme-next-lesson: rgba(255, 255, 255, .15);
+
+    --theme-red-background: rgba(255, 56, 60, 1);
+    --theme-red-color: rgba(255, 255, 255, 1);
+}
+body[theme='light'] {
+    --theme-background: white;
+    --theme-box: rgb(244, 244, 246);
+    --theme-color: black;
+    --theme-select-color: rgb(0, 122, 255);
+    --theme-box-border: rgba(0, 0, 0, 0.15);
+
+    --theme-current-lesson: rgb(0, 122, 255, .25);
+    --theme-next-lesson: rgba(0, 0, 0, .05);
+
+    --theme-red-background: rgba(255, 56, 60, 1);
+    --theme-red-color: rgba(255, 255, 255, 1);
+}
+
+
+.iconN[ic='chevron-right'] {
+    mask-image: url(./../imgs/chevron-right.png);
+    mask-size: 100%;
+    mask-repeat: no-repeat;
+}
+.iconN[ic='gear'] {
+    mask-image: url(./../imgs/gear.png);
+    mask-size: 100%;
+    mask-repeat: no-repeat;
+}
+.iconN[ic='premium-user'] {
+    mask-image: url(./../imgs/premium-user.png);
+    mask-size: 100%;
+    mask-repeat: no-repeat;
+}
+.iconN[ic='classrooms'] {
+    mask-image: url(./../imgs/classrooms.png);
+    mask-size: 100%;
+    mask-repeat: no-repeat;
+}
+.iconN[ic='admin'] {
+    mask-image: url(./../imgs/admin.png);
+    mask-size: 100%;
+    mask-repeat: no-repeat;
+}
+.iconN[ic='help'] {
+    mask-image: url(./../imgs/help.png);
+    mask-size: 100%;
+    mask-repeat: no-repeat;
+}
+.iconN[ic='ex-link'] {
+    mask-image: url(./../imgs/ex-link.png);
+    mask-size: 100%;
+    mask-repeat: no-repeat;
+}
+.iconN[ic='telegram-chanell'] {
+    mask-image: url(./../imgs/telegram-chanell.png);
+    mask-size: 100%;
+    mask-repeat: no-repeat;
+}
+.iconN[ic='app-not-supported'] {
+    mask-image: url(./../imgs/app-not-supported.png);
+    mask-size: 100%;
+    mask-repeat: no-repeat;
+}
+.iconN[ic='account-blocked'] {
+    mask-image: url(./../imgs/account-blocked.png);
+    mask-size: 100%;
+    mask-repeat: no-repeat;
+}
+.iconN[ic='app-error'] {
+    mask-image: url(./../imgs/app-error.png);
+    mask-size: 100%;
+    mask-repeat: no-repeat;
+}

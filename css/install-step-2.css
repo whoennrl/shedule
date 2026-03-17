@@ -32,10 +32,10 @@
     line-height: 22px;
 }
 .screen[screen-id='install-step-2'] .top .select-info {
-    background: rgb(28, 28, 30);
+    background: var(--theme-box);
     outline: none;
     height: 50px;
-    color: white;
+    color: var(--theme-color);
     border: 0px;
     border-radius: 300px;
     display: flex;
@@ -55,7 +55,10 @@
     display: block;
     width: 20px;
     height: 20px;
-    background: url(./../imgs/chevron-bottom.png) no-repeat;
+    background: var(--theme-color);
+    mask-image: url(./../imgs/chevron-bottom.png);
+    mask-repeat: no-repeat;
+    mask-size: 100%;
     background-size: 100%;
     opacity: 0.5;
 }
@@ -68,13 +71,13 @@
     position: relative;
     max-height: 200px;
     overflow-y: auto;
-    background: rgb(28, 28, 30);
+    background: var(--theme-box);
     padding: 20px;
     border-radius: 30px;
 }
 .screen[screen-id='install-step-2'] .top .select-box.opened .select-option {
     height: 40px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    border-bottom: 1px solid var(--theme-box-border);
     line-height: 40px;
     display: flex;
     justify-content: space-between;
@@ -88,7 +91,7 @@
     content: "";
     width: 20px;
     height: 20px;
-    background: rgb(0, 122, 255);
+    background: var(--theme-select-color);
     mask-image: url(./../imgs/checkmark.png);
     mask-repeat: no-repeat;
     mask-size: 100%;
@@ -99,15 +102,16 @@
     height: 40px;
     border-radius: 10px;
     border: 0px;
-    background: rgb(0, 0, 0);
-    color: white;
+    background: var(--theme-background);
+    color: var(--theme-color);
     font-size: 16px;
     outline: none;
     padding-left: 15px;
     padding-right: 15px;
 }
 .screen[screen-id='install-step-2'] .top .select-box.opened .select-option.disabled {
-    color: rgba(255, 255, 255, 0.5);
+    color: var(--theme-color);
+    opacity: 0.5;
 }
 .screen[screen-id='install-step-2'] .top .select-box.opened .select-option:last-child {
     border-bottom: 0px;

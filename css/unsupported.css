@@ -20,8 +20,9 @@
     user-select: none;
     -webkit-user-select: none;
 }
-.screen[screen-id='unsupported'] img {
+.screen[screen-id='unsupported'] .iconN {
     width: 50px;
+    background: var(--theme-color);
     height: 50px;
 }
 .screen[screen-id='unsupported'] .title {

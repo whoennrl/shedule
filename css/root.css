@@ -11,11 +11,6 @@
     --padding-bottom: calc(var(--tg-safe-area-inset-bottom, 0px) + var(--tg-content-safe-area-inset-bottom, 0px) + 20px);
     --padding-left: calc(var(--tg-safe-area-inset-left, 0px) + var(--tg-content-safe-area-inset-left, 0px) + 20px);
     --padding-right: calc(var(--tg-safe-area-inset-right, 0px) + var(--tg-content-safe-area-inset-right, 0px) + 20px);
-
-
-    /* Colors */
-    --color-background: rgb(0, 0, 0);
-    --color-text-color: rgb(255, 255, 255);
 }
 
 * {
@@ -34,8 +29,8 @@
     padding-right: var(--padding-right);
     padding-top: var(--padding-top);
     padding-bottom: var(--padding-bottom);
-    background: var(--color-background);
-    color: var(--color-text-color);
+    background: var(--theme-background);
+    color: var(--theme-color);
 
     display: flex;
 }
@@ -55,7 +50,7 @@
     }
 
     body {
-        background: var(--color-background);
+        background: var(--theme-background);
 
     }
 }

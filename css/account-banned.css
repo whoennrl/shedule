@@ -20,9 +20,10 @@
     user-select: none;
     -webkit-user-select: none;
 }
-.screen[screen-id='account-banned'] img {
+.screen[screen-id='account-banned'] .iconN {
     width: 50px;
     height: 50px;
+    background: var(--theme-color)
 }
 .screen[screen-id='account-banned'] .title {
     font-family: 'Nunito', sans-serif;
