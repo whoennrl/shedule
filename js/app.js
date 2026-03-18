@@ -407,8 +407,8 @@ async function initHome() {
             html += "<div class='shedule-box' id='shedule-[id]' hash='[hash]'>".replace("[hash]", d.hash).replace("[id]", d.id);
             html += "<div class='line' style='background: [color];'></div>".replace("[color]", color)
             html += "<div class='block'>"
-            if (types != "") { }
             html += "<div class='middle'>"
+            if (types != "") { html += "<div class='top' style='color: [color];'>[type]</div>".replace("[color]", color).replace("[type]", types) }
             html += "<div class='lesson'>"
             html += "<div class='name'>" + subject + "</div>"
 
