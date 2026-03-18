@@ -10,22 +10,28 @@ window.mode = 'local' // ! "production" or "local"
 
 function showScreen(screenName) {
 
-    if (["settings", "admin", 'premium'].includes(screenName)) {
+    if (["settings", "admin", 'premium', "create-profile"].includes(screenName)) {
         window.Telegram.WebApp.BackButton.show()
         window.Telegram.WebApp.BackButton.onClick(() => {
 
             if (["settings"].includes(screenName)) {
-                if (document.querySelector(".screen[screen-id='settings'] #settings_faculty").value != localStorage.getItem("faculty") || document.querySelector(".screen[screen-id='settings'] #settings_group").value != localStorage.getItem("group")) {
-                    if (document.querySelector("#settings_group").value == '0') {
-                        alert("Надо выбрать группу!")
+                if (localStorage.getItem("profile" + localStorage.getItem("current_profile") + "mode") == "student") {
+                    if (document.querySelector(".screen[screen-id='settings'] #settings_faculty").value != localStorage.getItem("profile" + localStorage.getItem("current_profile") + "faculty") || document.querySelector(".screen[screen-id='settings'] #settings_group").value != localStorage.getItem("profile" + localStorage.getItem("current_profile") + "group")) {
+                        if (document.querySelector("#settings_group").value == '0') {
+                            alert("Надо выбрать группу!")
+                        } else {
+                            localStorage.setItem("profile" + localStorage.getItem("current_profile") + "faculty", document.querySelector(".screen[screen-id='settings'] #settings_faculty").value);
+                            localStorage.setItem("profile" + localStorage.getItem("current_profile") + "group", document.querySelector(".screen[screen-id='settings'] #settings_group").value);
+                            document.location.reload();
+                        }
                     } else {
-                        localStorage.setItem("faculty", document.querySelector(".screen[screen-id='settings'] #settings_faculty").value);
-                        localStorage.setItem("group", document.querySelector(".screen[screen-id='settings'] #settings_group").value);
-                        document.location.reload();
+                        showScreen("homeboard")
                     }
                 } else {
                     showScreen("homeboard")
                 }
+
+
             } else {
                 showScreen("homeboard")
             }
@@ -146,7 +152,7 @@ async function conLoaded() {
         })
 
         let allTeachers = await window.ScheduleAPI.getTeachers();
-        console.log(allTeachers)
+        //console.log(allTeachers)
         let allTCHtml = "<option value='0' selected disabled>Выберите</option>"
         allTeachers.forEach(e => {
             allTCHtml += "<option value='{value}'>{value}</option>".replaceAll("{value}", e.teacher)
@@ -158,7 +164,7 @@ async function conLoaded() {
             // проверяем режим
             let mode = e.target.value;
 
-            console.log(mode);
+            //console.log(mode);
 
             let allDmod = document.querySelectorAll(".screen[screen-id='install-step-2'] *[dmode]");
 
@@ -194,7 +200,7 @@ async function conLoaded() {
 
             })
         } else {
-            let mode = localStorage.getItem("mode");
+            let mode = localStorage.getItem("profile" + localStorage.getItem("current_profile") + "mode");
             if (mode == 'student') {
 
                 showScreen("homeboard");
@@ -223,17 +229,23 @@ async function conLoaded() {
             if (mode == "student") {
                 if (faculty == "0") return;
                 if (group == "0") return;
+                localStorage.setItem("current_profile", "default")
                 localStorage.setItem("install-step", 'installed');
-                localStorage.setItem("mode", 'student');
-                localStorage.setItem("faculty", faculty);
-                localStorage.setItem('group', group);
+                localStorage.setItem("profiledefaultmode", 'student');
+                localStorage.setItem("profiledefaultfaculty", faculty);
+                localStorage.setItem('profiledefaultgroup', group);
+                localStorage.setItem("profiledefaultname", "По умолчанию");
+                localStorage.setItem("current_profile_id", "0");
 
                 document.location.reload();
             } else {
                 if (teacher == "0") return;
-                localStorage.setItem("mode", 'teacher');
-                localStorage.setItem("teacher", teacher);
+                localStorage.setItem("current_profile", "default")
+                localStorage.setItem("profiledefaultmode", 'teacher');
+                localStorage.setItem("profiledefaultteacher", teacher);
                 localStorage.setItem("install-step", 'installed');
+                localStorage.setItem("profiledefaultname", "По умолчанию");
+                localStorage.setItem("current_profile_id", "0");
 
                 document.location.reload();
             }
@@ -316,10 +328,10 @@ async function initHome() {
             updateLesson();
 
             try {
-                if (localStorage.getItem("mode") == "student") {
+                if (localStorage.getItem("profile" + localStorage.getItem("current_profile") + "mode") == "student") {
                     document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date;
                 } else {
-                    document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date + " | " + localStorage.getItem("teacher");
+                    document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date + " | " + localStorage.getItem("profile" + localStorage.getItem("current_profile") + "teacher");
                 }
             } catch {
                 document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = "...";
@@ -369,10 +381,10 @@ async function initHome() {
             document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").innerHTML = html;
             updateLesson()
             try {
-                if (localStorage.getItem("mode") == "student") {
+                if (localStorage.getItem("profile" + localStorage.getItem("current_profile") + "mode") == "student") {
                     document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date;
                 } else {
-                    document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date + " | " + localStorage.getItem("teacher");
+                    document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date + " | " + localStorage.getItem("profile" + localStorage.getItem("current_profile") + "teacher");
                 }
             } catch {
                 document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = "...";
@@ -407,20 +419,22 @@ async function initHome() {
             html += "<div class='shedule-box' id='shedule-[id]' hash='[hash]'>".replace("[hash]", d.hash).replace("[id]", d.id);
             html += "<div class='line' style='background: [color];'></div>".replace("[color]", color)
             html += "<div class='block'>"
-            html += "<div class='middle'>"
-            html += "<div class='lesson'>"
             if (types != "") { html += "<div class='top' style='color: [color];'>[type]</div>".replace("[color]", color).replace("[type]", types) }
+            html += "<div class='middle'>"
+
+            html += "<div class='lesson'>"
+
             html += "<div class='name'>" + subject + "</div>"
 
             html += "<div class='classroom'>" + d.classroom + "</div>"
-            if (d.is_combined && localStorage.getItem("mode") == "student") {
+            if (d.is_combined && localStorage.getItem("profile" + localStorage.getItem("current_profile") + "mode") == "student") {
                 html += "<div class='combined'>"
                 //html += "<span>Совместно:</span>"
                 d.combined_main_groups.forEach(o => {
                     html += "<div class='group'>" + o + "</div>"
                 })
                 html += "</div>"
-            } else if (localStorage.getItem("mode") == "teacher") {
+            } else if (localStorage.getItem("profile" + localStorage.getItem("current_profile") + "mode") == "teacher") {
                 html += "<div class='combined'>"
                 //html += "<span>Группы:</span>"
                 d.combined_with.forEach(o => {
@@ -435,7 +449,7 @@ async function initHome() {
             html += "<div class='end'>" + d.time.replace("(", "").replace(")", "").split("-")[1] + "</div>"
             html += "</div>"
             html += "</div>"
-            if (d.teacher != "" && localStorage.getItem("mode") == "student") {
+            if (d.teacher != "" && localStorage.getItem("profile" + localStorage.getItem("current_profile") + "mode") == "student") {
                 html += "<div class='bottom-box'>"
                 html += "<div class='teacher-picture' style='width: 25px; height: 25px; background: [teacher-pick] no-repeat; background-size: cover; background-position: top; border-radius: 100%;'></div>"
                 html += "<div class='teacher'>" + d.teacher + "</div>"
@@ -463,8 +477,8 @@ async function initHome() {
     }
 
     async function checkNowLesson() {
-        if (localStorage.getItem("mode") == "student") {
-            let now = (await window.ScheduleAPI.getCurrentLesson(localStorage.getItem("faculty"), localStorage.getItem('group')));
+        if (localStorage.getItem("profile" + localStorage.getItem("current_profile") + "mode") == "student") {
+            let now = (await window.ScheduleAPI.getCurrentLesson(localStorage.getItem("profile" + localStorage.getItem("current_profile") + "faculty"), localStorage.getItem("profile" + localStorage.getItem("current_profile") + 'group')));
             window.now_lesson = now;
         }
 
@@ -529,7 +543,7 @@ async function initHome() {
 
 
         if (window.now_lesson && window.now_lesson.next_lesson) {
-            console.log(now_lesson.next_lesson)
+            //console.log(now_lesson.next_lesson)
             let bls = document.querySelectorAll(".shedule-box");
             bls.forEach(e => {
                 e.classList.remove("next")
@@ -558,14 +572,14 @@ async function initHome() {
 
     async function getWeek() {
         let shedule
-        if (localStorage.getItem("mode") == "student") {
-            shedule = (await window.ScheduleAPI.getWeek(localStorage.getItem("faculty"), localStorage.getItem('group')));
+        if (localStorage.getItem("profile" + localStorage.getItem("current_profile") + "mode") == "student") {
+            shedule = (await window.ScheduleAPI.getWeek(localStorage.getItem("profile" + localStorage.getItem("current_profile") + "faculty"), localStorage.getItem("profile" + localStorage.getItem("current_profile") + 'group')));
         } else {
             shedule = {};
-            shedule.schedule = (await window.ScheduleAPI.getTeacherSchedule(localStorage.getItem("teacher")))
-            console.log(shedule)
+            shedule.schedule = (await window.ScheduleAPI.getTeacherSchedule(localStorage.getItem("profile" + localStorage.getItem("current_profile") + "teacher")))
+            //console.log(shedule)
         }
-        console.log(shedule)
+        //console.log(shedule)
         let days1 = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота']
         let days = [[], [], [], [], [], []];
         let today = [];
@@ -639,12 +653,12 @@ async function initHome() {
         document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").innerHTML = html;
         updateLesson()
 
-        console.log(shedule)
+        //console.log(shedule)
 
-        if (localStorage.getItem("mode") == "student") {
+        if (localStorage.getItem("profile" + localStorage.getItem("current_profile") + "mode") == "student") {
             document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date;
         } else {
-            document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date + " | " + localStorage.getItem("teacher");
+            document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date + " | " + localStorage.getItem("profile" + localStorage.getItem("current_profile") + "teacher");
         }
 
         document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] *[dnum='{dnum}']".replace("{dnum}", dnum)).classList.add("selected");
@@ -663,10 +677,10 @@ async function initHome() {
                 updateLesson()
                 document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").scrollTo(0, 0)
                 try {
-                    if (localStorage.getItem("mode") == "student") {
+                    if (localStorage.getItem("profile" + localStorage.getItem("current_profile") + "mode") == "student") {
                         document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date;
                     } else {
-                        document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date + " | " + localStorage.getItem("teacher");
+                        document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date + " | " + localStorage.getItem("profile" + localStorage.getItem("current_profile") + "teacher");
                     }
                 } catch {
                     document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = "...";
@@ -721,10 +735,10 @@ async function initHome() {
             "Химико-биологических и географических наук": "ФХБиГН",
             "Художественно-графический": "ХГФ"
         }
-        if (localStorage.getItem("mode") == "student") {
-            types = fac[localStorage.getItem("faculty")] + " | " + localStorage.getItem("group")
+        if (localStorage.getItem("profile" + localStorage.getItem("current_profile") + "mode") == "student") {
+            types = fac[localStorage.getItem("profile" + localStorage.getItem("current_profile") + "faculty")] + " | " + localStorage.getItem("profile" + localStorage.getItem("current_profile") + "group")
         } else {
-            types = localStorage.getItem("teacher")
+            types = localStorage.getItem("profile" + localStorage.getItem("current_profile") + "teacher")
         }
 
         html += "<div class='middle'>"

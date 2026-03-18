@@ -16,7 +16,7 @@ body[theme='light'] {
     --theme-background: white;
     --theme-box: rgb(244, 244, 246);
     --theme-color: black;
-    --theme-select-color: rgb(0, 122, 255);
+    --theme-select-color: rgb(75, 162, 255);
     --theme-box-border: rgba(0, 0, 0, 0.15);
 
     --theme-current-lesson: rgb(0, 122, 255, .25);
@@ -30,7 +30,7 @@ body[theme='minion'] {
     --theme-background: rgba(255, 255, 255, 0.5);
     --theme-box: rgba(255, 255, 255, 0.5);
     --theme-color: rgba(0, 0, 0, 1);
-    --theme-select-color: rgb(0, 122, 255);
+    --theme-select-color: rgb(75, 162, 255);
     --theme-box-border: rgba(255, 255, 255, 0.15);
 
     --theme-current-lesson: rgba(0, 122, 255, .65);
@@ -126,6 +126,11 @@ body[theme='pikmi'] {
 
 .iconN[ic='app-error'] {
     mask-image: url(./../imgs/app-error.png);
+    mask-size: 100%;
+    mask-repeat: no-repeat;
+}
+.iconN[ic='checkmark'] {
+    mask-image: url(./../imgs/checkmark.png);
     mask-size: 100%;
     mask-repeat: no-repeat;
 }

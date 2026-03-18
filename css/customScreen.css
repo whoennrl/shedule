@@ -383,3 +383,26 @@ body[platform='desktop'] .screen-with-header .content {
     font-weight: 400;
     opacity: 0.5;
 }
+.screen-with-header .select-box.opened input {
+    width: 100%;
+    height: 40px;
+    border-radius: 10px;
+    border: 0px;
+    background: var(--theme-background);
+    color: var(--theme-color);
+    font-size: 16px;
+    outline: none;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.screen-with-header input {
+    background: var(--theme-box);
+    height: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border: 0px;
+    outline: none;
+    border-radius: 20px;
+    font-size: 16px;
+    color: var(--theme-color)
+}

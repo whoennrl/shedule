@@ -12,6 +12,8 @@ async function init2_1() {
         showScreen("settings")
     })
 
+
+
 }
 
 async function checkTheme() {
@@ -84,7 +86,7 @@ async function init_settings() {
         document.querySelector(".screen[screen-id='settings'] .set_sled_ned input").checked = true
     }
 
-    let mode = localStorage.getItem("mode");
+    let mode = localStorage.getItem("profile" + localStorage.getItem("current_profile") + "mode");
 
     let dmode = document.querySelectorAll(".screen[screen-id='settings'] *[dmode]");
     dmode.forEach(e => {
@@ -94,10 +96,10 @@ async function init_settings() {
     })    
 
     if (mode == "student") {
-        document.querySelector(".screen[screen-id='settings'] #settings_faculty").value = localStorage.getItem("faculty");
+        document.querySelector(".screen[screen-id='settings'] #settings_faculty").value = localStorage.getItem("profile" + localStorage.getItem("current_profile") + "faculty");
         updateOptions(document.querySelector(".screen[screen-id='settings'] #settings_faculty"))
 
-        let groups = await window.ScheduleAPI.getGroups(localStorage.getItem("faculty"));
+        let groups = await window.ScheduleAPI.getGroups(localStorage.getItem("profile" + localStorage.getItem("current_profile") + "faculty"));
         let html = "<option value='0' selected disabled>Выберите</option>"
         groups.forEach(o => {
             html += "<option value='{value}'>{value}</option>".replaceAll("{value}", o.name)
@@ -105,7 +107,9 @@ async function init_settings() {
 
         document.querySelector("#settings_group").innerHTML = html;
 
-        document.querySelector("#settings_group").value = localStorage.getItem("group")
+        document.querySelector("#settings_group").value = localStorage.getItem("profile" + localStorage.getItem("current_profile") + "group")
+
+        updateOptions(document.querySelector(".screen[screen-id='settings'] #settings_group"))
 
         document.querySelector("#settings_faculty").addEventListener("selectChanged", async (e) => {
             let groups = await window.ScheduleAPI.getGroups(e.target.value);

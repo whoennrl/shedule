@@ -224,7 +224,7 @@
                         </div>
                     </div>
 
-                    <div class="title" dmode="student">Изменить данные при регистрации</div>
+                    <div class="title" dmode="student">Изменить данные профиля "<span replace="profile"></span>":</div>
 
                     <select id="settings_faculty" dmode="student">
                         <option value="Математики и информационных технологий">ФМиИТ</option>
@@ -239,11 +239,16 @@
                     <select id="settings_group" dmode="student">
                         <option value="0" selected disabled>Выберите</option>
                     </select>
-                    <div class="text" dmode="teacher">Выбран режим преподавателя. Что бы изменить режим требуется
-                        сбросить
-                        данные приложения.</div>
-                    <div class="text" dmode="student">Для выбора режима "Преподаватель" требуется сбросить данные
-                        приложения
+
+                    <div class="button" action="delete-profile">
+                        <div class="iconN" ic="app-not-supported"></div>
+                        <div class="name">Удалить профиль "<span replace="profile"></span>"</div>
+                    </div>
+                    <div class="text" dmode="teacher">Редактирование профиля преподавателя невозможно!</div>
+                    <div class="text" dmode="teacher">Выбран режим преподавателя. Для выбора режима студента вы можете
+                        создать дополнительный профиль в меню на главном экране.</div>
+                    <div class="text" dmode="student">Выбран режим студента. Для выбора режима преподавателя вы можете
+                        создать дополнительный профиль в меню на главном экране.
                     </div>
 
                     <div class="text">Возникли проблемы?</div>
@@ -251,6 +256,50 @@
                         <div class="iconN" ic="app-not-supported"></div>
                         <div class="name">Сбросить данные</div>
                     </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="screen hidden screen-with-header" screen-id="create-profile">
+            <div class="header">
+                <div class="title">Создать профиль</div>
+            </div>
+
+            <div class="content">
+                <div class="flexBox">
+                    <input type="text" id="name-create-profile" placeholder="Введите название профиля">
+                    <div class="title">Выберите режим: </div>
+                    <select id="mode-create-profile">
+                        <option value="student" selected>Студент</option>
+                        <option value="teacher">Преподаватель</option>
+                    </select>
+                    <div class="title" imode="student">Выберите факультет:</div>
+                    <select id="faculty-create-profile" imode="student">
+                        <option value="0" disabled selected>Выберите</option>
+                        <option value="Математики и информационных технологий">ФМиИТ</option>
+                        <option value="Педагогический">ПФ</option>
+                        <option value="Юридический">ЮФ</option>
+                        <option value="Гуманитарного знания и коммуникаций">ФГЗиК</option>
+                        <option value="Социальной педагогики и психологии">ФСПиП</option>
+                        <option value="Физической культуры и спорта">ФФКиС</option>
+                        <option value="Химико-биологических и географических наук">ФХБиГН</option>
+                        <option value="Художественно-графический">ХГФ</option>
+                    </select>
+                    <div class="title" imode="student">Выберите группу</div>
+                    <select id="group-create-profile" imode="student">
+                        <option value="0" disabled selected>Выберите</option>
+                    </select>
+                    <div class="title hidden" imode="teacher">Выберите преподавателя</div>
+                    <select class="hidden" id="teacher-create-profile" search="true" imode="teacher">
+                        <option value="0" disabled selected>Выберите</option>
+                    </select>
+                    <div class="button" action="crt-profile">
+                        <div class="iconN" ic="checkmark"></div>
+                        <div class="name">Создать</div>
+                    </div>
+
                 </div>
 
             </div>
@@ -285,7 +334,7 @@
 
         </div>
 
-        <div class="screen hidden screen-with-header" screen-id="premium">
+        <!--<div class="screen hidden screen-with-header" screen-id="premium">
 
             <div class="header">
                 <div class="backButton">
@@ -358,7 +407,7 @@
 
             </div>
 
-        </div>
+        </div>-->
 
         <div class="screen hidden" screen-id="homeboard">
 
@@ -390,6 +439,16 @@
                         <div class="version">Version: [build_version]</div>
                         <div class="build">Build: [build_info]</div>
                     </div>
+                </div>
+
+                <div class="profiles">
+
+                    <div class="buttonPro">Создать профиль</div>
+
+                    <div class="allProfiles">
+
+                    </div>
+
                 </div>
 
                 <div class="button" action="goto-settings">
@@ -477,8 +536,9 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
     <script src="./js/app.js?[build_info]"></script>
     <script src="./js/selectBox.js?[build_info]"></script>
-    <script src="./js/premium.js?[build_info]"></script>
+    <!--<script src="./js/premium.js?[build_info]"></script>-->
     <script src="./js/promo.js?[build_info]"></script>
+    <script src="./js/profiles.js?[build_info]"></script>
 
 
 </body>

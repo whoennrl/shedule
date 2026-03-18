@@ -330,3 +330,55 @@
 .screen[screen-id='homeboard'] .screen-part[part-id='menu'] .button .name {
     flex: 1;
 }
+.screen[screen-id='homeboard'] .screen-part[part-id='menu'] .profiles {
+    padding: 20px;
+    border-radius: 30px;
+    background: var(--theme-box);
+    color: var(--theme-color);
+    font-family: 'Nunito', sans-serif;
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.screen[screen-id='homeboard'] .screen-part[part-id='menu'] .profiles .buttonPro {
+    height: 40px;
+    background: var(--theme-select-color);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.screen[screen-id='homeboard'] .screen-part[part-id='menu'] .profiles .allProfiles {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.screen[screen-id='homeboard'] .screen-part[part-id='menu'] .profiles .allProfiles .profile {
+    background: var(--theme-background);
+    color: var(--theme-color);
+    height: 26px;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    align-items: center;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 6px;
+}
+.screen[screen-id='homeboard'] .screen-part[part-id='menu'] .profiles .allProfiles .profile.selected {
+    color: var(--theme-select-color)
+}
+.screen[screen-id='homeboard'] .screen-part[part-id='menu'] .profiles .allProfiles .profile.selected:after {
+    display: block;
+    content: "";
+    width: 20px;
+    height: 20px;
+    background-color: var(--theme-select-color);
+    mask-image: url(./../imgs/checkmark.png);
+    mask-size: 100%;
+    mask-repeat: no-repeat;
+}
