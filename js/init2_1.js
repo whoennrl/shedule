@@ -119,7 +119,7 @@ async function init_settings() {
 
     }
 
-    document.querySelector("*[action='clear-data']").addEventListener("click", () => {
+    document.querySelector("*[action='clear-dataS']").addEventListener("click", () => {
         localStorage.clear();
         document.location.reload()
     })
