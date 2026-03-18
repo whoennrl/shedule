@@ -11,6 +11,7 @@ body[theme='dark'] {
     --theme-red-background: rgba(255, 56, 60, 1);
     --theme-red-color: rgba(255, 255, 255, 1);
 }
+
 body[theme='light'] {
     --theme-background: white;
     --theme-box: rgb(244, 244, 246);
@@ -25,57 +26,104 @@ body[theme='light'] {
     --theme-red-color: rgba(255, 255, 255, 1);
 }
 
+body[theme='minion'] {
+    --theme-background: rgba(255, 255, 255, 0.5);
+    --theme-box: rgba(255, 255, 255, 0.5);
+    --theme-color: rgba(0, 0, 0, 1);
+    --theme-select-color: rgb(0, 122, 255);
+    --theme-box-border: rgba(255, 255, 255, 0.15);
+
+    --theme-current-lesson: rgba(0, 122, 255, .65);
+    --theme-next-lesson: rgba(255, 255, 255, .65);
+
+    --theme-red-background: rgba(255, 56, 60, 1);
+    --theme-red-color: rgba(255, 255, 255, 1);
+}
+body[theme='minion'] .root {
+    background: url(./../themes/minion.gif) no-repeat;
+    background-size: cover;
+}
+body[theme='minion'] .screen[screen-id='homeboard'] .bottom {
+    background: rgba(0, 0, 0, 0)
+}
+
+
+
+body[theme='pikmi'] {
+    --theme-background: #f6a6bb;
+    --theme-box: #f7d1d8;
+    --theme-color: rgba(0, 0, 0, 1);
+    --theme-select-color: #ff008f;
+    --theme-box-border: rgba(255, 255, 255, 0.15);
+
+    --theme-current-lesson: #ff0090a2;
+    --theme-next-lesson: rgba(255, 255, 255, .65);
+
+    --theme-red-background: rgba(255, 56, 60, 1);
+    --theme-red-color: rgba(255, 255, 255, 1);
+}
+
 
 .iconN[ic='chevron-right'] {
     mask-image: url(./../imgs/chevron-right.png);
     mask-size: 100%;
     mask-repeat: no-repeat;
 }
+
 .iconN[ic='gear'] {
     mask-image: url(./../imgs/gear.png);
     mask-size: 100%;
     mask-repeat: no-repeat;
 }
+
 .iconN[ic='premium-user'] {
     mask-image: url(./../imgs/premium-user.png);
     mask-size: 100%;
     mask-repeat: no-repeat;
 }
+
 .iconN[ic='classrooms'] {
     mask-image: url(./../imgs/classrooms.png);
     mask-size: 100%;
     mask-repeat: no-repeat;
 }
+
 .iconN[ic='admin'] {
     mask-image: url(./../imgs/admin.png);
     mask-size: 100%;
     mask-repeat: no-repeat;
 }
+
 .iconN[ic='help'] {
     mask-image: url(./../imgs/help.png);
     mask-size: 100%;
     mask-repeat: no-repeat;
 }
+
 .iconN[ic='ex-link'] {
     mask-image: url(./../imgs/ex-link.png);
     mask-size: 100%;
     mask-repeat: no-repeat;
 }
+
 .iconN[ic='telegram-chanell'] {
     mask-image: url(./../imgs/telegram-chanell.png);
     mask-size: 100%;
     mask-repeat: no-repeat;
 }
+
 .iconN[ic='app-not-supported'] {
     mask-image: url(./../imgs/app-not-supported.png);
     mask-size: 100%;
     mask-repeat: no-repeat;
 }
+
 .iconN[ic='account-blocked'] {
     mask-image: url(./../imgs/account-blocked.png);
     mask-size: 100%;
     mask-repeat: no-repeat;
 }
+
 .iconN[ic='app-error'] {
     mask-image: url(./../imgs/app-error.png);
     mask-size: 100%;
