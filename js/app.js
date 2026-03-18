@@ -408,8 +408,8 @@ async function initHome() {
             html += "<div class='line' style='background: [color];'></div>".replace("[color]", color)
             html += "<div class='block'>"
             html += "<div class='middle'>"
-            if (types != "") { html += "<div class='top' style='color: [color];'>[type]</div>".replace("[color]", color).replace("[type]", types) }
             html += "<div class='lesson'>"
+            if (types != "") { html += "<div class='top' style='color: [color];'>[type]</div>".replace("[color]", color).replace("[type]", types) }
             html += "<div class='name'>" + subject + "</div>"
 
             html += "<div class='classroom'>" + d.classroom + "</div>"
