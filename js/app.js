@@ -95,7 +95,7 @@ async function conLoaded() {
 
 
     if (window.mode == "production") {
-        window.ScheduleAPI.init('https://aurum.whoennrl.ru/api/shedule-v2/');
+        window.ScheduleAPI.init('https://aurum.whoennrl.ru/api/shedule-v2/index.php');
     } else if (window.mode == "local") {
         window.ScheduleAPI.init('https://aurum.whoennrl.ru/api/shedule-v2/local.php');
     } else {
@@ -645,6 +645,19 @@ async function initHome() {
 
     await init2_1();
 
+    if (['android'].includes(window.Telegram.WebApp.platform)) {
+        home.addEventListener("touchstart", handleAn)
+        home.addEventListener("mousedown", handlerClick)
+        home.addEventListener("touchend", handleAn)
+        home.addEventListener("touchmove", handleAn)
+        home.addEventListener("mouseup", handleAn)
+    } else {
+        home.addEventListener("touchstart", handlerClick)
+        home.addEventListener("mousedown", handlerClick)
+        home.addEventListener("touchend", handlerClick)
+        home.addEventListener("mouseup", handlerClick)
+    }
+
     if (dnum != -1) {
         let html = parseDay(today);
 
@@ -688,21 +701,6 @@ async function initHome() {
             })
         })
 
-        // делаем перелистывание 
-
-
-        if (['android'].includes(window.Telegram.WebApp.platform)) {
-            home.addEventListener("touchstart", handleAn)
-            home.addEventListener("mousedown", handlerClick)
-            home.addEventListener("touchend", handleAn)
-            home.addEventListener("touchmove", handleAn)
-            home.addEventListener("mouseup", handleAn)
-        } else {
-            home.addEventListener("touchstart", handlerClick)
-            home.addEventListener("mousedown", handlerClick)
-            home.addEventListener("touchend", handlerClick)
-            home.addEventListener("mouseup", handlerClick)
-        }
 
 
     } else {
