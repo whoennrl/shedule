@@ -1,0 +1,107 @@
+body[theme='glass'] {
+    --theme-background: rgba(0, 0, 0, 0.25);
+    --theme-box: rgba(28, 28, 30, 0.5);
+    --theme-color: rgba(255, 255, 255, 1);
+    --theme-select-color: rgb(0, 122, 255);
+    --theme-box-border: rgba(255, 255, 255, 0.15);
+
+    --theme-current-lesson: rgba(0, 122, 255, .25);
+    --theme-next-lesson: rgba(255, 255, 255, .15);
+
+    --theme-red-background: rgba(255, 56, 60, 1);
+    --theme-red-color: rgba(255, 255, 255, 1);
+}
+
+body[theme='glass'] .root {
+    background: url(./../themes/glass.jpeg) no-repeat;
+    background-size: cover;
+}
+
+body[theme='glass'] .screen[screen-id='homeboard'] .bottom {
+    background: rgba(0, 0, 0, 0)
+}
+
+body[theme='glass'] .screen[screen-id='homeboard'] .shedule-box {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+body[theme='glass'] .screen[screen-id='homeboard'] .button {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+body[theme='glass'] .screen[screen-id='homeboard'] .appinfo {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+body[theme='glass'] .screen[screen-id='homeboard'] .daySelector .item {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+body[theme='glass'] .screen[screen-id='homeboard'] .profiles {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+body[theme='glass'] {
+    background: black;
+}
+
+body[theme='glass'] .screen-with-header .box {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+body[theme='glass'] .screen-with-header .button {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+body[theme='glass'] .screen-with-header .select-info {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+body[theme='glass'] .screen-with-header .select-box {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+body[theme='glass'] .screen[screen-id='admin'] .allUsers .user {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+body[theme='glass'] .screen-with-header input {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+@font-face {
+    font-family: sf-pro-rails;
+    src: url(./../themes/sfprorails.ttf);
+}
+body[theme='glass'] .screen[screen-id='homeboard'] .shedule-box .time .start {
+    font-family: sf-pro-rails, 'Nunito', sans-serif !important;
+    font-weight: 500 !important;
+    font-size: 36px !important;
+    opacity: 0.75;
+}
+body[theme='glass'] .screen[screen-id='homeboard'] .shedule-box .time .start[custom-color='#FFCC00'] {
+    color: #FFCC00;
+}
+body[theme='glass'] .screen[screen-id='homeboard'] .shedule-box .time .start[custom-color='#34C759'] {
+    color: #34C759;
+}
+body[theme='glass'] .screen[screen-id='homeboard'] .shedule-box .time .start[custom-color='#007AFF'] {
+    color: #007AFF;
+}
+body[theme='glass'] .screen[screen-id='homeboard'] .shedule-box .time .start[custom-color='#f0f0f0'] {
+    color: #f0f0f0;
+}
+body[theme='glass'] .screen[screen-id='homeboard'] .shedule-box .time .end {
+    font-family:  'Nunito', sans-serif !important;
+    font-weight: 700 !important;
+    font-size: 20px !important;
+}

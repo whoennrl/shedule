@@ -281,6 +281,8 @@ async function conLoaded() {
 
 async function initHome() {
 
+    let selectors = document.querySelectorAll(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .daySelector .item");
+
     let home = document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home']");
 
     let pointerStart = 0;
@@ -445,7 +447,7 @@ async function initHome() {
 
             html += "</div>"
             html += "<div class='time'>"
-            html += "<div class='start'>" + d.time.replace("(", "").replace(")", "").split("-")[0] + "</div>"
+            html += "<div class='start' custom-color='{color}'>".replace("{color}", color) + d.time.replace("(", "").replace(")", "").split("-")[0] + "</div>"
             html += "<div class='end'>" + d.time.replace("(", "").replace(")", "").split("-")[1] + "</div>"
             html += "</div>"
             html += "</div>"
@@ -621,6 +623,8 @@ async function initHome() {
     let dnum = shedule[1]
     let today = shedule[0][dnum];
 
+    console.log(shedule)
+
     document.querySelector("*[action='goto-settings']").addEventListener("click", () => {
         showScreen("settings")
     })
@@ -660,8 +664,6 @@ async function initHome() {
 
     if (dnum != -1) {
         let html = parseDay(today);
-
-        let selectors = document.querySelectorAll(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .daySelector .item");
 
         document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").innerHTML = html;
         updateLesson()
