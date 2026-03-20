@@ -8,6 +8,22 @@
 
 window.mode = 'local' // ! "production" or "local"
 
+
+
+
+async function checkSubcscription(id) {
+    let r = await fetch("https://vsu-bot-check.aurum.whoennrl.ru/api/check_subscription", {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_id: id })
+    })
+    let a = await r.json();
+
+    return a
+}
+
+
+
 function showScreen(screenName) {
 
     if (["settings", "admin", 'premium', "create-profile"].includes(screenName)) {
@@ -82,6 +98,13 @@ window.addEventListener("DOMContentLoaded", () => {
 
 
 async function conLoaded() {
+
+    let data = await checkSubcscription(window.Telegram.WebApp.initDataUnsafe.user.id)
+    if (data.status == "not_subscribed") {
+        window.Telegram.WebApp.close()
+        return
+    }
+
 
     if (['ios', 'android'].includes(window.Telegram.WebApp.platform)) {
         window.Telegram.WebApp.requestFullscreen()
