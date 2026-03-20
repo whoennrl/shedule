@@ -99,11 +99,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
 async function conLoaded() {
 
-    let data = await checkSubcscription(window.Telegram.WebApp.initDataUnsafe.user.id)
-    if (data.status == "not_subscribed") {
-        showScreen("subscription")
-        return
-    }
+    
 
 
     if (['ios', 'android'].includes(window.Telegram.WebApp.platform)) {
@@ -115,6 +111,11 @@ async function conLoaded() {
 
     window.Telegram.WebApp.disableVerticalSwipes();
 
+    let data = await checkSubcscription(window.Telegram.WebApp.initDataUnsafe.user.id)
+    if (data.status == "not_subscribed") {
+        showScreen("subscription")
+        return
+    }
 
 
     if (window.mode == "production") {
@@ -217,6 +218,7 @@ async function conLoaded() {
 
         if (install_status == null || install_status == "step-1") {
             showScreen("install-step-1");
+            localStorage.setItem("current_theme", "system")
 
             document.querySelector(".screen[screen-id='install-step-1'] .bottom .button").addEventListener("click", () => {
                 showScreen("install-step-2")
