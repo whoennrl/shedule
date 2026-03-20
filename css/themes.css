@@ -49,6 +49,36 @@ body[theme='minion'] .screen[screen-id='homeboard'] .bottom {
 
 
 
+
+
+body[theme='cat'] {
+    --theme-background: rgba(0, 0, 0, 0.5);
+    --theme-box: rgba(0, 0, 0, 0.5);
+    --theme-color: rgba(255, 255, 255, 1);
+    --theme-select-color: rgb(75, 162, 255);
+    --theme-box-border: rgba(255, 255, 255, 0.15);
+
+    --theme-current-lesson: rgba(0, 122, 255, .65);
+    --theme-next-lesson: rgba(255, 255, 255, .65);
+
+    --theme-red-background: rgba(255, 56, 60, 1);
+    --theme-red-color: rgba(255, 255, 255, 1);
+}
+body[theme='cat'] .root {
+    background: rgb(151, 101, 64) url(./../themes/cats.jpg) no-repeat;
+    background-size: 100%;
+    background-position: bottom;
+
+}
+body[theme='cat'] .screen[screen-id='homeboard'] .bottom {
+    background: rgba(0, 0, 0, 0)
+}
+
+
+
+
+
+
 body[theme='pikmi'] {
     --theme-background: #f6a6bb;
     --theme-box: #f7d1d8;
