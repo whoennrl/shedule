@@ -101,7 +101,7 @@ async function conLoaded() {
 
     let data = await checkSubcscription(window.Telegram.WebApp.initDataUnsafe.user.id)
     if (data.status == "not_subscribed") {
-        window.Telegram.WebApp.close()
+        showScreen("subscription")
         return
     }
 
