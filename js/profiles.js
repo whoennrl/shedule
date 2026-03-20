@@ -17,14 +17,6 @@ window.addEventListener("DOMContentLoaded", () => {
 
         generateProfilesBoxes();
 
-        (async function () {
-            let allTeachers = await window.ScheduleAPI.getTeachers();
-            let allTCHtml = "<option value='0' selected disabled>Выберите</option>"
-            allTeachers.forEach(e => {
-                allTCHtml += "<option value='{value}'>{value}</option>".replaceAll("{value}", e.teacher)
-            })
-            document.querySelector("#teacher-create-profile").innerHTML = allTCHtml
-        })()
 
         document.querySelectorAll("*[replace='profile']").forEach(e => {
             e.innerHTML = localStorage.getItem("profile" + localStorage.getItem("current_profile") + "name")
@@ -61,7 +53,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
         })
 
-        document.querySelector("*[action='delete-profile']").addEventListener("click", ()=>{
+        document.querySelector("*[action='delete-profile']").addEventListener("click", () => {
             let con = confirm("Вы уверены что хотите удалить профиль \"{profile}\"?".replace("{profile}", localStorage.getItem("profile" + localStorage.getItem("current_profile") + "name")))
             if (con) {
                 let id = localStorage.getItem("current_profile");
@@ -108,15 +100,19 @@ window.addEventListener("DOMContentLoaded", () => {
                 if (name.trim().length <= 3) {
                     alert("Название: требуется ввести более 3х символов")
                 } else {
-                    if (teacher == "0" ) {
+                    if (teacher == "0") {
                         alert("Требуется выбрать преподавателя")
                     } else {
-                        let id = localStorage.getItem("current_profile_id");
-                        localStorage.setItem("profile" + id + "name", name);
-                        localStorage.setItem("current_profile_id", (Number(localStorage.getItem("current_profile_id")) + 1).toString());
-                        localStorage.setItem("profile" + id + "mode", "teacher")
-                        localStorage.setItem("profile" + id + "teacher", teacher)
-                        document.location.reload()
+                        if (!window.teachers.includes(teacher)) {
+                            alert("Преподаватель не найден!")
+                        } else {
+                            let id = localStorage.getItem("current_profile_id");
+                            localStorage.setItem("profile" + id + "name", name);
+                            localStorage.setItem("current_profile_id", (Number(localStorage.getItem("current_profile_id")) + 1).toString());
+                            localStorage.setItem("profile" + id + "mode", "teacher")
+                            localStorage.setItem("profile" + id + "teacher", teacher)
+                            document.location.reload()
+                        }
                     }
                 }
             }

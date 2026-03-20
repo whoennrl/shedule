@@ -99,7 +99,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
 async function conLoaded() {
 
-    
+
 
 
     if (['ios', 'android'].includes(window.Telegram.WebApp.platform)) {
@@ -177,11 +177,11 @@ async function conLoaded() {
 
         let allTeachers = await window.ScheduleAPI.getTeachers();
         //console.log(allTeachers)
-        let allTCHtml = "<option value='0' selected disabled>Выберите</option>"
-        allTeachers.forEach(e => {
-            allTCHtml += "<option value='{value}'>{value}</option>".replaceAll("{value}", e.teacher)
+        window.teachers = [];
+        allTeachers.forEach(op => {
+            window.teachers.push(op.teacher)
         })
-        document.querySelector("#teacher-install-step-2").innerHTML = allTCHtml
+
 
         document.querySelector("#mode-install-step-2").addEventListener("selectChanged", async (e) => {
 
@@ -265,14 +265,21 @@ async function conLoaded() {
                 document.location.reload();
             } else {
                 if (teacher == "0") return;
-                localStorage.setItem("current_profile", "default")
-                localStorage.setItem("profiledefaultmode", 'teacher');
-                localStorage.setItem("profiledefaultteacher", teacher);
-                localStorage.setItem("install-step", 'installed');
-                localStorage.setItem("profiledefaultname", "По умолчанию");
-                localStorage.setItem("current_profile_id", "0");
 
-                document.location.reload();
+                if (!window.teachers.includes(teacher)) {
+                    alert("Преподаватель не найден")
+                } else {
+                    localStorage.setItem("current_profile", "default")
+                    localStorage.setItem("profiledefaultmode", 'teacher');
+                    localStorage.setItem("profiledefaultteacher", teacher);
+                    localStorage.setItem("install-step", 'installed');
+                    localStorage.setItem("profiledefaultname", "По умолчанию");
+                    localStorage.setItem("current_profile_id", "0");
+
+                    document.location.reload();
+                }
+
+
             }
 
         })
@@ -476,12 +483,12 @@ async function initHome() {
             html += "<div class='end'>" + d.time.replace("(", "").replace(")", "").split("-")[1] + "</div>"
             html += "</div>"
             html += "</div>"
-            if (d.teacher != "" && localStorage.getItem("profile" + localStorage.getItem("current_profile") + "mode") == "student") {
+            /*if (d.teacher != "" && localStorage.getItem("profile" + localStorage.getItem("current_profile") + "mode") == "student") {
                 html += "<div class='bottom-box'>"
                 html += "<div class='teacher-picture' style='width: 25px; height: 25px; background: [teacher-pick] no-repeat; background-size: cover; background-position: top; border-radius: 100%;'></div>"
                 html += "<div class='teacher'>" + d.teacher + "</div>"
                 html += "</div>"
-            }
+            }*/
             html += "<div class='end_row'></div>"
 
             if (d.teacher_photo == null) {

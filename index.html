@@ -167,9 +167,8 @@
                     <option value="0" disabled selected>Выберите</option>
                 </select>
                 <div class="title hidden" dmode="teacher">Выберите преподавателя</div>
-                <select class="hidden" id="teacher-install-step-2" search="true" dmode="teacher">
-                    <option value="0" disabled selected>Выберите</option>
-                </select>
+                <input type="text" class="hidden" placeholder="Введите" dmode="teacher" id="teacher-install-step-2">
+                <div class="text hidden" dmode="teacher">Формат ввода: Иванов И. И.</div>
             </div>
 
             <div class="bottom">
@@ -306,9 +305,8 @@
                         <option value="0" disabled selected>Выберите</option>
                     </select>
                     <div class="title hidden" imode="teacher">Выберите преподавателя</div>
-                    <select class="hidden" id="teacher-create-profile" search="true" imode="teacher">
-                        <option value="0" disabled selected>Выберите</option>
-                    </select>
+                    <input type="text" class="hidden" imode="teacher" placeholder="Введите" id="teacher-create-profile">
+                    <div class="text hidden" imode="teacher">Формат ввода: Иванов И. И.</div>
                     <div class="button" action="crt-profile">
                         <div class="iconN" ic="checkmark"></div>
                         <div class="name">Создать</div>
@@ -543,6 +541,19 @@
             <div class="name">Закрыть</div>
         </div>
     </div>-->
+
+    <div class="promobox hidden" promoid="p_0003">
+        <div class="title">Изменения в работе</div>
+        <div class="text">Обновление расписания</div>
+        <div class="text">В связи с требованиями законодательства Республики Беларусь и правилами университета:</div>
+        <div class="text">Имена преподавателей в расписании больше не отображаются.</div>
+        <div class="text">Чтобы найти расписание преподавателя — введите его фамилию и инициалы в поиск.</div>
+        <div class="text">Спасибо за понимание!</div>
+
+        <div class="button">
+            <div class="name">Закрыть</div>
+        </div>
+    </div>
 
 
     <script src="./js/init2_1.js?[build_info]"></script>
