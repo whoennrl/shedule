@@ -444,9 +444,9 @@ async function initHome() {
                 color = "#f0f0f0";
             }
             html += "<div class='shedule-box' id='shedule-[id]' hash='[hash]'>".replace("[hash]", d.hash).replace("[id]", d.id);
-            html += "<div class='line' style='background: [color];'></div>".replace("[color]", color)
+            html += "<div class='line' style='background: [color];' custom-color='[color]'></div>".replaceAll("[color]", color)
             html += "<div class='block'>"
-            if (types != "") { html += "<div class='top' style='color: [color];'>[type]</div>".replace("[color]", color).replace("[type]", types) }
+            if (types != "") { html += "<div class='top' style='color: [color];' custom-color='[color]'>[type]</div>".replaceAll("[color]", color).replace("[type]", types) }
             html += "<div class='middle'>"
 
             html += "<div class='lesson'>"

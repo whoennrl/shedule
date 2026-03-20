@@ -93,6 +93,23 @@ body[theme='pikmi'] {
     --theme-red-color: rgba(255, 255, 255, 1);
 }
 
+body[theme='pikmi'] .screen[screen-id='homeboard'] .shedule-box *[custom-color='#FFCC00']:not(.start) {
+    color: #ff008f !important;
+}
+body[theme='pikmi'] .screen[screen-id='homeboard'] .shedule-box .line[custom-color='#FFCC00']:not(.start) {
+    background-color: #ff008f !important;
+}
+body[theme='pikmi'] .screen[screen-id='homeboard'] .shedule-box *[custom-color='#34C759']:not(.start) {
+    color: #34C759;
+}
+body[theme='pikmi'] .screen[screen-id='homeboard'] .shedule-box *[custom-color='#007AFF']:not(.start) {
+    color: #007AFF;
+}
+body[theme='pikmi'] .screen[screen-id='homeboard'] .shedule-box *[custom-color='#f0f0f0']:not(.start) {
+    color: #f0f0f0;
+}
+
+
 
 .iconN[ic='chevron-right'] {
     mask-image: url(./../imgs/chevron-right.png);
