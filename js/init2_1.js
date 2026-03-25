@@ -73,6 +73,9 @@ async function init_settings() {
         if (localStorage.getItem("set_sled_new") == null) {
             localStorage.setItem("set_sled_ned", true)
         }
+        if (localStorage.getItem("set_prepods") == null) {
+            localStorage.setItem("set_prepods", false)
+        }
 
     }
 
@@ -84,6 +87,9 @@ async function init_settings() {
     }
     if (localStorage.getItem("set_sled_ned") == "true") {
         document.querySelector(".screen[screen-id='settings'] .set_sled_ned input").checked = true
+    }
+    if (localStorage.getItem("set_prepods") == "true") {
+        document.querySelector(".screen[screen-id='settings'] .set_prepods input").checked = true
     }
 
     let mode = localStorage.getItem("profile" + localStorage.getItem("current_profile") + "mode");
@@ -131,6 +137,7 @@ async function init_settings() {
 
     document.querySelector(".screen[screen-id='settings'] .set_swipes input").addEventListener("change", changeSwitch)
     document.querySelector(".screen[screen-id='settings'] .set_current_lesson input").addEventListener("change", changeSwitch)
+    document.querySelector(".screen[screen-id='settings'] .set_prepods input").addEventListener("change", changeSwitch)
 
 
 

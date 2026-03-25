@@ -7,7 +7,7 @@
  */
 
 window.mode = 'local' // ! "production" or "local"
-
+window.backUpdate = false;
 
 
 
@@ -99,8 +99,10 @@ window.addEventListener("DOMContentLoaded", () => {
 
 async function conLoaded() {
 
-    showScreen("techUpdate");
-    return;
+    if (window.backUpdate) {
+        showScreen("techUpdate");
+        return;
+    }
 
 
     if (['ios', 'android'].includes(window.Telegram.WebApp.platform)) {
@@ -484,12 +486,12 @@ async function initHome() {
             html += "<div class='end'>" + d.time.replace("(", "").replace(")", "").split("-")[1] + "</div>"
             html += "</div>"
             html += "</div>"
-            /*if (d.teacher != "" && localStorage.getItem("profile" + localStorage.getItem("current_profile") + "mode") == "student") {
+            if (d.teacher != "" && localStorage.getItem("profile" + localStorage.getItem("current_profile") + "mode") == "student" && localStorage.getItem("set_prepods") == "true") {
                 html += "<div class='bottom-box'>"
                 html += "<div class='teacher-picture' style='width: 25px; height: 25px; background: [teacher-pick] no-repeat; background-size: cover; background-position: top; border-radius: 100%;'></div>"
                 html += "<div class='teacher'>" + d.teacher + "</div>"
                 html += "</div>"
-            }*/
+            }
             html += "<div class='end_row'></div>"
 
             if (d.teacher_photo == null) {
