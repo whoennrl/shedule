@@ -99,7 +99,8 @@ window.addEventListener("DOMContentLoaded", () => {
 
 async function conLoaded() {
 
-
+    showScreen("techUpdate");
+    return;
 
 
     if (['ios', 'android'].includes(window.Telegram.WebApp.platform)) {

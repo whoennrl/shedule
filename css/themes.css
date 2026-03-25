@@ -181,3 +181,8 @@ body[theme='pikmi'] .screen[screen-id='homeboard'] .shedule-box *[custom-color='
     mask-size: 100%;
     mask-repeat: no-repeat;
 }
+.iconN[ic='techupd'] {
+    mask-image: url(./../imgs/techupd.png);
+    mask-size: 100%;
+    mask-repeat: no-repeat;
+}
