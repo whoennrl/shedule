@@ -64,7 +64,7 @@
             <div class="title">Чиним бэкенд</div>
 
             <div class="message">В данный момент производятся работы по изменению бэкенд-части приложения.
-Извините за причинённые неудобства.</div>
+                Извините за причинённые неудобства.</div>
 
         </div>
 
@@ -74,7 +74,8 @@
 
             <div class="title">Требуется подписка</div>
 
-            <div class="message">Для продолжения пользования приложением требуется подписаться на телеграм канал. Если вам не пришло сообщение от бота, нажмите на кнопку "Старт"</div>
+            <div class="message">Для продолжения пользования приложением требуется подписаться на телеграм канал. Если
+                вам не пришло сообщение от бота, нажмите на кнопку "Старт"</div>
 
         </div>
 
@@ -192,6 +193,92 @@
 
         </div>
 
+
+        <div class="screen hidden screen-with-header" screen-id="devmode">
+
+            <div class="header">
+                <div class="backButton">
+                    <div class="icon"></div>
+                    <div class="text">Назад</div>
+                </div>
+                <div class="title">Режим разработчика</div>
+            </div>
+
+            <div class="content">
+
+                <div class="flexBox">
+                    <div class="title">Логи</div>
+                    <div class="logBox">
+                        <div class="item log">test</div>
+                        <div class="item error">test</div>
+                        <div class="item warn">test</div>
+                    </div>
+                    <div class="text">В приложении есть следующие суперглобальные переменные:</div>
+                    <div class="text" style="font-family: monospace; font-size: 12px;">- window.ScheduleAPI<br>-
+                        window.log<br>- window.backUpdate<br>- window.mode<br>- window.teachers<br>-
+                        window.is_admin<br>- window.profiles<br>- window.Telegram</div>
+
+                    <div class="scriptBox" hidden>
+                        <input type="text" placeholder="Введите URL" id="devmode-script-path">
+                        <div class="text">Для подтверждения нажмите "Enter"</div>
+                        <div class="allScripts">
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="screen hidden screen-with-header" screen-id="create-profile">
+            <div class="header">
+                <div class="title">Создать профиль</div>
+            </div>
+
+            <div class="content">
+                <div class="flexBox">
+                    <input type="text" id="name-create-profile" placeholder="Введите название профиля">
+                    <div class="title">Выберите режим: </div>
+                    <select id="mode-create-profile">
+                        <option value="student" selected>Студент</option>
+                        <option value="teacher">Преподаватель</option>
+                    </select>
+                    <div class="title" imode="student">Выберите факультет:</div>
+                    <select id="faculty-create-profile" imode="student">
+                        <option value="0" disabled selected>Выберите</option>
+                        <option value="Математики и информационных технологий">ФМиИТ</option>
+                        <option value="Педагогический">ПФ</option>
+                        <option value="Юридический">ЮФ</option>
+                        <option value="Гуманитарного знания и коммуникаций">ФГЗиК</option>
+                        <option value="Социальной педагогики и психологии">ФСПиП</option>
+                        <option value="Физической культуры и спорта">ФФКиС</option>
+                        <option value="Химико-биологических и географических наук">ФХБиГН</option>
+                        <option value="Художественно-графический">ХГФ</option>
+                    </select>
+                    <div class="title" imode="student">Выберите группу</div>
+                    <select id="group-create-profile" imode="student">
+                        <option value="0" disabled selected>Выберите</option>
+                    </select>
+                    <div class="title hidden" imode="teacher">Выберите преподавателя</div>
+                    <input type="text" class="hidden" imode="teacher" placeholder="Введите" id="teacher-create-profile">
+                    <div class="text hidden" imode="teacher">Формат ввода: Иванов И. И.</div>
+                    <div class="button" action="crt-profile">
+                        <div class="iconN" ic="checkmark"></div>
+                        <div class="name">Создать</div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
         <div class="screen hidden screen-with-header" screen-id="settings">
 
             <div class="header">
@@ -210,10 +297,10 @@
                         <option value="system" selected>Тема: Системная</option>
                         <option value="light">Тема: Светлая</option>
                         <option value="dark">Тема: Темная</option>
-                        <option value="minion">Тема: Миньоны</option>
                         <option value="pikmi">Тема: Пикми</option>
-                        <option value="glass">Тема: Glass</option>
                         <option value="cat">Тема: Котик</option>
+                        <!--<option value="glass">Тема: Glass</option>-->
+                        <!--<option value="minion">Тема: Миньоны</option>-->
                     </select>
                     <div class="box">
                         <div class="left">Текущая пара</div>
@@ -246,7 +333,7 @@
                         </div>
                     </div>
                     <div class="text">После активации фишки "Преподаватели" рекомендуем перезапустить приложение!</div>
-                    
+
 
 
                     <div class="box hidden">
@@ -493,6 +580,10 @@
                     <div class="iconN" ic="premium-user"></div>
                     <div class="name">Premium</div>
                 </div>
+                <div class="button hidden" action="devmode">
+                    <div class="iconN" ic="devmode"></div>
+                    <div class="name">Режим разработчика</div>
+                </div>
                 <div class="button hidden" action="goto-classrooms">
                     <div class="iconN" ic="classrooms"></div>
                     <div class="name">Занятость аудиторий</div>
@@ -564,7 +655,7 @@
         </div>
     </div>-->
 
-    <div class="promobox hidden" promoid="p_0003">
+    <!--<div class="promobox hidden" promoid="p_0003">
         <div class="title">Изменения в работе</div>
         <div class="text">Обновление расписания</div>
         <div class="text">В связи с требованиями законодательства Республики Беларусь и правилами университета:</div>
@@ -575,11 +666,11 @@
         <div class="button">
             <div class="name">Закрыть</div>
         </div>
-    </div>
+    </div>-->
 
-
+    <script src="./js/dev_tools.js?[build_info]"></script>
     <script src="./js/init2_1.js?[build_info]"></script>
-    <script src="https://telegram.org/js/telegram-web-app.js?59"></script>
+    <script src="./js/telegram.js?[build_info]"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
     <script src="./js/app2.2.js?[build_info]"></script>
     <script src="./js/selectBox.js?[build_info]"></script>

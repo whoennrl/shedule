@@ -403,6 +403,48 @@ body[platform='desktop'] .screen-with-header .content {
     border: 0px;
     outline: none;
     border-radius: 20px;
+    width: 100%;
     font-size: 16px;
     color: var(--theme-color)
+}
+.screen[screen-id='devmode'] .logBox {
+    height: 250px;
+    width: 100%;
+    background: rgb(28, 28, 30);
+    color: white;
+    font-family: monospace;
+    font-size: 12px;
+    border-radius: 30px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: stretch;
+    overflow-y: auto;
+}
+.screen[screen-id='devmode'] .logBox .item {
+    background: rgb(44, 44, 46);
+    padding: 10px;
+    word-break: break-all;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    border-radius: 8px;
+}
+.screen[screen-id='devmode'] .logBox .item.log {
+    background: rgba(0, 122, 255, 0.5);
+    outline: 1px solid rgba(0, 122, 255, 0.5);
+    outline-offset: -1px;
+}
+.screen[screen-id='devmode'] .logBox .item.warn {
+    background: rgba(255, 204, 0, 0.5);
+    outline: 1px solid rgba(255, 204, 0, 0.5);
+    outline-offset: -1px;
+}
+.screen[screen-id='devmode'] .logBox .item.error {
+    background: rgba(255, 56, 60, 0.5);
+    outline: 1px solid rgba(255, 56, 60, 0.5);
+    outline-offset: -1px;
 }

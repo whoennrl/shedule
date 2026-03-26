@@ -26,7 +26,7 @@ async function checkSubcscription(id) {
 
 function showScreen(screenName) {
 
-    if (["settings", "admin", 'premium', "create-profile"].includes(screenName)) {
+    if (["settings", "admin", 'premium', "create-profile", "devmode"].includes(screenName)) {
         window.Telegram.WebApp.BackButton.show()
         window.Telegram.WebApp.BackButton.onClick(() => {
 
@@ -89,6 +89,10 @@ window.addEventListener("DOMContentLoaded", () => {
         window.Telegram.WebApp.SettingsButton.hide()
         window.Telegram.WebApp.BackButton.hide()
 
+        if (localStorage.getItem("dev_mode") == "true") {
+            showScreen("devmode")
+        }
+
     }
 })
 
@@ -130,7 +134,7 @@ async function conLoaded() {
         return
     }
 
-    await window.ScheduleAPI.analytics(window.Telegram.WebApp.platform, window.Telegram.WebApp.version)
+    window.ScheduleAPI.analytics(window.Telegram.WebApp.platform, window.Telegram.WebApp.version)
 
     let banned_status;
     try {
@@ -589,57 +593,6 @@ async function initHome() {
                 e.querySelector(".end_row").innerHTML = ""
             })
         }
-
-
-        if (window.now_lesson && window.now_lesson.has_current_lesson) {
-
-            try {
-
-                let d = new Date;
-                let current_timestamp = Math.floor(d.getTime() / 1000)
-
-                if (current_lesson_set == null || current_lesson_set == "false") {
-
-                } else {
-                    document.querySelector(".shedule-box[hash='" + window.now_lesson.current_lesson.hash + "']").classList.add("current")
-                    document.querySelector(".shedule-box[hash='" + window.now_lesson.current_lesson.hash + "'] .end_row").innerHTML = "Закончится через " + format_time(window.now_lesson.current_lesson_end_timestamp - current_timestamp)
-                }
-
-
-            } catch { }
-        } else {
-            //let bls = document.querySelectorAll(".shedule-box");
-            //bls.forEach(e => {
-            //    e.classList.remove("current")
-            //})
-        }
-
-
-        if (window.now_lesson && window.now_lesson.next_lesson) {
-            //console.log(now_lesson.next_lesson)
-            let bls = document.querySelectorAll(".shedule-box");
-            bls.forEach(e => {
-                e.classList.remove("next")
-            })
-
-            try {
-
-                if (current_lesson_set == null || current_lesson_set == "false") {
-
-                } else {
-                    document.querySelector(".shedule-box[hash='" + window.now_lesson.next_lesson.hash + "']").classList.add("next")
-                }
-
-
-
-            } catch { }
-        } else {
-            let bls = document.querySelectorAll(".shedule-box");
-            bls.forEach(e => {
-                e.classList.remove("next")
-            })
-        }
-
     }
 
 
@@ -694,7 +647,7 @@ async function initHome() {
     let dnum = shedule[1]
     let today = shedule[0][dnum];
 
-    console.log(shedule)
+    //console.log(shedule)
 
     document.querySelector("*[action='goto-settings']").addEventListener("click", () => {
         showScreen("settings")

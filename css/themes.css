@@ -1,6 +1,6 @@
 body[theme='dark'] {
     --theme-background: rgba(0, 0, 0, 1);
-    --theme-box: rgba(28, 28, 30, 1);
+    --theme-box: rgba(28, 28, 30, 0.5);
     --theme-color: rgba(255, 255, 255, 1);
     --theme-select-color: rgb(0, 122, 255);
     --theme-box-border: rgba(255, 255, 255, 0.15);
@@ -10,6 +10,68 @@ body[theme='dark'] {
 
     --theme-red-background: rgba(255, 56, 60, 1);
     --theme-red-color: rgba(255, 255, 255, 1);
+}
+
+body[theme='dark'] .root {
+    background: #111;
+}
+
+body[theme='dark'] .root::before,
+body[theme='dark'] .root::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.8;
+    z-index: -1;
+    animation: move-blobs 8s infinite alternate;
+}
+
+body[theme='dark'] .root::before {
+    width: 300px;
+    height: 300px;
+    background: #2d5a87;
+    top: -50px;
+    left: -50px;
+}
+
+body[theme='dark'] .root::after {
+    width: 350px;
+    height: 350px;
+    background: #3d6a97;
+    bottom: -50px;
+    right: -50px;
+    animation-delay: -4s;
+}
+
+body[theme='dark'] .screen[screen-id='homeboard'] .bottom {
+    background: rgba(0, 0, 0, 0)
+}
+
+@keyframes move-blobs {
+    0% {
+        transform: translate(0, 0) scale(1) rotate(0deg);
+    }
+
+    20% {
+        transform: translate(80px, -40px) scale(1.3) rotate(45deg);
+    }
+
+    40% {
+        transform: translate(-60px, 70px) scale(0.8) rotate(90deg);
+    }
+
+    60% {
+        transform: translate(50px, 50px) scale(1.2) rotate(135deg);
+    }
+
+    80% {
+        transform: translate(-70px, -30px) scale(0.9) rotate(180deg);
+    }
+
+    100% {
+        transform: translate(0, 0) scale(1) rotate(360deg);
+    }
 }
 
 body[theme='light'] {
@@ -39,10 +101,12 @@ body[theme='minion'] {
     --theme-red-background: rgba(255, 56, 60, 1);
     --theme-red-color: rgba(255, 255, 255, 1);
 }
+
 body[theme='minion'] .root {
     background: url(./../themes/minion.gif) no-repeat;
     background-size: cover;
 }
+
 body[theme='minion'] .screen[screen-id='homeboard'] .bottom {
     background: rgba(0, 0, 0, 0)
 }
@@ -64,12 +128,14 @@ body[theme='cat'] {
     --theme-red-background: rgba(255, 56, 60, 1);
     --theme-red-color: rgba(255, 255, 255, 1);
 }
+
 body[theme='cat'] .root {
     background: rgb(151, 101, 64) url(./../themes/cats.jpg) no-repeat;
     background-size: 100%;
     background-position: bottom;
 
 }
+
 body[theme='cat'] .screen[screen-id='homeboard'] .bottom {
     background: rgba(0, 0, 0, 0)
 }
@@ -96,15 +162,19 @@ body[theme='pikmi'] {
 body[theme='pikmi'] .screen[screen-id='homeboard'] .shedule-box *[custom-color='#FFCC00']:not(.start) {
     color: #ff008f !important;
 }
+
 body[theme='pikmi'] .screen[screen-id='homeboard'] .shedule-box .line[custom-color='#FFCC00']:not(.start) {
     background-color: #ff008f !important;
 }
+
 body[theme='pikmi'] .screen[screen-id='homeboard'] .shedule-box *[custom-color='#34C759']:not(.start) {
     color: #34C759;
 }
+
 body[theme='pikmi'] .screen[screen-id='homeboard'] .shedule-box *[custom-color='#007AFF']:not(.start) {
     color: #007AFF;
 }
+
 body[theme='pikmi'] .screen[screen-id='homeboard'] .shedule-box *[custom-color='#f0f0f0']:not(.start) {
     color: #f0f0f0;
 }
@@ -176,13 +246,21 @@ body[theme='pikmi'] .screen[screen-id='homeboard'] .shedule-box *[custom-color='
     mask-size: 100%;
     mask-repeat: no-repeat;
 }
+
 .iconN[ic='checkmark'] {
     mask-image: url(./../imgs/checkmark.png);
     mask-size: 100%;
     mask-repeat: no-repeat;
 }
+
 .iconN[ic='techupd'] {
     mask-image: url(./../imgs/techupd.png);
+    mask-size: 100%;
+    mask-repeat: no-repeat;
+}
+
+.iconN[ic='devmode'] {
+    mask-image: url(./../imgs/devmode.png);
     mask-size: 100%;
     mask-repeat: no-repeat;
 }
