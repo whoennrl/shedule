@@ -21,7 +21,7 @@
             "data": params
         })
     }
-})()
+})
 
 
 
@@ -77,7 +77,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
 
 
-    setInterval(logUpdate, 500)
+    //setInterval(logUpdate, 500)
 
 
 })

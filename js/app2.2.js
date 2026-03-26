@@ -7,7 +7,7 @@
  */
 
 window.mode = 'local' // ! "production" or "local"
-window.backUpdate = false;
+window.backUpdate = true;
 
 
 

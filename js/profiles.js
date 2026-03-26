@@ -42,8 +42,9 @@ window.addEventListener("DOMContentLoaded", () => {
         })
 
         document.querySelector("#faculty-create-profile").addEventListener("selectChanged", async (e) => {
-
+            console.log(e.target.value)
             let groups = await window.ScheduleAPI.getGroups(e.target.value);
+            console.log(groups)
             let html = "<option value='0' selected disabled>Выберите</option>"
             groups.forEach(o => {
                 html += "<option value='{value}'>{value}</option>".replaceAll("{value}", o.name)
