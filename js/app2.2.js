@@ -566,14 +566,14 @@ async function initHome() {
 
             let current = false;
 
-            bls.forEach(e=>{
+            bls.forEach(e => {
                 let times = e.querySelector(".time .start").innerHTML;
                 let timee = e.querySelector(".time .end").innerHTML;
 
                 let ltime = date.getHours() * 60 * 60 + date.getMinutes() * 60 + date.getSeconds();
-                
-                times = Number(times.split(":")[0]) * 60 * 60 +  Number(times.split(":")[1]) * 60
-                timee = Number(timee.split(":")[0]) * 60 * 60 +  Number(timee.split(":")[1]) * 60
+
+                times = Number(times.split(":")[0]) * 60 * 60 + Number(times.split(":")[1]) * 60
+                timee = Number(timee.split(":")[0]) * 60 * 60 + Number(timee.split(":")[1]) * 60
 
                 if (ltime >= times && ltime <= timee) {
                     e.classList.add("current")
@@ -582,11 +582,17 @@ async function initHome() {
 
             })
 
+        } else {
+            let bls = document.querySelectorAll(".shedule-box");
+            bls.forEach(e => {
+                e.classList.remove("current")
+                e.querySelector(".end_row").innerHTML = ""
+            })
         }
 
 
         if (window.now_lesson && window.now_lesson.has_current_lesson) {
-            
+
             try {
 
                 let d = new Date;
