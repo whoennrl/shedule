@@ -513,50 +513,80 @@ async function initHome() {
         return html;
     }
 
-    async function checkNowLesson() {
-        if (localStorage.getItem("profile" + localStorage.getItem("current_profile") + "mode") == "student") {
-            let now = (await window.ScheduleAPI.getCurrentLesson(localStorage.getItem("profile" + localStorage.getItem("current_profile") + "faculty"), localStorage.getItem("profile" + localStorage.getItem("current_profile") + 'group')));
-            window.now_lesson = now;
-        }
-
-        setTimeout(checkNowLesson, 10000);
-    }
-
     function updateLesson() {
 
         let current_lesson_set = localStorage.getItem("set_current_lesson");
 
-        function format_time(time) {
-            let hours = Math.floor(time / 60 / 60)
-            let minutes = Math.floor((time - hours * 60 * 60) / 60)
-            let seconds = Math.floor(time - (minutes * 60) - (hours * 60 * 60))
-            let st = ""
-            if (hours > 0) {
-                if (hours.toString().length == 1) {
+        function format_time(timee, ltime) {
+            let st = "";
+            let time = timee - ltime;
+
+            let hours = Math.floor(time / 60 / 60);
+            let minutes = Math.floor(time / 60) - hours * 60
+            let seconds = Math.floor(time) - hours * 60 * 60 - minutes * 60
+
+            if (hours != 0) {
+                st += "0" + hours + ":"
+            }
+            if (minutes != 0) {
+                if (minutes.toString().length == 1) {
                     st += "0"
                 }
-                st += hours + ":"
-            }
-            if (minutes.toString().length == 1) {
-                st += "0"
-            }
-            st += minutes + ":"
-            if (seconds.toString().length == 1) {
-                st += "0"
-            }
-            st += seconds
+                st += minutes + ":"
+                if (seconds.toString().length == 1) {
+                    st += "0"
+                }
+                st += seconds
 
+            } else {
+                st = seconds + " с."
+            }
 
 
             return st;
         }
 
+        let date = new Date;
+        let day = date.getDate();
+        let month = date.getMonth()
 
-        if (window.now_lesson && window.now_lesson.has_current_lesson) {
+        let monts = ['января', "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"]
+
+        let st = day + " " + monts[month] + " " + date.getFullYear() + " г."
+
+
+        let bs1 = document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle")
+
+        if (bs1.innerHTML.includes(st) && localStorage.getItem("set_current_lesson") == "true") {
             let bls = document.querySelectorAll(".shedule-box");
             bls.forEach(e => {
                 e.classList.remove("current")
+                e.querySelector(".end_row").innerHTML = ""
             })
+
+            let current = false;
+
+            bls.forEach(e=>{
+                let times = e.querySelector(".time .start").innerHTML;
+                let timee = e.querySelector(".time .end").innerHTML;
+
+                let ltime = date.getHours() * 60 * 60 + date.getMinutes() * 60 + date.getSeconds();
+                
+                times = Number(times.split(":")[0]) * 60 * 60 +  Number(times.split(":")[1]) * 60
+                timee = Number(timee.split(":")[0]) * 60 * 60 +  Number(timee.split(":")[1]) * 60
+
+                if (ltime >= times && ltime <= timee) {
+                    e.classList.add("current")
+                    e.querySelector(".end_row").innerHTML = "Закончится через: " + format_time(timee, ltime)
+                }
+
+            })
+
+        }
+
+
+        if (window.now_lesson && window.now_lesson.has_current_lesson) {
+            
             try {
 
                 let d = new Date;
@@ -572,10 +602,10 @@ async function initHome() {
 
             } catch { }
         } else {
-            let bls = document.querySelectorAll(".shedule-box");
-            bls.forEach(e => {
-                e.classList.remove("current")
-            })
+            //let bls = document.querySelectorAll(".shedule-box");
+            //bls.forEach(e => {
+            //    e.classList.remove("current")
+            //})
         }
 
 
@@ -650,7 +680,7 @@ async function initHome() {
 
     let is_admin = (await window.ScheduleAPI.checkAdmin()).is_admin;
 
-    await checkNowLesson();
+    updateLesson()
     setInterval(updateLesson, 100)
 
     let shedule = await getWeek();
