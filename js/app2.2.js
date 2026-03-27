@@ -456,7 +456,7 @@ async function initHome() {
             } else if (d.subject.includes("(Лек (off))")) {
                 types = "офлайн лекцияя";
                 color = "#f0f0f0";
-                subject = d.subject.replace("(ПЗ)", "")
+                subject = d.subject.replace("(Лек (off))", "")
             } else {
                 subject = d.subject;
                 color = "#f0f0f0";
