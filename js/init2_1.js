@@ -18,6 +18,10 @@ async function init2_1() {
 
 async function checkTheme() {
     let current_theme = document.body.getAttribute("theme");
+    if (current_theme == "minion" || current_theme == "glass") {
+        localStorage.setItem("set_theme", "system")
+        document.body.setAttribute("theme", window.Telegram.WebApp.colorScheme)
+    }
     if (current_theme == null) {
         if (localStorage.getItem("set_theme") == "system") {
             document.body.setAttribute("theme", window.Telegram.WebApp.colorScheme)
@@ -45,7 +49,11 @@ window.addEventListener("DOMContentLoaded", () => {
         localStorage.setItem("set_theme", "system")
     }
 
-    document.querySelector(".screen[screen-id='settings'] #settings_theme").value = localStorage.getItem("set_theme");
+    try {
+        document.querySelector(".screen[screen-id='settings'] #settings_theme").value = localStorage.getItem("set_theme");
+    } catch {
+        document.querySelector(".screen[screen-id='settings'] #settings_theme").value = "system";
+    }
     document.querySelector(".screen[screen-id='settings'] #settings_theme").addEventListener("selectChanged", async (e) => {
         localStorage.setItem("set_theme", e.target.value);
     })
