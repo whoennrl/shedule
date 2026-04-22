@@ -457,7 +457,11 @@ async function initHome() {
                 types = "офлайн лекция";
                 color = "#f0f0f0";
                 subject = d.subject.replace("(Лек (off))", "")
-            } else {
+            } else if (d.subject.includes("(Нет пары)")) {
+                types = "";
+                color = "#ff3535";
+                subject = d.subject.replace("(Нет пары)", "")
+            }else {
                 subject = d.subject;
                 color = "#f0f0f0";
             }
@@ -515,9 +519,46 @@ async function initHome() {
             return html;
         }
         let html = ""
-        data.forEach(e => {
-            html += generateBox(e)
+
+        let pairs = {}
+        let pairMax = 0
+
+        data.forEach(e=>{
+            pairs[e.number] = e;
+            if (e.number >= pairMax) {
+                pairMax = e.number
+            }
         })
+        console.log(pairs)
+        let times = [
+            "08:00-09:25",
+            "09:35-11:00",
+            "11:30-12:55",
+            "13:05-14:30",
+            "14:40-16:05",
+            "16:35-18:00",
+            "18:10-19:35",
+            "19:45-21:10"
+        ]
+        
+        for (let i = 1; i < pairMax + 1; i++) {
+            if (pairs[i] == undefined) {
+                pairs[i] = {
+                    subject: "Пара №i отсутствует (Нет пары)".replace("i", i),
+                    hash: "none_" + Math.floor(Math.random() * (999999999 - 111111111) + 111111111).toString(),
+                    classroom: "",
+                    is_combined: false,
+                    combined_with: [],
+                    combined_main_groups: [],
+                    time: times[i-1],
+                    teacher: ""
+                }
+            }
+
+            html += generateBox(pairs[i])
+        }
+
+        console.log(pairs)
         return html;
     }
 
