@@ -8,10 +8,12 @@
 
 window.mode = 'local' // ! "production" or "local"
 window.backUpdate = false;
+window.reserv = true;
 
 
 
 async function checkSubcscription(id) {
+    if (reserv) return {"status":"RU Node - Reserv"}
     let r = await fetch("https://vsu-bot-check.aurum.whoennrl.ru/api/check_subscription", {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
@@ -126,9 +128,17 @@ async function conLoaded() {
 
 
     if (window.mode == "production") {
-        window.ScheduleAPI.init('https://aurum.whoennrl.ru/api/shedule-v2/index.php');
+        if (window.reserv) {
+            window.ScheduleAPI.init("https://ru-node.whoennrl.ru/index.php")
+        } else {
+            window.ScheduleAPI.init('https://aurum.whoennrl.ru/api/shedule-v2/index.php');
+        }
     } else if (window.mode == "local") {
-        window.ScheduleAPI.init('https://aurum.whoennrl.ru/api/shedule-v2/local.php');
+        if (window.reserv) {
+            window.ScheduleAPI.init("https://ru-node.whoennrl.ru/local.php");
+        } else {
+            window.ScheduleAPI.init('https://aurum.whoennrl.ru/api/shedule-v2/local.php');
+        }
     } else {
         alert("Режим работы не определен, запуск приостановлен")
         return
