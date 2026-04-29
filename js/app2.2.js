@@ -12,16 +12,23 @@ window.reserv = false;
 
 
 
-async function checkSubcscription(id) {
-    if (reserv) return {"status":"RU Node - Reserv"}
-    let r = await fetch("https://vsu-bot-check.aurum.whoennrl.ru/api/check_subscription", {
-        method: "POST",
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ user_id: id })
-    })
-    let a = await r.json();
 
-    return a
+async function checkSubcscription(id) {
+    if (reserv) return { "status": "RU Node - Reserv" }
+    try {
+        let r = await fetch("https://vsu-bot-check.aurum.whoennrl.ru/api/check_subscription", {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ user_id: id })
+        })
+        let a = await r.json();
+        return a
+    } catch {
+        return { "status":"Check Error" }
+    }
+    
+
+    
 }
 
 
@@ -471,7 +478,7 @@ async function initHome() {
                 types = "";
                 color = "#ff3535";
                 subject = d.subject.replace("(Нет пары)", "")
-            }else {
+            } else {
                 subject = d.subject;
                 color = "#f0f0f0";
             }
@@ -533,7 +540,7 @@ async function initHome() {
         let pairs = {}
         let pairMax = 0
 
-        data.forEach(e=>{
+        data.forEach(e => {
             pairs[e.number] = e;
             if (e.number >= pairMax) {
                 pairMax = e.number
@@ -550,7 +557,7 @@ async function initHome() {
             "18:10-19:35",
             "19:45-21:10"
         ]
-        
+
         for (let i = 1; i < pairMax + 1; i++) {
             if (pairs[i] == undefined) {
                 pairs[i] = {
@@ -560,7 +567,7 @@ async function initHome() {
                     is_combined: false,
                     combined_with: [],
                     combined_main_groups: [],
-                    time: times[i-1],
+                    time: times[i - 1],
                     teacher: ""
                 }
             }
