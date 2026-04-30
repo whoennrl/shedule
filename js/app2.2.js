@@ -8,7 +8,7 @@
 
 window.mode = 'local' // ! "production" or "local"
 window.backUpdate = false;
-window.reserv = false;
+window.reserv = true;
 
 
 
