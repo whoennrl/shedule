@@ -13,8 +13,11 @@ window.reserv = false;
 
 
 
+
+
 async function checkSubcscription(id) {
     if (reserv) return { "status": "RU Node - Reserv" }
+    return {"status":"ok"}
     try {
         let r = await fetch("https://vsu-bot-check.aurum.whoennrl.ru/api/check_subscription", {
             method: "POST",
