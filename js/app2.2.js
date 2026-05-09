@@ -731,7 +731,7 @@ async function initHome() {
         })
     }
     document.querySelector("*[action='goto-help']").addEventListener("click", () => {
-        window.Telegram.WebApp.openTelegramLink("https://t.me/m/QDBiIh9BYWFi");
+        window.Telegram.WebApp.openTelegramLink("https://t.me/tribute/app?startapp=i1k2");
     })
 
     window.is_admin = is_admin;
