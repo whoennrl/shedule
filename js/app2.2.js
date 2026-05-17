@@ -476,7 +476,7 @@ async function initHome() {
                 subject = d.subject.replace("(ПЗ)", "")
             } else if (d.subject.includes("(Лек (off))")) {
                 types = "офлайн лекция";
-                color = "#e100ff";
+                color = "rgb(203, 48, 224)";
                 subject = d.subject.replace("(Лек (off))", "")
             } else if (d.subject.includes("(Нет пары)")) {
                 types = "";
@@ -497,6 +497,11 @@ async function initHome() {
                 color = "#ff3535"
                 subject = d.subject.replace("(Экз)", "")
                 maximus = "ekz"
+            } else if (d.subject.includes("(Куср)")) {
+                types = "Управляемая самостоятельная работа"
+                color = "rgb(97, 85, 245)"
+                subject = d.subject.replace("(Куср)", "")
+                maximus = "kusr"
             }
 
             else {
