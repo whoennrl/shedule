@@ -17,7 +17,7 @@ window.reserv = false;
 
 async function checkSubcscription(id) {
     if (reserv) return { "status": "RU Node - Reserv" }
-    return {"status":"ok"}
+    return { "status": "ok" }
     try {
         let r = await fetch("https://vsu-bot-check.aurum.whoennrl.ru/api/check_subscription", {
             method: "POST",
@@ -27,11 +27,11 @@ async function checkSubcscription(id) {
         let a = await r.json();
         return a
     } catch {
-        return { "status":"Check Error" }
+        return { "status": "Check Error" }
     }
-    
 
-    
+
+
 }
 
 
@@ -460,6 +460,7 @@ async function initHome() {
             let html = "";
             let types = "";
             let color = ""
+            let maximus = ""
             let subject = d.subject;
             if (d.subject.includes("(Лек)")) {
                 types = "лекция";
@@ -475,20 +476,60 @@ async function initHome() {
                 subject = d.subject.replace("(ПЗ)", "")
             } else if (d.subject.includes("(Лек (off))")) {
                 types = "офлайн лекция";
-                color = "#f0f0f0";
+                color = "#e100ff";
                 subject = d.subject.replace("(Лек (off))", "")
             } else if (d.subject.includes("(Нет пары)")) {
                 types = "";
                 color = "#ff3535";
                 subject = d.subject.replace("(Нет пары)", "")
-            } else {
+            } else if (d.subject.includes("(Конс)")) {
+                types = "Консультация"
+                color = "#FFCC00"
+                subject = d.subject.replace("(Конс)", "")
+                maximus = "konsult"
+            } else if (d.subject.includes("(Зач)")) {
+                types = "Зачет"
+                color = "rgb(0, 122, 255)"
+                subject = d.subject.replace("(Зач)", "")
+                maximus = "zach"
+            } else if (d.subject.includes("(Экз)")) {
+                types = "Экзамен"
+                color = "#ff3535"
+                subject = d.subject.replace("(Экз)", "")
+                maximus = "ekz"
+            }
+
+            else {
                 subject = d.subject;
                 color = "#f0f0f0";
             }
-            html += "<div class='shedule-box' id='shedule-[id]' hash='[hash]'>".replace("[hash]", d.hash).replace("[id]", d.id);
-            html += "<div class='line' style='background: [color];' custom-color='[color]'></div>".replaceAll("[color]", color)
+
+
+            if (maximus != "") {
+                html += "<div class='shedule-box " + maximus + "' style='background: [color] !important; color: white !important;' id='shedule-[id]' hash='[hash]'>".replace("[hash]", d.hash).replace("[id]", d.id);
+            } else {
+                html += "<div class='shedule-box " + maximus + "' id='shedule-[id]' hash='[hash]'>".replace("[hash]", d.hash).replace("[id]", d.id);
+            }
+
+            
+            html += "<div class='line' style='display: [max]; background: [color];' custom-color='[color]'></div>"
+            if (maximus != "") {
+                html = html.replaceAll("[max]", "none")
+                html = html.replaceAll("[color]", color)
+            } else {
+                html = html.replaceAll("[max]", "block")
+                html = html.replaceAll("[color]", color)
+            }
+
             html += "<div class='block'>"
-            if (types != "") { html += "<div class='top' style='color: [color];' custom-color='[color]'>[type]</div>".replaceAll("[color]", color).replace("[type]", types) }
+            if (types != "") { html += "<div class='top' style='color: [color];' custom-color='[color]'>[type]</div>".replace("[type]", types) }
+
+            if (maximus != "") {
+                html = html.replaceAll("[color]", "white")
+            } else {
+                html = html.replaceAll("[color]", color)
+            }
+
             html += "<div class='middle'>"
 
             html += "<div class='lesson'>"
