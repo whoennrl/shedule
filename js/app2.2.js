@@ -745,6 +745,33 @@ async function initHome() {
             })
         }
 
+        console.log(days, dnum)
+        days.forEach(o=>{
+            let dImp = false;
+            let day = ""
+            o.forEach(i=>{
+                if (i.subject.includes("Куср") || i.subject.includes("Экз") || i.subject.includes("Конс") || i.subject.includes("Зач")) {
+                    dImp = true;
+                    day = i.day
+                }
+            })
+            let ds = {
+                "Понедельник":"0",
+                "Вторник":"1",
+                "Среда":"2",
+                "Четверг":"3",
+                "Пятница":"4",
+                "Суббота":"5"
+            }
+            console.log(dImp, day)
+            if (dImp) {
+                let block = document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .daySelector .item[dnum='" + ds[day] + "']")
+                block.style.outline = "2px solid #ff3535"
+                block.style.outlineOffset = "-2px"
+            }
+            
+        })
+
         return [days, dnum];
     }
 
