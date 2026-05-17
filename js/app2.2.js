@@ -12,10 +12,16 @@ window.reserv = false;
 
 
 
+function logFun(funName) {
+    console.log("[Start function]", funName)
+}
 
 
 
 async function checkSubcscription(id) {
+    logFun("checkSubcscription")
+
+
     if (reserv) return { "status": "RU Node - Reserv" }
     return { "status": "ok" }
     try {
@@ -37,6 +43,7 @@ async function checkSubcscription(id) {
 
 
 function showScreen(screenName) {
+    logFun("showScreen")
 
     if (["settings", "admin", 'premium', "create-profile", "devmode"].includes(screenName)) {
         window.Telegram.WebApp.BackButton.show()
@@ -114,6 +121,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
 
 async function conLoaded() {
+    logFun("conLoaded")
 
     if (window.backUpdate) {
         showScreen("techUpdate");
@@ -130,11 +138,11 @@ async function conLoaded() {
 
     window.Telegram.WebApp.disableVerticalSwipes();
 
-    let data = await checkSubcscription(window.Telegram.WebApp.initDataUnsafe.user.id)
-    if (data.status == "not_subscribed") {
-        showScreen("subscription")
-        return
-    }
+    //let data =  checkSubcscription(window.Telegram.WebApp.initDataUnsafe.user.id)
+    //if (data.status == "not_subscribed") {
+    //    showScreen("subscription")
+    //    return
+    //}
 
 
     if (window.mode == "production") {
@@ -202,12 +210,12 @@ async function conLoaded() {
 
         })
 
-        let allTeachers = await window.ScheduleAPI.getTeachers();
-        //console.log(allTeachers)
-        window.teachers = [];
-        allTeachers.forEach(op => {
-            window.teachers.push(op.teacher)
-        })
+        window.ScheduleAPI.getTeachers().then(e=>{
+            window.teachers = []
+            e.forEach(op=>{
+                window.teachers.push(op.teacher)
+            })
+        }).catch(e => console.log("error", e))
 
 
         document.querySelector("#mode-install-step-2").addEventListener("selectChanged", async (e) => {
@@ -215,7 +223,7 @@ async function conLoaded() {
             // проверяем режим
             let mode = e.target.value;
 
-            //console.log(mode);
+
 
             let allDmod = document.querySelectorAll(".screen[screen-id='install-step-2'] *[dmode]");
 
@@ -339,6 +347,7 @@ async function conLoaded() {
 
 
 async function initHome() {
+    logFun("initHome")
 
     let selectors = document.querySelectorAll(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .daySelector .item");
 
@@ -456,6 +465,7 @@ async function initHome() {
 
 
     function parseDay(data) {
+        logFun("parseDay")
         function generateBox(d) {
             let html = "";
             let types = "";
@@ -516,7 +526,7 @@ async function initHome() {
                 html += "<div class='shedule-box " + maximus + "' id='shedule-[id]' hash='[hash]'>".replace("[hash]", d.hash).replace("[id]", d.id);
             }
 
-            
+
             html += "<div class='line' style='display: [max]; background: [color];' custom-color='[color]'></div>"
             if (maximus != "") {
                 html = html.replaceAll("[max]", "none")
@@ -595,7 +605,6 @@ async function initHome() {
                 pairMax = e.number
             }
         })
-        console.log(pairs)
         let times = [
             "08:00-09:25",
             "09:35-11:00",
@@ -624,7 +633,6 @@ async function initHome() {
             html += generateBox(pairs[i])
         }
 
-        console.log(pairs)
         return html;
     }
 
@@ -708,15 +716,14 @@ async function initHome() {
 
 
     async function getWeek() {
+        logFun("getWeek")
         let shedule
         if (localStorage.getItem("profile" + localStorage.getItem("current_profile") + "mode") == "student") {
             shedule = (await window.ScheduleAPI.getWeek(localStorage.getItem("profile" + localStorage.getItem("current_profile") + "faculty"), localStorage.getItem("profile" + localStorage.getItem("current_profile") + 'group')));
         } else {
             shedule = {};
             shedule.schedule = (await window.ScheduleAPI.getTeacherSchedule(localStorage.getItem("profile" + localStorage.getItem("current_profile") + "teacher")))
-            //console.log(shedule)
         }
-        //console.log(shedule)
         let days1 = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота']
         let days = [[], [], [], [], [], []];
         let today = [];
@@ -745,47 +752,162 @@ async function initHome() {
             })
         }
 
-        console.log(days, dnum)
-        days.forEach(o=>{
+        days.forEach(o => {
             let dImp = false;
             let day = ""
-            o.forEach(i=>{
+            o.forEach(i => {
                 if (i.subject.includes("Куср") || i.subject.includes("Экз") || i.subject.includes("Конс") || i.subject.includes("Зач")) {
                     dImp = true;
                     day = i.day
                 }
             })
             let ds = {
-                "Понедельник":"0",
-                "Вторник":"1",
-                "Среда":"2",
-                "Четверг":"3",
-                "Пятница":"4",
-                "Суббота":"5"
+                "Понедельник": "0",
+                "Вторник": "1",
+                "Среда": "2",
+                "Четверг": "3",
+                "Пятница": "4",
+                "Суббота": "5"
             }
-            console.log(dImp, day)
             if (dImp) {
                 let block = document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .daySelector .item[dnum='" + ds[day] + "']")
                 block.style.outline = "2px solid #ff3535"
                 block.style.outlineOffset = "-2px"
             }
-            
+
         })
 
         return [days, dnum];
     }
 
-    let is_admin = (await window.ScheduleAPI.checkAdmin()).is_admin;
+    window.ScheduleAPI.checkAdmin().then((data) => {
+        let is_admin = data.is_admin
+        if (is_admin) {
+            document.querySelector("*[action='goto-admin']").addEventListener("click", () => {
+                showScreen("admin")
+            })
+            document.querySelector("*[action='goto-admin']").classList.remove("hidden")
+            document.querySelector(".screen[screen-id='admin'] .header .backButton").addEventListener("click", () => {
+                showScreen("homeboard")
+            })
+        }
+        window.is_admin = is_admin;
+
+    }).catch(e => { console.log("error", e) })
+
+
+
 
     updateLesson()
     setInterval(updateLesson, 100)
 
-    let shedule = await getWeek();
+    let dnum = 0;
+    let shedule
 
-    let dnum = shedule[1]
-    let today = shedule[0][dnum];
+    getWeek().then(e => {
+        shedule = e
 
-    //console.log(shedule)
+        dnum = shedule[1]
+        let today = shedule[0][dnum];
+        if (dnum != -1) {
+            let html = parseDay(today);
+
+            document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").innerHTML = html;
+            updateLesson()
+
+
+            if (localStorage.getItem("profile" + localStorage.getItem("current_profile") + "mode") == "student") {
+                document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date;
+            } else {
+                document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date + " | " + localStorage.getItem("profile" + localStorage.getItem("current_profile") + "teacher");
+            }
+
+            document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] *[dnum='{dnum}']".replace("{dnum}", dnum)).classList.add("selected");
+            document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").scrollTo(0, 0)
+
+            selectors.forEach(e => {
+                e.addEventListener("click", () => {
+
+                    selectors.forEach(o => {
+                        if (o.classList.contains('selected')) { o.classList.remove("selected") }
+                    })
+                    e.classList.add("selected");
+                    dnum = Number(e.getAttribute('dnum'))
+                    let html = parseDay(shedule[0][dnum]);
+                    document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").innerHTML = html;
+                    updateLesson()
+                    document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").scrollTo(0, 0)
+                    try {
+                        if (localStorage.getItem("profile" + localStorage.getItem("current_profile") + "mode") == "student") {
+                            document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date;
+                        } else {
+                            document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date + " | " + localStorage.getItem("profile" + localStorage.getItem("current_profile") + "teacher");
+                        }
+                    } catch {
+                        document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = "...";
+                    }
+                })
+            })
+
+
+
+        } else {
+            // нет расписания
+
+            document.querySelector(".screen[screen-id='homeboard'] .daySelector").style.display = 'none'
+            let lastD = new Date();
+            let last = "";
+            let month = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"]
+            last += lastD.getDate() + " ";
+            last += month[lastD.getMonth()] + " ";
+            last += lastD.getFullYear() + " г."
+
+            document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = last
+
+            let html = "<div class='shedule-box'>";
+            html += "<div class='line' style='background: [color];'></div>".replace("[color]", "rgba(255, 56, 60, 1)")
+
+
+            html += "<div class='block'>"
+
+            let types = ""
+            let fac = {
+                "Математики и информационных технологий": "ФМиИТ",
+                "Педагогический": "ПФ",
+                "Юридический": "ЮФ",
+                "Гуманитарного знания и коммуникаций": "ФГЗиК",
+                "Социальной педагогики и психологии": "ФСПиП",
+                "Физической культуры и спорта": "ФФКиС",
+                "Химико-биологических и географических наук": "ФХБиГН",
+                "Художественно-графический": "ХГФ"
+            }
+            if (localStorage.getItem("profile" + localStorage.getItem("current_profile") + "mode") == "student") {
+                types = fac[localStorage.getItem("profile" + localStorage.getItem("current_profile") + "faculty")] + " | " + localStorage.getItem("profile" + localStorage.getItem("current_profile") + "group")
+            } else {
+                types = localStorage.getItem("profile" + localStorage.getItem("current_profile") + "teacher")
+            }
+
+            html += "<div class='middle'>"
+            html += "<div class='lesson'>"
+            html += "<div class='top' style='color: [color];'>[type]</div>".replace("[color]", "rgba(255, 56, 60, 1)").replace("[type]", types)
+            html += "<div class='name'>В базе данных нет пар!</div>"
+
+            html += "<div class='classroom'>Попробуйте зайти в расписание позже</div>"
+            html += "</div>"
+            html += "</div>"
+
+
+
+
+            html += "</div>"
+
+            document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").innerHTML = html;
+        }
+
+    }).catch(e => console.log("error", e))
+
+
+
 
     document.querySelector("*[action='goto-settings']").addEventListener("click", () => {
         showScreen("settings")
@@ -794,22 +916,14 @@ async function initHome() {
         window.Telegram.WebApp.openTelegramLink("https://t.me/vsu_shedule");
     })
 
-    if (is_admin) {
-        document.querySelector("*[action='goto-admin']").addEventListener("click", () => {
-            showScreen("admin")
-        })
-        document.querySelector("*[action='goto-admin']").classList.remove("hidden")
-        document.querySelector(".screen[screen-id='admin'] .header .backButton").addEventListener("click", () => {
-            showScreen("homeboard")
-        })
-    }
+
     document.querySelector("*[action='goto-help']").addEventListener("click", () => {
         window.Telegram.WebApp.openTelegramLink("https://t.me/tribute/app?startapp=i1k2");
     })
 
-    window.is_admin = is_admin;
 
-    await init2_1();
+
+    init2_1();
 
     if (['android'].includes(window.Telegram.WebApp.platform)) {
         home.addEventListener("touchstart", handleAn)
@@ -824,101 +938,7 @@ async function initHome() {
         home.addEventListener("mouseup", handlerClick)
     }
 
-    if (dnum != -1) {
-        let html = parseDay(today);
 
-        document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").innerHTML = html;
-        updateLesson()
-
-        //console.log(shedule)
-
-        if (localStorage.getItem("profile" + localStorage.getItem("current_profile") + "mode") == "student") {
-            document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date;
-        } else {
-            document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date + " | " + localStorage.getItem("profile" + localStorage.getItem("current_profile") + "teacher");
-        }
-
-        document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] *[dnum='{dnum}']".replace("{dnum}", dnum)).classList.add("selected");
-        document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").scrollTo(0, 0)
-
-        selectors.forEach(e => {
-            e.addEventListener("click", () => {
-
-                selectors.forEach(o => {
-                    if (o.classList.contains('selected')) { o.classList.remove("selected") }
-                })
-                e.classList.add("selected");
-                dnum = Number(e.getAttribute('dnum'))
-                let html = parseDay(shedule[0][dnum]);
-                document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").innerHTML = html;
-                updateLesson()
-                document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").scrollTo(0, 0)
-                try {
-                    if (localStorage.getItem("profile" + localStorage.getItem("current_profile") + "mode") == "student") {
-                        document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date;
-                    } else {
-                        document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = shedule[0][dnum][0].date + " | " + localStorage.getItem("profile" + localStorage.getItem("current_profile") + "teacher");
-                    }
-                } catch {
-                    document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = "...";
-                }
-            })
-        })
-
-
-
-    } else {
-        // нет расписания
-
-        document.querySelector(".screen[screen-id='homeboard'] .daySelector").style.display = 'none'
-        let lastD = new Date();
-        let last = "";
-        let month = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"]
-        last += lastD.getDate() + " ";
-        last += month[lastD.getMonth()] + " ";
-        last += lastD.getFullYear() + " г."
-
-        document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .subtitle").innerHTML = last
-
-        let html = "<div class='shedule-box'>";
-        html += "<div class='line' style='background: [color];'></div>".replace("[color]", "rgba(255, 56, 60, 1)")
-
-
-        html += "<div class='block'>"
-
-        let types = ""
-        let fac = {
-            "Математики и информационных технологий": "ФМиИТ",
-            "Педагогический": "ПФ",
-            "Юридический": "ЮФ",
-            "Гуманитарного знания и коммуникаций": "ФГЗиК",
-            "Социальной педагогики и психологии": "ФСПиП",
-            "Физической культуры и спорта": "ФФКиС",
-            "Химико-биологических и географических наук": "ФХБиГН",
-            "Художественно-графический": "ХГФ"
-        }
-        if (localStorage.getItem("profile" + localStorage.getItem("current_profile") + "mode") == "student") {
-            types = fac[localStorage.getItem("profile" + localStorage.getItem("current_profile") + "faculty")] + " | " + localStorage.getItem("profile" + localStorage.getItem("current_profile") + "group")
-        } else {
-            types = localStorage.getItem("profile" + localStorage.getItem("current_profile") + "teacher")
-        }
-
-        html += "<div class='middle'>"
-        html += "<div class='lesson'>"
-        html += "<div class='top' style='color: [color];'>[type]</div>".replace("[color]", "rgba(255, 56, 60, 1)").replace("[type]", types)
-        html += "<div class='name'>В базе данных нет пар!</div>"
-
-        html += "<div class='classroom'>Попробуйте зайти в расписание позже</div>"
-        html += "</div>"
-        html += "</div>"
-
-
-
-
-        html += "</div>"
-
-        document.querySelector(".screen[screen-id='homeboard'] .screen-part[part-id='home'] .sheduleBlock").innerHTML = html;
-    }
 
 
 

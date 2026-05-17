@@ -1,10 +1,10 @@
 async function init2_1() {
-    console.log("Init Functions: 2.1");
+    init_settings();
 
-    await init_settings();
-    if (window.is_admin) {
-        await init_admin();
-    }
+    window.ScheduleAPI.checkAdmin().then((data) => {
+        init_admin()
+
+    }).catch(e => { console.log("error", e) })
 
 
     window.Telegram.WebApp.SettingsButton.show()
@@ -68,7 +68,6 @@ async function init_settings() {
         localStorage.setItem(e.target.getAttribute("set"), e.target.checked)
     }
 
-    console.log("[2.1] Init Settings")
 
     if (localStorage.getItem("install-step") == 'installed') {
 
@@ -155,11 +154,9 @@ async function init_settings() {
 
 async function init_admin() {
 
-    console.log("[2.1] Init Admin")
 
     let devices_info = await window.ScheduleAPI.getPlatformStats();
     //let hour_stats = await window.ScheduleAPI.getHourlyStats();
-    //console.log(hour_stats)
     let data = {}
     data.backgroundColor = "rgb(28, 28, 30)",
         data.labels = [];
@@ -225,7 +222,6 @@ async function init_admin() {
         let search = document.querySelector("#users_search").value;
         if (search != "") {
             search = search.replaceAll(" ", "");
-            console.log(search)
             let bl = document.querySelectorAll(".screen[screen-id='admin'] .allUsers .user");
             bl.forEach(e => {
                 e.classList.remove("hidden");

@@ -28,7 +28,6 @@
 window.addEventListener("DOMContentLoaded", () => {
 
     // инициализация всех ресурсов разработчика
-    console.log("[DevTools]", "Начало инициализации всех блоков");
 
     let label_clicks = 0;
 

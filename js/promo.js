@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", ()=>{
 
     let mode = localStorage.getItem("install-step");
-    console.log(mode)
     if (mode != null && mode == "installed") {
 
         let bl = document.querySelectorAll(".promobox");

@@ -8,7 +8,6 @@ window.addEventListener("DOMContentLoaded", () => {
 
         allKeys.forEach(e => {
             if (e.includes("profile") && e.includes("name")) {
-                console.log(e)
                 profiles[e.split("profile")[1].split("name")[0]] = localStorage.getItem(e)
             }
         })
@@ -42,9 +41,7 @@ window.addEventListener("DOMContentLoaded", () => {
         })
 
         document.querySelector("#faculty-create-profile").addEventListener("selectChanged", async (e) => {
-            console.log(e.target.value)
             let groups = await window.ScheduleAPI.getGroups(e.target.value);
-            console.log(groups)
             let html = "<option value='0' selected disabled>Выберите</option>"
             groups.forEach(o => {
                 html += "<option value='{value}'>{value}</option>".replaceAll("{value}", o.name)
@@ -128,7 +125,6 @@ window.addEventListener("DOMContentLoaded", () => {
 
 function changeProfile(el) {
     let profileId = el.getAttribute("profileID");
-    console.log("[Change Profile] Profile ID:", profileId)
     if (profileId != localStorage.getItem("current_profile")) {
         localStorage.setItem("current_profile", profileId);
         document.location.reload();
