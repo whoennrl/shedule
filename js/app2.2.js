@@ -484,7 +484,7 @@ async function initHome() {
                 subject = d.subject.replace("(Нет пары)", "")
             } else if (d.subject.includes("(Конс)")) {
                 types = "Консультация"
-                color = "#FFCC00"
+                color = "rgb(255, 141, 40)"
                 subject = d.subject.replace("(Конс)", "")
                 maximus = "konsult"
             } else if (d.subject.includes("(Зач)")) {
