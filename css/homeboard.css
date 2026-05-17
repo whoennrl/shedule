@@ -173,6 +173,10 @@
     background: var(--theme-current-lesson);
     outline-offset: -2px;
 }
+.screen[screen-id='homeboard'] .screen-part[part-id='home'] .shedule-box.current.maximus {
+    box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.5);
+    outline: 2px solid rgba(255, 255, 255, 0.5);
+}
 
 .screen[screen-id='homeboard'] .screen-part[part-id='home'] .shedule-box.next {
     outline: 2px solid var(--theme-next-lesson);

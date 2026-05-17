@@ -486,22 +486,22 @@ async function initHome() {
                 types = "Консультация"
                 color = "rgb(255, 141, 40)"
                 subject = d.subject.replace("(Конс)", "")
-                maximus = "konsult"
+                maximus = "maximus"
             } else if (d.subject.includes("(Зач)")) {
                 types = "Зачет"
                 color = "rgb(0, 122, 255)"
                 subject = d.subject.replace("(Зач)", "")
-                maximus = "zach"
+                maximus = "maximus"
             } else if (d.subject.includes("(Экз)")) {
                 types = "Экзамен"
                 color = "#ff3535"
                 subject = d.subject.replace("(Экз)", "")
-                maximus = "ekz"
+                maximus = "maximus"
             } else if (d.subject.includes("(Куср)")) {
                 types = "Управляемая самостоятельная работа"
                 color = "rgb(97, 85, 245)"
                 subject = d.subject.replace("(Куср)", "")
-                maximus = "kusr"
+                maximus = "maximus"
             }
 
             else {
@@ -663,7 +663,7 @@ async function initHome() {
 
         let date = new Date;
         let day = date.getDate();
-        let month = date.getMonth()
+        let month = date.getMonth();
 
         let monts = ['января', "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"]
 
